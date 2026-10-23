@@ -1,0 +1,2051 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>PSC Mandarin — 普通話水平測試練習</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+SC:wght@500;700;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #eef4ea;
+        --surface: #fdfefb;
+        --surface-2: #e2edda;
+        --ink: #243520;
+        --muted: #5f7260;
+        --line: #c9dcbf;
+        --accent: #2e7d46;
+        --accent-ink: #226636;
+        --accent-soft: #deefdb;
+        --jade: #2e7d6b;
+        --jade-soft: #ddf0e9;
+        --gold: #75802a;
+        --gold-soft: #eef1d8;
+        --wrong: #b3261e;
+        --wrong-soft: #f9e3e1;
+        --shadow: 0 1px 3px rgba(46, 90, 40, .13);
+        --radius: 14px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12180f;
+          --surface: #1b2417;
+          --surface-2: #26331f;
+          --ink: #eaf3e2;
+          --muted: #aec3a4;
+          --line: #37482c;
+          --accent: #82cc95;
+          --accent-ink: #a5dfb2;
+          --accent-soft: #22371f;
+          --jade: #6fc3a8;
+          --jade-soft: #1e332c;
+          --gold: #ccd38a;
+          --gold-soft: #33351e;
+          --wrong: #f0928a;
+          --wrong-soft: #3c2422;
+          --shadow: 0 1px 3px rgba(0,0,0,.5);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+      }
+      .simp { font-family: "Noto Serif SC", "Songti SC", "SimSun", serif; }
+      button { font: inherit; cursor: pointer; }
+      :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+      /* ---------- tab bar ---------- */
+      .tabbar {
+        position: sticky; top: 0; z-index: 50;
+        background: var(--surface);
+        border-bottom: 1px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+      .tabbar-inner {
+        max-width: 1060px; margin: 0 auto;
+        display: grid; grid-template-columns: repeat(7, 1fr);
+        gap: 4px; padding: 5px 6px;
+      }
+      .tab-btn {
+        appearance: none; border: 0; background: none;
+        padding: 9px 4px 8px;
+        display: flex; flex-direction: column; align-items: center; gap: 2px;
+        color: var(--muted); font-size: .82rem; font-weight: 500;
+        border-radius: 12px;
+      }
+      .tab-btn svg { width: 21px; height: 21px; }
+      .tab-btn .tab-num { font-size: .62rem; letter-spacing: .08em; color: var(--muted); }
+      .tab-btn[aria-selected="true"] { color: var(--accent-ink); background: var(--accent-soft); font-weight: 700; }
+      .tab-btn[aria-selected="true"] .tab-num { color: var(--accent); }
+
+      main { max-width: 1060px; margin: 0 auto; padding: 22px 18px 60px; }
+      .panel { display: none; }
+      .panel.active { display: block; }
+
+      h1.page-title { font-size: 1.55rem; margin: 0 0 4px; font-weight: 700; }
+      h1.page-title .lat { color: var(--accent); font-size: 1.05rem; font-weight: 700; letter-spacing: .04em; }
+      .lede { color: var(--muted); margin: 0 0 20px; max-width: 46em; }
+      h2.sec { font-size: 1.15rem; margin: 30px 0 12px; font-weight: 700; }
+      h2.sec:first-of-type { margin-top: 6px; }
+
+      .section-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 4px; }
+      .section-head h1 { font-size: 1.45rem; margin: 0; }
+      .sec-ic {
+        flex: 0 0 auto; width: 42px; height: 42px; border-radius: 12px;
+        background: var(--accent); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .sec-ic svg { width: 23px; height: 23px; }
+      .meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .chip {
+        display: inline-flex; align-items: center; gap: 4px;
+        background: var(--surface-2); border: 1px solid var(--line);
+        border-radius: 999px; padding: 2px 10px; font-size: .8rem; color: var(--ink);
+        white-space: nowrap;
+      }
+      .chip b { color: var(--accent-ink); }
+      .tests-note { color: var(--muted); margin: 2px 0 18px; max-width: 48em; }
+
+      /* ---------- intro cards ---------- */
+      .part-list { display: grid; gap: 10px; }
+      @media (min-width: 760px) { .part-list { grid-template-columns: 1fr 1fr; } }
+      .part-card {
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 14px 16px; box-shadow: var(--shadow);
+        display: flex; gap: 14px; align-items: flex-start;
+        text-align: left; width: 100%; color: var(--ink);
+      }
+      button.part-card:hover { border-color: var(--accent); }
+      .part-no {
+        flex: 0 0 auto; width: 44px; height: 44px; border-radius: 13px;
+        background: var(--accent); color: #fff;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .part-no svg { width: 24px; height: 24px; }
+      .part-card h3 { margin: 0 0 2px; font-size: 1.02rem; }
+      .part-card p { margin: 0; color: var(--muted); font-size: .9rem; }
+      .part-card .pc-meta { margin-top: 6px; display: flex; gap: 6px; flex-wrap: wrap; }
+
+      table.grades { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+      table.grades th, table.grades td { padding: 9px 12px; text-align: left; border-bottom: 1px solid var(--line); font-size: .95rem; }
+      table.grades th { background: var(--surface-2); font-weight: 700; }
+      table.grades tr:last-child td { border-bottom: 0; }
+      table.grades td.score { font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .grade-l1 { color: var(--accent-ink); font-weight: 700; }
+
+      .note-box {
+        background: var(--gold-soft); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 13px 16px; font-size: .93rem;
+      }
+      .note-box p { margin: 0 0 6px; }
+      .note-box p:last-child { margin-bottom: 0; }
+      .howto { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 18px 12px; box-shadow: var(--shadow); }
+      .howto li { margin: 6px 0; }
+      .src { color: var(--muted); font-size: .85rem; margin-top: 26px; }
+
+      /* ---------- controls & timer ---------- */
+      .controls {
+        display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 10px 12px; box-shadow: var(--shadow); margin-bottom: 16px;
+      }
+      .btn {
+        appearance: none; border: 1px solid var(--line); background: var(--surface-2);
+        color: var(--ink); border-radius: 999px; padding: 7px 16px; font-weight: 500; font-size: .92rem;
+        display: inline-flex; align-items: center; gap: 6px;
+      }
+      .btn svg { width: 16px; height: 16px; }
+      .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .btn.primary:hover { filter: brightness(1.08); }
+      .btn[disabled] { opacity: .45; cursor: default; }
+      .btn.seg[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+      .controls .spacer { flex: 1; }
+      .timer { display: inline-flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; flex-wrap: wrap; }
+      .timer .btn { white-space: nowrap; flex: 0 0 auto; }
+      .timer .t-display { flex: 0 0 auto; }
+      .timer .t-display {
+        font-size: 1.25rem; font-weight: 700; min-width: 3.4em; text-align: center;
+        background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 2px 10px;
+      }
+      .timer.over .t-display { background: var(--wrong-soft); color: var(--wrong); border-color: var(--wrong); }
+      .timer-wrap { width: 100%; height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; margin-top: 8px; flex-basis: 100%; }
+      .timer-bar { height: 100%; background: var(--accent); width: 100%; transition: width 1s linear; }
+      .timer.over .timer-bar { background: var(--wrong); }
+
+      /* ---------- char / word grids ---------- */
+      .char-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+      @media (min-width: 640px) { .char-grid { grid-template-columns: repeat(10, 1fr); } }
+      .char-cell {
+        appearance: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 8px 2px 6px; display: flex; flex-direction: column; align-items: center; gap: 0;
+        box-shadow: var(--shadow); color: var(--ink);
+      }
+      .char-cell .hz { font-family: "Noto Serif SC", serif; font-size: 1.55rem; font-weight: 700; line-height: 1.25; }
+      .char-cell .py { font-size: .72rem; color: var(--muted); }
+      .char-cell.playing { border-color: var(--accent); background: var(--accent-soft); }
+      .char-cell.playing .py { color: var(--accent-ink); }
+
+      .word-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      @media (min-width: 640px) { .word-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (min-width: 920px) { .word-grid { grid-template-columns: repeat(5, 1fr); } }
+      .word-cell {
+        appearance: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 9px 10px 7px; text-align: left; box-shadow: var(--shadow); color: var(--ink);
+        display: flex; flex-direction: column; gap: 1px;
+      }
+      .word-cell .hz { font-family: "Noto Serif SC", serif; font-size: 1.28rem; font-weight: 700; line-height: 1.3; }
+      .word-cell .py { font-size: .8rem; color: var(--muted); }
+      .word-cell .tag { align-self: flex-start; margin-top: 4px; font-size: .68rem; padding: 1px 7px; border-radius: 999px; background: var(--gold-soft); color: var(--gold); border: 1px solid var(--line); font-weight: 700; }
+      .word-cell.playing { border-color: var(--accent); background: var(--accent-soft); }
+      .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: .88rem; margin: 0 0 14px; }
+      .legend b { color: var(--ink); }
+
+      /* ---------- quiz ---------- */
+      .quiz-progress { display: flex; justify-content: space-between; align-items: baseline; color: var(--muted); font-size: .9rem; margin-bottom: 8px; }
+      .quiz-progress b { color: var(--ink); }
+      .qcard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+      .qtype { display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: .05em; background: var(--accent-soft); color: var(--accent-ink); border-radius: 999px; padding: 2px 10px; margin-bottom: 10px; }
+      .qtext { font-size: 1.12rem; margin: 0 0 14px; }
+      .qtext .simp { font-weight: 700; }
+      .opts { display: grid; gap: 8px; }
+      @media (min-width: 640px) { .opts { grid-template-columns: 1fr 1fr; } }
+      .opt {
+        appearance: none; text-align: left; background: var(--surface); border: 1.5px solid var(--line);
+        border-radius: 12px; padding: 11px 14px; font-size: 1.05rem; color: var(--ink);
+        display: flex; gap: 10px; align-items: baseline;
+      }
+      .opt .ol { font-weight: 700; color: var(--muted); }
+      .opt:hover:not([disabled]) { border-color: var(--accent); }
+      .opt.correct { border-color: var(--jade); background: var(--jade-soft); }
+      .opt.correct .ol { color: var(--jade); }
+      .opt.wrongpick { border-color: var(--wrong); background: var(--wrong-soft); }
+      .opt.wrongpick .ol { color: var(--wrong); }
+      .feedback { display: none; margin-top: 14px; border-radius: 12px; padding: 12px 14px; font-size: .95rem; }
+      .feedback.show { display: block; }
+      .feedback.ok { background: var(--jade-soft); }
+      .feedback.no { background: var(--wrong-soft); }
+      .feedback .fb-head { font-weight: 700; margin-bottom: 2px; }
+      .feedback.ok .fb-head { color: var(--jade); }
+      .feedback.no .fb-head { color: var(--wrong); }
+      .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; gap: 8px; }
+      .quiz-done { text-align: center; padding: 14px 0 4px; }
+      .quiz-done .big-score { font-size: 2rem; font-weight: 700; color: var(--accent-ink); }
+
+      /* ---------- passage ---------- */
+      .passage-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+      .passage { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+      .passage h3 { margin: 0 0 4px; font-size: 1.1rem; }
+      .passage h3 .simp { font-weight: 900; }
+      .passage .p-sub { color: var(--muted); font-size: .88rem; margin: 0 0 12px; }
+      .sent {
+        display: block; width: 100%; text-align: left; appearance: none; background: none; border: 0;
+        border-radius: 10px; padding: 8px 10px; color: var(--ink);
+      }
+      .sent:hover { background: var(--surface-2); }
+      .sent .s-hz { font-family: "Noto Serif SC", serif; font-size: 1.13rem; line-height: 1.7; display: block; }
+      .sent .s-py { font-size: .8rem; color: var(--muted); display: block; margin-top: 1px; }
+      .sent.playing { background: var(--accent-soft); }
+      .sent.playing .s-hz { color: var(--accent-ink); }
+
+      /* ---------- topics ---------- */
+      .topic-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 18px; }
+      @media (min-width: 640px) { .topic-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (min-width: 920px) { .topic-grid { grid-template-columns: repeat(5, 1fr); } }
+      .topic-cell {
+        appearance: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 10px 12px; text-align: left; box-shadow: var(--shadow); color: var(--ink);
+      }
+      .topic-cell .tn { font-size: .7rem; color: var(--muted); display: block; }
+      .topic-cell .tt { font-family: "Noto Serif SC", serif; font-size: 1.02rem; font-weight: 700; line-height: 1.4; display: block; }
+      .topic-cell[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+      .topic-detail { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 18px; }
+      .topic-detail h3 { margin: 0 0 4px; font-size: 1.25rem; }
+      .topic-detail h3 .simp { font-weight: 900; }
+      .topic-detail .plan-title { font-weight: 700; margin: 14px 0 4px; color: var(--accent-ink); }
+      .topic-detail ul { margin: 4px 0 0; padding-left: 1.3em; }
+      .topic-detail li { margin: 5px 0; }
+      .tips { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 18px 12px; box-shadow: var(--shadow); }
+      .tips li { margin: 6px 0; }
+
+      /* ---------- set switcher ---------- */
+      .set-bar {
+        display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center;
+        background: var(--accent-soft); border: 1px solid var(--line); border-radius: var(--radius);
+        padding: 9px 12px; margin-bottom: 12px;
+      }
+      .set-label { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; color: var(--accent-ink); font-size: .92rem; }
+      .set-label svg { width: 17px; height: 17px; }
+      .set-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+      .set-btn { background: var(--surface); }
+      .set-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+      .set-hint { color: var(--muted); font-size: .82rem; }
+
+      /* ---------- intro fact tiles ---------- */
+      .fact-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 0 0 22px; }
+      @media (min-width: 760px) { .fact-row { grid-template-columns: repeat(4, 1fr); } }
+      .fact {
+        background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+        box-shadow: var(--shadow); padding: 10px 12px;
+        display: flex; gap: 10px; align-items: center;
+      }
+      .fact svg { width: 23px; height: 23px; color: var(--accent); flex: 0 0 auto; }
+      .fact b { display: block; font-size: 1.02rem; line-height: 1.3; }
+      .fact span { color: var(--muted); font-size: .8rem; }
+
+      /* ---------- topic sample ---------- */
+      .sample-box { background: var(--accent-soft); border: 1px solid var(--line); border-radius: 12px; padding: 8px; margin-top: 6px; }
+      .sample-box .sent:hover { background: var(--surface); }
+      .sample-box .sent.playing { background: var(--surface); }
+      .sample-box .sent.playing .s-hz { color: var(--accent-ink); }
+      .sample-note { color: var(--muted); font-size: .88rem; margin: 6px 0 0; }
+
+      /* ---------- pronunciation appendix ---------- */
+      .pf-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 6px; }
+      @media (min-width: 640px) { .pf-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (min-width: 920px) { .pf-grid { grid-template-columns: repeat(4, 1fr); } }
+      .pf-cell {
+        appearance: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+        padding: 9px 12px; text-align: left; box-shadow: var(--shadow); color: var(--ink);
+        display: flex; align-items: center; gap: 12px;
+      }
+      .pf-cell .pf-sym { font-size: 1.25rem; font-weight: 700; color: var(--accent-ink); min-width: 2.1em; line-height: 1.25; }
+      .pf-cell .pf-ex { display: flex; flex-direction: column; }
+      .pf-cell .pf-hz { font-family: "Noto Serif SC", serif; font-size: 1.15rem; font-weight: 700; line-height: 1.3; }
+      .pf-cell .pf-py { font-size: .8rem; color: var(--muted); }
+      .pf-cell .pf-tip { font-size: .72rem; color: var(--gold); font-weight: 700; }
+      h3.sub-sec { font-size: 1rem; margin: 20px 0 10px; color: var(--accent-ink); }
+      .rule-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px 18px; margin-bottom: 12px; }
+      .rule-card h3 { margin: 0 0 6px; font-size: 1.05rem; color: var(--accent-ink); }
+      .rule-card p { margin: 0 0 12px; font-size: .95rem; }
+      .ex-row { display: flex; flex-wrap: wrap; gap: 8px; }
+      .ex-chip {
+        appearance: none; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px;
+        padding: 6px 13px; color: var(--ink); display: inline-flex; align-items: baseline; gap: 7px;
+      }
+      .ex-chip .hz { font-family: "Noto Serif SC", serif; font-weight: 700; font-size: 1rem; }
+      .ex-chip .py { font-size: .8rem; color: var(--muted); }
+
+      footer.app-foot { max-width: 1060px; margin: 0 auto; padding: 0 18px 34px; color: var(--muted); font-size: .84rem; }
+      @media (max-width: 560px) {
+        .tab-btn { font-size: .7rem; padding: 8px 1px 7px; }
+        .tab-btn > span { white-space: nowrap; }
+        .tab-btn svg { width: 19px; height: 19px; }
+        main { padding: 16px 12px 48px; }
+        .char-cell .hz { font-size: 1.35rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="tabbar" aria-label="練習分頁">
+      <div class="tabbar-inner" role="tablist">
+        <button class="tab-btn" role="tab" data-tab="intro" aria-selected="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          <span>考試介紹</span>
+        </button>
+        <button class="tab-btn" role="tab" data-tab="mono" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg>
+          <span>單音節字詞</span><span class="tab-num">第一部分</span>
+        </button>
+        <button class="tab-btn" role="tab" data-tab="poly" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M9 5v14"/><path d="M6 19h6"/><path d="M15 12h6"/><path d="M18 12v7"/><path d="M15 19h6"/></svg>
+          <span>多音節詞語</span><span class="tab-num">第二部分</span>
+        </button>
+        <button class="tab-btn" role="tab" data-tab="judge" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span>選擇判斷</span><span class="tab-num">第三部分</span>
+        </button>
+        <button class="tab-btn" role="tab" data-tab="read" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg>
+          <span>朗讀短文</span><span class="tab-num">第四部分</span>
+        </button>
+        <button class="tab-btn" role="tab" data-tab="speak" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+          <span>命題說話</span><span class="tab-num">第五部分</span>
+        </button>
+        <button class="tab-btn" role="tab" data-tab="notes" aria-selected="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+          <span>發音附錄</span><span class="tab-num">註腳</span>
+        </button>
+      </div>
+    </nav>
+
+    <main>
+      <!-- ================= Tab 1: 考試介紹 ================= -->
+      <section class="panel active" id="panel-intro" role="tabpanel">
+        <h1 class="page-title">普通話水平測試 <span class="lat">PSC</span></h1>
+        <p class="lede">普通話水平測試（Putonghua Shuiping Ceshi，簡稱 PSC）是由國家語言文字工作委員會主持的全國性普通話水平認定考試，以口試形式進行，測查應試人的普通話規範程度與熟練程度。本應用按<strong>香港考場採用的五部分試卷</strong>編排，內容依據《普通話水平測試實施綱要》（2004），供逐部分練習與複習。</p>
+
+        <div class="fact-row">
+          <div class="fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3 1.5-9"/></svg>
+            <div><b>100 分</b><span>全卷滿分</span></div>
+          </div>
+          <div class="fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>
+            <div><b>5 個部分</b><span>試卷組成</span></div>
+          </div>
+          <div class="fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15v3"/><path d="M12 10v8"/><path d="M17 6v12"/></svg>
+            <div><b>三級六等</b><span>等級標準</span></div>
+          </div>
+          <div class="fact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg>
+            <div><b>50 個話題</b><span>第五部分題庫</span></div>
+          </div>
+        </div>
+
+        <h2 class="sec">試卷五部分（全卷 100 分）</h2>
+        <div class="part-list">
+          <button class="part-card" data-goto="mono">
+            <span class="part-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>
+            <span>
+              <h3>讀單音節字詞</h3>
+              <p>讀出 100 個單音節字詞（不含輕聲、兒化音節），測查聲母、韻母、聲調的標準程度。備有三組材料輪換練習。</p>
+              <span class="pc-meta"><span class="chip">第一部分</span><span class="chip">限時 <b>3 分 30 秒</b></span><span class="chip"><b>10 分</b></span></span>
+            </span>
+          </button>
+          <button class="part-card" data-goto="poly">
+            <span class="part-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M9 5v14"/><path d="M6 19h6"/><path d="M15 12h6"/><path d="M18 12v7"/><path d="M15 19h6"/></svg></span>
+            <span>
+              <h3>讀多音節詞語</h3>
+              <p>讀出 50 個多音節詞語（共 100 個音節），除聲韻調外，重點測查變調、輕聲與兒化。備有三組材料輪換練習。</p>
+              <span class="pc-meta"><span class="chip">第二部分</span><span class="chip">限時 <b>2 分 30 秒</b></span><span class="chip"><b>20 分</b></span></span>
+            </span>
+          </button>
+          <button class="part-card" data-goto="judge">
+            <span class="part-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+            <span>
+              <h3>選擇判斷</h3>
+              <p>三種題型：詞語判斷、量詞與名詞搭配、語序或表達形式判斷，測查詞彙與語法規範。備有三組題目輪換練習。</p>
+              <span class="pc-meta"><span class="chip">第三部分</span><span class="chip">限時 <b>3 分鐘</b></span><span class="chip"><b>10 分</b></span></span>
+            </span>
+          </button>
+          <button class="part-card" data-goto="read">
+            <span class="part-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg></span>
+            <span>
+              <h3>朗讀短文</h3>
+              <p>朗讀一篇 400 個音節的短文，測查連讀音變、語氣語調、停頓安排與朗讀的流暢度。備有 50 篇示範篇章。</p>
+              <span class="pc-meta"><span class="chip">第四部分</span><span class="chip">限時 <b>4 分鐘</b></span><span class="chip"><b>30 分</b></span></span>
+            </span>
+          </button>
+          <button class="part-card" data-goto="speak">
+            <span class="part-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></span>
+            <span>
+              <h3>命題說話</h3>
+              <p>從指定話題中選一題，連續說話 3 分鐘，不設文字稿提示，測查語音、詞彙語法與自然流暢程度。50 個話題（官方 30 題＋補充練習 20 題）各附範文範例。</p>
+              <span class="pc-meta"><span class="chip">第五部分</span><span class="chip">限時 <b>3 分鐘</b></span><span class="chip"><b>30 分</b></span></span>
+            </span>
+          </button>
+          <button class="part-card" data-goto="notes">
+            <span class="part-no"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+            <span>
+              <h3>發音附錄（註腳）</h3>
+              <p>聲母、韻母全表，以及輕聲、兒化、「啊」變音、上聲與「一」「不」變調等特別讀音，全部附發音例子，點按即聽。</p>
+              <span class="pc-meta"><span class="chip">附錄</span><span class="chip">聲母 <b>21</b></span><span class="chip">韻母 <b>39</b></span></span>
+            </span>
+          </button>
+        </div>
+
+        <h2 class="sec">等級標準：三級六等</h2>
+        <table class="grades">
+          <thead><tr><th>等級</th><th>分數</th><th>說明</th></tr></thead>
+          <tbody>
+            <tr><td class="grade-l1">一級甲等</td><td class="score">97 分或以上</td><td>朗讀、說話均自然流暢，語音標準，幾無差錯。</td></tr>
+            <tr><td class="grade-l1">一級乙等</td><td class="score">92 – 96 分</td><td>語音標準，偶有字音、字調差錯。</td></tr>
+            <tr><td>二級甲等</td><td class="score">87 – 91 分</td><td>聲韻調發音基本標準，語調自然，個別難音有差錯。</td></tr>
+            <tr><td>二級乙等</td><td class="score">80 – 86 分</td><td>個別調值不準，聲韻母發音不到位，難音差錯較多。</td></tr>
+            <tr><td>三級甲等</td><td class="score">70 – 79 分</td><td>聲韻母發音有較多差錯，語調不自然，有方言語調。</td></tr>
+            <tr><td>三級乙等</td><td class="score">60 – 69 分</td><td>聲韻調發音差錯多，方音明顯，詞彙語法有失誤。</td></tr>
+            <tr><td>不入級</td><td class="score">60 分以下</td><td>未達三級乙等標準。</td></tr>
+          </tbody>
+        </table>
+        <p class="tests-note">香港不少行業與職位（如普通話教師、電台播音相關工作）會以二級乙等或以上為常見要求；語文教師的普通話水平要求一般更高，報考前請查閱所屬機構的最新規定。</p>
+
+        <h2 class="sec">如何使用本應用</h2>
+        <div class="howto">
+          <ul>
+            <li><strong>逐部分練習：</strong>上方分頁與正式試卷的五部分一一對應，點按任何字、詞或句子即可聽到示範朗讀。</li>
+            <li><strong>三組輪換練習：</strong>第一至第三部分各備三組材料，朗讀短文共 50 篇，練完一組可換一組，避免只熟習單一材料；第五部分 50 個話題（官方 30 題＋補充練習 20 題）各附一篇範文範例。</li>
+            <li><strong>順序播放：</strong>每個練習頁都有「全部播放」，可連續跟讀一整份練習材料，播放中的項目會標示出來。</li>
+            <li><strong>計時練習：</strong>每部分設有與正式考試相同的限時計時器，練習時請在限時內完成，建立考試節奏。</li>
+            <li><strong>選擇判斷：</strong>即時批改並附解説，做錯的題目建議重讀解説後再試一次。</li>
+            <li><strong>命題說話：</strong>先選話題，看構思提示，用計時器完整說滿 3 分鐘；切忌背誦書面稿，測試員能分辨背稿與自然說話。</li>
+            <li><strong>發音附錄：</strong>第七頁收錄聲母 21 個、韻母 39 個全表，以及輕聲、兒化、「啊」變音與上聲、「一」、「不」變調等特別讀音，每項均附發音例子，點按即可聆聽示範，適合集中攻克發音難點。</li>
+          </ul>
+        </div>
+
+        <h2 class="sec">關於語音示範</h2>
+        <div class="note-box">
+          <p><strong>本應用的朗讀示範使用裝置內置的普通話（國語）文字轉語音聲音</strong>（瀏覽器的 Speech Synthesis 功能），並非真人錄音。不同裝置、瀏覽器的聲音質素會有差異；如聽不到聲音，請檢查裝置是否已安裝中文語音包，並確認媒體音量已開啟。</p>
+          <p>示範語速可於練習頁切換「慢速／正常」。正式考試的評分以標準普通話為準，TTS 示範只供跟讀參考，個別多音字、輕聲與兒化的處理仍以《普通話水平測試實施綱要》的標音為準。</p>
+        </div>
+
+        <p class="src">資料來源：國家語委普通話培訓測試中心《普通話水平測試實施綱要》（商務印書館，2004）；香港教育大學普通話培訓測試中心（PTTC）測試簡介。本應用内的單字、詞語、短文與話題屬按正式考試規格編寫的練習材料，短文為仿正式朗讀作品風格的示範篇章。</p>
+      </section>
+
+      <!-- ================= Tab 2: 單音節字詞 ================= -->
+      <section class="panel" id="panel-mono" role="tabpanel">
+        <div class="section-head">
+          <span class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M12 5v14"/><path d="M9 19h6"/></svg></span>
+          <h1>第一部分 · 讀單音節字詞</h1>
+          <span class="meta-chips">
+            <span class="chip">3 組 · 每組 100 個音節</span><span class="chip">限時 <b>3 分 30 秒</b></span><span class="chip"><b>10 分</b></span>
+          </span>
+        </div>
+        <p class="tests-note">測查聲母、韻母、聲調。正式試卷的 100 個音節按《普通話水平測試用普通話詞語表》抽取，每個聲母、韻母均有覆蓋，四聲大致均衡，且不含輕聲、兒化音節。本頁共三組練習，難度相若，可用下方組別按鈕輪換。點按單字聽示範，或用「全部播放」連續跟讀；讀錯不要回頭重讀，順序讀下去是正式考試的做法。</p>
+        <div class="set-bar">
+          <span class="set-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>練習組別</span>
+          <span class="set-btns" role="group" aria-label="選擇練習組別">
+            <button class="btn set-btn" type="button" data-set="0" aria-pressed="true">第一組</button>
+            <button class="btn set-btn" type="button" data-set="1" aria-pressed="false">第二組</button>
+            <button class="btn set-btn" type="button" data-set="2" aria-pressed="false">第三組</button>
+          </span>
+          <span class="set-hint">三組材料難度相若，可輪換練習</span>
+        </div>
+        <div class="controls" data-controls>
+          <button class="btn primary" data-act="playall">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>全部播放
+          </button>
+          <button class="btn" data-act="stop">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>停止
+          </button>
+          <span class="seg-group" role="group" aria-label="語速">
+            <button class="btn seg" data-rate="0.72" aria-pressed="false">慢速</button>
+            <button class="btn seg" data-rate="0.95" aria-pressed="true">正常</button>
+          </span>
+          <span class="spacer"></span>
+          <span class="timer" data-timer="210"></span>
+        </div>
+        <div class="char-grid" id="mono-grid" lang="zh-CN"></div>
+      </section>
+
+      <!-- ================= Tab 3: 多音節詞語 ================= -->
+      <section class="panel" id="panel-poly" role="tabpanel">
+        <div class="section-head">
+          <span class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M9 5v14"/><path d="M6 19h6"/><path d="M15 12h6"/><path d="M18 12v7"/><path d="M15 19h6"/></svg></span>
+          <h1>第二部分 · 讀多音節詞語</h1>
+          <span class="meta-chips">
+            <span class="chip">3 組 · 每組 50 個詞語</span><span class="chip">限時 <b>2 分 30 秒</b></span><span class="chip"><b>20 分</b></span>
+          </span>
+        </div>
+        <p class="tests-note">除聲、韻、調外，重點測查語流音變：上聲變調、「一」「不」變調、輕聲與兒化。本頁共三組練習，每組 50 個詞語均涵蓋以上各類，附標籤提示；拼音按實際讀音標示（含變調後的調值）。可用下方組別按鈕輪換練習。</p>
+        <div class="set-bar">
+          <span class="set-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>練習組別</span>
+          <span class="set-btns" role="group" aria-label="選擇練習組別">
+            <button class="btn set-btn" type="button" data-set="0" aria-pressed="true">第一組</button>
+            <button class="btn set-btn" type="button" data-set="1" aria-pressed="false">第二組</button>
+            <button class="btn set-btn" type="button" data-set="2" aria-pressed="false">第三組</button>
+          </span>
+          <span class="set-hint">三組材料難度相若，可輪換練習</span>
+        </div>
+        <p class="legend">
+          <span><b>輕聲</b>：第二音節讀得輕而短，拼音不標調。</span>
+          <span><b>兒化</b>：韻母帶捲舌，拼音在音節後加 r。</span>
+          <span><b>變調</b>：「不」在去聲前讀陽平 bú；「一」在去聲前讀陽平 yí、在非去聲前讀去聲 yì；上聲連讀時前一個上聲變陽平。</span>
+        </p>
+        <div class="controls" data-controls>
+          <button class="btn primary" data-act="playall">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>全部播放
+          </button>
+          <button class="btn" data-act="stop">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>停止
+          </button>
+          <span class="seg-group" role="group" aria-label="語速">
+            <button class="btn seg" data-rate="0.72" aria-pressed="false">慢速</button>
+            <button class="btn seg" data-rate="0.95" aria-pressed="true">正常</button>
+          </span>
+          <span class="spacer"></span>
+          <span class="timer" data-timer="150"></span>
+        </div>
+        <div class="word-grid" id="poly-grid" lang="zh-CN"></div>
+      </section>
+
+      <!-- ================= Tab 4: 選擇判斷 ================= -->
+      <section class="panel" id="panel-judge" role="tabpanel">
+        <div class="section-head">
+          <span class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <h1>第三部分 · 選擇判斷</h1>
+          <span class="meta-chips">
+            <span class="chip">3 組 · 每組 12 題</span><span class="chip">限時 <b>3 分鐘</b></span><span class="chip"><b>10 分</b></span>
+          </span>
+        </div>
+        <p class="tests-note">正式試卷要求從各題的選項中選出符合普通話規範的一項：①詞語判斷——選出規範詞語或正確讀音；②量詞與名詞搭配——為名詞選對量詞；③語序或表達形式判斷——選出語序、說法符合普通話習慣的句子。本頁共三組、每組 12 題，均按正式題型編寫，即時批改並附解説；可用下方組別按鈕切換另一組題目（切換後本組作答記錄會清空）。</p>
+        <div class="set-bar">
+          <span class="set-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg>題目組別</span>
+          <span class="set-btns" role="group" aria-label="選擇題目組別">
+            <button class="btn set-btn" type="button" data-set="0" aria-pressed="true">第一組</button>
+            <button class="btn set-btn" type="button" data-set="1" aria-pressed="false">第二組</button>
+            <button class="btn set-btn" type="button" data-set="2" aria-pressed="false">第三組</button>
+          </span>
+          <span class="set-hint">三組題目難度相若，可輪換練習</span>
+        </div>
+        <div class="controls">
+          <span class="timer" data-timer="180"></span>
+          <span class="spacer"></span>
+          <button class="btn" id="quiz-restart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>重新開始
+          </button>
+        </div>
+        <div class="quiz-progress"><span>第 <b id="q-now">1</b> / <span id="q-total">12</span> 題</span><span>答對 <b id="q-score">0</b> 題</span></div>
+        <div class="qcard" id="qcard"></div>
+        <div class="quiz-nav">
+          <button class="btn" id="q-prev">上一題</button>
+          <button class="btn primary" id="q-next">下一題</button>
+        </div>
+      </section>
+
+      <!-- ================= Tab 5: 朗讀短文 ================= -->
+      <section class="panel" id="panel-read" role="tabpanel">
+        <div class="section-head">
+          <span class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg></span>
+          <h1>第四部分 · 朗讀短文</h1>
+          <span class="meta-chips">
+            <span class="chip">50 篇 · 每篇約 400 個音節</span><span class="chip">限時 <b>4 分鐘</b></span><span class="chip"><b>30 分</b></span>
+          </span>
+        </div>
+        <p class="tests-note">朗讀一篇短文（選自《普通話水平測試用朗讀作品》60 篇），測查連讀音變、語氣語調、停頓與流暢度。本頁共 50 篇，均為仿正式朗讀作品風格、長度約 400 個音節的示範篇章：點按句子逐句聽，或「全文播放」跟讀，播放中的句子會標示出來。朗讀時注意不要回讀、漏讀或加字。</p>
+        <div class="controls" data-controls>
+          <button class="btn primary" data-act="playall">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>全文播放
+          </button>
+          <button class="btn" data-act="stop">
+            <svg viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>停止
+          </button>
+          <span class="seg-group" role="group" aria-label="語速">
+            <button class="btn seg" data-rate="0.8" aria-pressed="false">慢速</button>
+            <button class="btn seg" data-rate="0.98" aria-pressed="true">正常</button>
+          </span>
+          <span class="spacer"></span>
+          <span class="timer" data-timer="240"></span>
+        </div>
+        <div class="passage-tabs" id="passage-tabs" role="group" aria-label="選擇短文"></div>
+        <div class="passage" id="passage-box" lang="zh-CN"></div>
+      </section>
+
+      <!-- ================= Tab 6: 命題說話 ================= -->
+      <section class="panel" id="panel-speak" role="tabpanel">
+        <div class="section-head">
+          <span class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/></svg></span>
+          <h1>第五部分 · 命題說話</h1>
+          <span class="meta-chips">
+            <span class="chip">50 個話題 · 任選一題</span><span class="chip">限時 <b>3 分鐘</b></span><span class="chip"><b>30 分</b></span>
+          </span>
+        </div>
+        <p class="tests-note">正式考試時，考生從試卷所給的兩個話題中選一題，在準備時間內構思，然後連續說話 3 分鐘，不看文字稿。評分看三方面：語音標準程度、詞彙與語法的規範程度、說話的自然流暢程度；缺時、背稿、離題都會扣分。以下話題 1–30 為《普通話水平測試用話題》的標準話題，話題 31–50 為按同一規格與難度編寫的補充練習話題（格內標示「補充練習」）；每個話題均附構思提示和一篇範文範例：點選話題先看提綱與範文（範文只供參考說法與結構，切勿背誦照讀），再用計時器練習說滿 3 分鐘。</p>
+        <div class="topic-grid" id="topic-grid" lang="zh-CN"></div>
+        <div class="topic-detail" id="topic-detail"></div>
+        <div class="controls" style="margin-top:16px;">
+          <span style="font-weight:700;">說話計時</span>
+          <span class="spacer"></span>
+          <span class="timer" data-timer="180"></span>
+        </div>
+        <h2 class="sec">說話貼士</h2>
+        <div class="tips">
+          <ul>
+            <li><strong>說滿 3 分鐘：</strong>時間不足會按缺時扣分。寧可放慢語速、多舉一個例子，也不要提早停下。</li>
+            <li><strong>不要背稿：</strong>背誦書面文章的語調會被測試員分辨，而且書面語詞彙反而容易出錯。用自己的話，像跟朋友聊天一樣說。</li>
+            <li><strong>避免方言詞：</strong>粵語詞彙（如「好凍」「行路」「食飯」）在普通話說話中屬詞彙失誤，改用「很冷」「走路」「吃飯」。</li>
+            <li><strong>結構簡單清楚：</strong>開頭點題，中間用兩三件小事展開，結尾一句感想收束，測試員容易跟得上。</li>
+            <li><strong>保持穩定語速：</strong>緊張時容易越說越快；刻意放慢，句子之間留半秒停頓，發音會清楚得多。</li>
+            <li><strong>說錯了不要重來：</strong>個別字音說錯，自然帶過即可；停下來糾正反而影響流暢度評分。</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ================= Tab 7: 發音附錄 ================= -->
+      <section class="panel" id="panel-notes" role="tabpanel">
+        <div class="section-head">
+          <span class="sec-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg></span>
+          <h1>附錄 · 發音註腳</h1>
+          <span class="meta-chips">
+            <span class="chip">聲母 <b>21</b></span><span class="chip">韻母 <b>39</b></span><span class="chip">特別音</span><span class="chip">特別變調</span>
+          </span>
+        </div>
+        <p class="tests-note">本頁彙集普通話聲母、韻母全表，以及考試最容易出錯的特別讀音與語流變調。每張卡片、每個例句點按即可聽示範發音。粵語母語者宜特別留意：翹舌音 zh、ch、sh、r 與平舌音 z、c、s 的分別，前鼻韻母 -n 與後鼻韻母 -ng 的分別，以及上聲和輕聲的讀法。</p>
+
+        <h2 class="sec">聲母表（21 個）</h2>
+        <p class="tests-note">聲母是音節開頭的輔音。點按卡片聽例句字的發音；卡片下方的小字是發音部位與方法提示，其中「翹舌／平舌」一組是常見難點，宜對照反覆練習。</p>
+        <div class="pf-grid" id="initials-grid" lang="zh-CN"></div>
+
+        <h2 class="sec">韻母表（39 個）</h2>
+        <p class="tests-note">韻母是音節中聲母之後的部分。點按卡片聽例句發音。注意：i 在 z、c、s 之後讀「舌尖前 i」，在 zh、ch、sh、r 之後讀「舌尖後 i」，兩者與單獨的 i（衣）讀法都不同。</p>
+        <div id="finals-box" lang="zh-CN"></div>
+
+        <h2 class="sec">特別音</h2>
+        <div id="special-box" lang="zh-CN"></div>
+
+        <h2 class="sec">特別變調</h2>
+        <p class="tests-note">變調是音節在語流中聲調發生規律性的變化。例句的拼音標示「本調 → 實際讀音」，點按即可聽實際讀法；讀詞語與命題說話時自然帶出變調，是語音標準程度的評分要點之一。</p>
+        <div id="sandhi-box" lang="zh-CN"></div>
+
+        <p class="src">聲母、韻母的數目與分類依《普通話水平測試實施綱要》（2004）及《漢語拼音方案》韻母表；輕聲、兒化與變調規則依普通話語流音變的一般規範整理。發音示範同樣使用裝置內置的普通話語音，個別變調的實際效果以《實施綱要》標音為準。</p>
+      </section>
+    </main>
+
+    <footer class="app-foot">PSC 練習材料按《普通話水平測試實施綱要》（2004）規格編寫；正式考試安排、費用與報名請以香港教育大學普通話培訓測試中心等本地測試機構的公佈為準。</footer>
+
+    <script>
+      "use strict";
+      /* ============ data ============ */
+      var MONO_SETS = [
+      [
+        ["巴","bā"],["坡","pō"],["摸","mō"],["二","èr"],["得","dé"],["特","tè"],["讷","nè"],["乐","lè"],["哥","gē"],["科","kē"],
+        ["河","hé"],["基","jī"],["欺","qī"],["希","xī"],["资","zī"],["疵","cī"],["思","sī"],["知","zhī"],["吃","chī"],["诗","shī"],
+        ["日","rì"],["租","zū"],["粗","cū"],["苏","sū"],["读","dú"],["突","tū"],["奴","nú"],["鹿","lù"],["谷","gǔ"],["苦","kǔ"],
+        ["虎","hǔ"],["居","jū"],["区","qū"],["须","xū"],["鱼","yú"],["学","xué"],["达","dá"],["拔","bá"],["塔","tǎ"],["国","guó"],
+        ["拉","lā"],["嘎","gā"],["卡","kǎ"],["哈","hā"],["佳","jiā"],["姐","jiě"],["虾","xiā"],["快","kuài"],["呆","dāi"],["杯","bēi"],
+        ["奶","nǎi"],["来","lái"],["盖","gài"],["开","kāi"],["海","hǎi"],["刀","dāo"],["桃","táo"],["脑","nǎo"],["老","lǎo"],["高","gāo"],
+        ["考","kǎo"],["好","hǎo"],["交","jiāo"],["桥","qiáo"],["小","xiǎo"],["回","huí"],["头","tóu"],["楼","lóu"],["口","kǒu"],["手","shǒu"],
+        ["九","jiǔ"],["求","qiú"],["修","xiū"],["本","běn"],["盆","pén"],["门","mén"],["分","fēn"],["根","gēn"],["肯","kěn"],["很","hěn"],
+        ["金","jīn"],["亲","qīn"],["心","xīn"],["军","jūn"],["拼","pīn"],["民","mín"],["风","fēng"],["帮","bāng"],["旁","páng"],["忙","máng"],
+        ["方","fāng"],["光","guāng"],["穷","qióng"],["江","jiāng"],["想","xiǎng"],["双","shuāng"],["窗","chuāng"],["装","zhuāng"],["冬","dōng"],["爽","shuǎng"]
+      ],
+      [
+        ["班","bān"],["潘","pān"],["满","mǎn"],["翻","fān"],["单","dān"],["谈","tán"],["难","nán"],["蓝","lán"],["干","gān"],["看","kàn"],
+        ["含","hán"],["尖","jiān"],["千","qiān"],["先","xiān"],["增","zēng"],["层","céng"],["森","sēn"],["真","zhēn"],["陈","chén"],["身","shēn"],
+        ["人","rén"],["尊","zūn"],["村","cūn"],["孙","sūn"],["顿","dùn"],["吞","tūn"],["论","lùn"],["滚","gǔn"],["昆","kūn"],["混","hùn"],
+        ["举","jǔ"],["取","qǔ"],["需","xū"],["遇","yù"],["雪","xuě"],["月","yuè"],["绝","jué"],["确","què"],["缺","quē"],["靴","xuē"],
+        ["娃","wá"],["瓜","guā"],["夸","kuā"],["花","huā"],["抓","zhuā"],["刷","shuā"],["歪","wāi"],["怀","huái"],["帅","shuài"],["块","kuài"],
+        ["百","bǎi"],["排","pái"],["买","mǎi"],["柴","chái"],["晒","shài"],["该","gāi"],["改","gǎi"],["孩","hái"],["戴","dài"],["太","tài"],
+        ["包","bāo"],["跑","pǎo"],["猫","māo"],["到","dào"],["套","tào"],["闹","nào"],["料","liào"],["笑","xiào"],["条","tiáo"],["调","tiáo"],
+        ["豆","dòu"],["投","tóu"],["漏","lòu"],["够","gòu"],["扣","kòu"],["厚","hòu"],["丢","diū"],["牛","niú"],["流","liú"],["油","yóu"],
+        ["边","biān"],["篇","piān"],["面","miàn"],["店","diàn"],["天","tiān"],["年","nián"],["连","lián"],["见","jiàn"],["前","qián"],["线","xiàn"],
+        ["宾","bīn"],["听","tīng"],["星","xīng"],["英","yīng"],["明","míng"],["平","píng"],["名","míng"],["青","qīng"],["晴","qíng"],["灵","líng"]
+      ],
+      [
+        ["八","bā"],["爬","pá"],["马","mǎ"],["发","fā"],["搭","dā"],["他","tā"],["拿","ná"],["辣","là"],["擦","cā"],["沙","shā"],
+        ["播","bō"],["泼","pō"],["墨","mò"],["佛","fó"],["多","duō"],["拖","tuō"],["挪","nuó"],["罗","luó"],["过","guò"],["课","kè"],
+        ["字","zì"],["次","cì"],["寺","sì"],["纸","zhǐ"],["尺","chǐ"],["是","shì"],["迟","chí"],["始","shǐ"],["丝","sī"],["词","cí"],
+        ["猪","zhū"],["除","chú"],["书","shū"],["入","rù"],["出","chū"],["数","shù"],["路","lù"],["布","bù"],["铺","pù"],["诉","sù"],
+        ["驴","lǘ"],["绿","lǜ"],["女","nǚ"],["局","jú"],["句","jù"],["屈","qū"],["渠","qú"],["续","xù"],["虚","xū"],["迂","yū"],
+        ["白","bái"],["拍","pāi"],["埋","mái"],["猜","cāi"],["摘","zhāi"],["筛","shāi"],["哀","āi"],["台","tái"],["来","lái"],["菜","cài"],
+        ["早","zǎo"],["草","cǎo"],["扫","sǎo"],["号","hào"],["告","gào"],["岛","dǎo"],["导","dǎo"],["讨","tǎo"],["找","zhǎo"],["枣","zǎo"],
+        ["山","shān"],["产","chǎn"],["站","zhàn"],["饭","fàn"],["半","bàn"],["判","pàn"],["蛋","dàn"],["炭","tàn"],["兰","lán"],["散","sàn"],
+        ["上","shàng"],["唱","chàng"],["让","ràng"],["商","shāng"],["常","cháng"],["场","chǎng"],["汤","tāng"],["糖","táng"],["躺","tǎng"],["赏","shǎng"],
+        ["灯","dēng"],["能","néng"],["朋","péng"],["梦","mèng"],["红","hóng"],["空","kōng"],["东","dōng"],["送","sòng"],["冲","chōng"],["虫","chóng"]
+      ]
+      ];
+
+      var POLY_SETS = [
+      [
+        ["祖国","zǔguó",""],["文化","wénhuà",""],["发展","fāzhǎn",""],["学习","xuéxí",""],["普通","pǔtōng",""],
+        ["标准","biāozhǔn",""],["准确","zhǔnquè",""],["努力","nǔlì",""],["勇敢","yǒnggǎn",""],["理解","lǐjiě",""],
+        ["流利","liúlì",""],["自然","zìrán",""],["热情","rèqíng",""],["认真","rènzhēn",""],["高兴","gāoxìng",""],
+        ["清楚","qīngchu","輕聲"],["明白","míngbai","輕聲"],["朋友","péngyou","輕聲"],["桌子","zhuōzi","輕聲"],["眼睛","yǎnjing","輕聲"],
+        ["事情","shìqing","輕聲"],["东西","dōngxi","輕聲"],["葡萄","pútao","輕聲"],["知道","zhīdao","輕聲"],["休息","xiūxi","輕聲"],
+        ["暖和","nuǎnhuo","輕聲"],["马虎","mǎhu","輕聲"],["告诉","gàosu","輕聲"],["舒服","shūfu","輕聲"],["漂亮","piàoliang","輕聲"],
+        ["爸爸","bàba","輕聲"],["妈妈","māma","輕聲"],["想想","xiǎngxiang","輕聲"],["花儿","huār","兒化"],["鸟儿","niǎor","兒化"],
+        ["歌儿","gēr","兒化"],["玩儿","wánr","兒化"],["小孩儿","xiǎoháir","兒化"],["门口儿","ménkǒur","兒化"],["一会儿","yíhuìr","兒化 · 變調"],
+        ["一点儿","yìdiǎnr","兒化 · 變調"],["不是","búshì","變調"],["不错","búcuò","變調"],["不去","búqù","變調"],["不行","bùxíng","變調"],
+        ["一定","yídìng","變調"],["一起","yìqǐ","變調"],["一天","yìtiān","變調"],["第一","dìyī","「一」讀本調"],["好好儿","hǎohǎor","變調 · 兒化"]
+      ],
+      [
+        ["国家","guójiā",""],["社会","shèhuì",""],["经济","jīngjì",""],["人民","rénmín",""],["生活","shēnghuó",""],
+        ["健康","jiànkāng",""],["环境","huánjìng",""],["交通","jiāotōng",""],["教育","jiàoyù",""],["语言","yǔyán",""],
+        ["头发","tóufa","輕聲"],["衣服","yīfu","輕聲"],["窗户","chuānghu","輕聲"],["痛快","tòngkuai","輕聲"],["热闹","rènao","輕聲"],
+        ["凉快","liángkuai","輕聲"],["精神","jīngshen","輕聲"],["时候","shíhou","輕聲"],["故事","gùshi","輕聲"],["豆腐","dòufu","輕聲"],
+        ["镜子","jìngzi","輕聲"],["帽子","màozi","輕聲"],["椅子","yǐzi","輕聲"],["杯子","bēizi","輕聲"],["饺子","jiǎozi","輕聲"],
+        ["包子","bāozi","輕聲"],["种子","zhǒngzi","輕聲"],["屋子","wūzi","輕聲"],["日子","rìzi","輕聲"],["月亮","yuèliang","輕聲"],
+        ["画儿","huàr","兒化"],["盖儿","gàir","兒化"],["味儿","wèir","兒化"],["劲儿","jìnr","兒化"],["空儿","kòngr","兒化"],
+        ["这儿","zhèr","兒化"],["那儿","nàr","兒化"],["哪儿","nǎr","兒化"],["冰棍儿","bīnggùnr","兒化"],["胡同儿","hútòngr","兒化"],
+        ["不对","búduì","變調"],["不用","búyòng","變調"],["不会","búhuì","變調"],["一样","yíyàng","變調"],["一块儿","yíkuàir","兒化 · 變調"],
+        ["不吃","bùchī","變調"],["一本","yìběn","變調"],["一张","yìzhāng","變調"],["一条","yìtiáo","變調"],["一年","yìnián","變調"]
+      ],
+      [
+        ["学校","xuéxiào",""],["老师","lǎoshī",""],["同学","tóngxué",""],["问题","wèntí",""],["工作","gōngzuò",""],
+        ["时间","shíjiān",""],["今天","jīntiān",""],["明天","míngtiān",""],["昨天","zuótiān",""],["现在","xiànzài",""],
+        ["鼻子","bízi","輕聲"],["肚子","dùzi","輕聲"],["影子","yǐngzi","輕聲"],["嗓子","sǎngzi","輕聲"],["眉毛","méimao","輕聲"],
+        ["尾巴","wěiba","輕聲"],["力气","lìqi","輕聲"],["意思","yìsi","輕聲"],["亲戚","qīnqi","輕聲"],["师傅","shīfu","輕聲"],
+        ["奶奶","nǎinai","輕聲"],["爷爷","yéye","輕聲"],["姐姐","jiějie","輕聲"],["哥哥","gēge","輕聲"],["弟弟","dìdi","輕聲"],
+        ["事儿","shìr","兒化"],["头儿","tóur","兒化"],["份儿","fènr","兒化"],["没准儿","méizhǔnr","兒化"],["老头儿","lǎotóur","兒化"],
+        ["早点儿","zǎodiǎnr","兒化"],["晚点儿","wǎndiǎnr","兒化"],["快点儿","kuàidiǎnr","兒化"],["慢点儿","màndiǎnr","兒化"],["多点儿","duōdiǎnr","兒化"],
+        ["不来","bùlái","變調"],["不想","bùxiǎng","變調"],["不走","bùzǒu","變調"],["不能","bùnéng","變調"],["不看","bùkàn","變調"],
+        ["水果","shuǐguǒ","變調"],["理想","lǐxiǎng","變調"],["表演","biǎoyǎn","變調"],["语法","yǔfǎ","變調"],["手指","shǒuzhǐ","變調"],
+        ["一共","yígòng","變調"],["一直","yìzhí","變調"],["一路","yílù","變調"],["一切","yíqiè","變調"],["一方面","yìfāngmiàn","變調"]
+      ]
+      ];
+
+      var QUIZ_SETS = [
+      [
+        { type:"詞語判斷", q:"選出普通話的規範詞語：「馬鈴薯」在口語中常說的詞是——", opts:["土豆","薯仔","地蛋","洋山芋"], ans:0,
+          why:"「土豆」是普通話口語的通用說法。「薯仔」是粵語詞；「地蛋」「洋山芋」是方言詞，正式詞彙以「馬鈴薯／土豆」為規範。" },
+        { type:"詞語判斷", q:"「他做事太大意了，把文件弄丟了。」句中「大意」應讀作——", opts:["dàyì","dàyi"], ans:1,
+          why:"「大意」讀 dàyì 時解作「主要的意思」；表示「疏忽、不小心」時第二音節讀輕聲，讀作 dàyi。輕聲在這裏起區別詞義的作用。" },
+        { type:"詞語判斷", q:"選詞填空：週末我們全家去公園____，順便呼吸新鮮空氣。", opts:["散步","行路","溜達","逛街"], ans:0,
+          why:"「散步」是普通話的規範通用詞。「行路」是粵語說法；「溜達」偏口語方言色彩；「逛街」指逛商店，與公園情境不合。" },
+        { type:"詞語判斷", q:"下列詞語中，屬於普通話規範詞的是——", opts:["玉米","包穀","苞米","玉麥"], ans:0,
+          why:"「玉米」是普通話的規範名稱。「包穀」通行於西南方言區，「苞米」通行於東北方言區，「玉麥」屬地方說法，均為方言詞。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____馬", opts:["匹","頭","隻","條"], ans:0,
+          why:"馬的專用量詞是「匹」：一匹馬。「頭」多用於牛、豬等牲畜；「隻」用於部分動物和成對物品中的一件；「條」用於長形物。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____鏡子", opts:["面","塊","張","把"], ans:0,
+          why:"鏡子用「面」作量詞：一面鏡子。「塊」用於塊狀物（如一塊石頭）；「張」用於紙、桌子等；「把」用於有柄的器物（如一把傘）。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____雨傘", opts:["把","支","根","頂"], ans:0,
+          why:"有柄可以手握的器物多用「把」：一把雨傘、一把刀。「支」用於細長的桿狀物；「根」用於長條形物；「頂」用於帽子、帳篷等。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____飛機", opts:["架","隻","輛","台"], ans:0,
+          why:"飛機的專用量詞是「架」：一架飛機。「隻」多用於船和動物；「輛」用於車輛；「台」用於機器、設備和戲劇場次。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["你先去洗手，再吃飯。","你去洗手先，再吃飯。","你洗手先啦，再吃飯。","先你去洗手，再吃飯。"], ans:0,
+          why:"普通話中「先」作狀語，放在動詞之前：「先去洗手」。「動詞＋先」（洗手先）是粵語語序，在普通話測試中屬語序失誤。" },
+        { type:"語序判斷", q:"選出符合普通話表達習慣的句子——", opts:["他比我高一點兒。","他比我更高一點兒。","他高過我一點兒。","他比我更加高一點兒。"], ans:0,
+          why:"「比」字句已經表示比較，後面不能再加「更、還、更加」等程度副詞。「高過我」是粵語的比較說法，普通話說「比我高」。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["我吃過飯了。","我飯吃過了。","我已經食咗飯。","飯我吃過了飯。"], ans:0,
+          why:"普通話的一般語序是「主語＋動詞＋賓語」：我吃過飯了。把賓語提前到動詞之前（飯吃過了）或使用粵語詞彙（食咗），都不合普通話規範。" },
+        { type:"語序判斷", q:"選出符合普通話表達習慣的句子——", opts:["你有沒有去過長城？","你有去過長城嗎？","你去過長城未？","你有去長城過嗎？"], ans:0,
+          why:"普通話詢問經歷用正反疑問形式「有沒有＋動詞」或句末加「嗎」配「去過」：「你去過長城嗎？」也對，但「有……嗎」「……未」屬粵語句式，不是普通話規範形式。" }
+      ],
+      [
+        { type:"詞語判斷", q:"選出普通話的規範詞語：「西紅柿」在口語中常說的詞是——", opts:["洋柿子","番茄","毛辣角","狼桃"], ans:1,
+          why:"「番茄」是普通話的規範通用詞。「洋柿子」「毛辣角」是方言說法；「狼桃」是西紅柿的舊稱，日常不使用。" },
+        { type:"詞語判斷", q:"「銀行」一詞中，「行」應讀作——", opts:["háng","xíng"], ans:0,
+          why:"「行」讀 háng 時指行業、行列，如銀行、行家；讀 xíng 時指行走、進行。「銀行」指行業機構，故讀 yínháng。" },
+        { type:"詞語判斷", q:"選詞填空：天氣____冷了，出門要多穿一點兒。", opts:["更加","很是","越來越","特此"], ans:2,
+          why:"「越來越＋形容詞」表示程度隨時間加深，是普通話的常用格式。「更加」後一般不直接接表示變化的單句結尾；「很是」「特此」與句義不合。" },
+        { type:"詞語判斷", q:"下列詞語中，屬於普通話規範詞的是——", opts:["單車","腳踏車","鐵馬","自行車"], ans:3,
+          why:"普通話的規範名稱是「自行車」。「單車」通行於粵語區，「腳踏車」通行於閩南語、台灣地區，「鐵馬」屬舊時俗稱，均帶方言或時代色彩。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____報紙", opts:["張","份","把","面"], ans:1,
+          why:"整份的報纸用「份」：一份報紙。「張」指單張的紙（一張紙）；「把」「面」均不能與報紙搭配。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____牛", opts:["頭","匹","隻","條"], ans:0,
+          why:"牛、豬等較大型牲畜用「頭」：一頭牛。「匹」專用於馬；「隻」多用於較小的動物；「條」用於長形物。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____鑰匙", opts:["條","根","把","支"], ans:2,
+          why:"鑰匙可以手握，用「把」：一把鑰匙。「條」「根」用於長條形物；「支」用於細長的桿狀物，均不合。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____詩", opts:["首","句","節","篇"], ans:0,
+          why:"詩歌、歌曲的專用量詞是「首」：一首詩、一首歌。「句」指詩中的一句；「節」指詩的分段；「篇」多用於文章。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["他每天看書去圖書館先。","先他每天去圖書館看書。","他每天都去圖書館看書。","每天他去圖書館都看書先。"], ans:2,
+          why:"「先」在普通話中放在動詞之前，「動詞＋先」（看書先）是粵語語序。只有第三句語序自然、成分完整。" },
+        { type:"語序判斷", q:"選出符合普通話表達習慣的句子——", opts:["今天比昨天更冷得多。","今天冷過昨天得多。","今天比昨天更加冷得多。","今天比昨天冷得多。"], ans:3,
+          why:"「比」字句後不能再加「更、更加」等程度副詞；「冷過……」是粵語比較句式。「比昨天冷得多」才是普通話的規範說法。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["我已經吃過晚飯了。","我已經吃了晚飯過。","我食過晚飯已經。","晚飯我已經吃過了晚飯。"], ans:0,
+          why:"表示經歷的「過」緊跟動詞：「吃過晚飯了」。「吃了……過」把「了、過」拆開重疊，不合普通話語法；其餘兩句帶粵語詞彙或成分重複。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["這本書我看遍了三。","這本書我看了三遍。","我三遍看了這本書。","我看了這本書三遍先。"], ans:1,
+          why:"動量補語放在動詞之後、賓語之前或之後均可：「看了三遍書／看了書三遍」。「看遍了三」成分殘缺；「三遍看了」把動量詞提前作狀語，不合普通話語序。" }
+      ],
+      [
+        { type:"詞語判斷", q:"香港說「的士」，普通話的規範說法是——", opts:["的士","計程車","出租車","黃包車"], ans:2,
+          why:"普通話的規範說法是「出租車」（亦稱「出租汽車」）。「的士」是粵語借詞，「計程車」通行於台灣地區，「黃包車」是舊時的人力車，完全不同。" },
+        { type:"詞語判斷", q:"「他買了很多東西」一句中，「東西」的第二個音節應讀作——", opts:["輕聲","第一聲（xī）"], ans:0,
+          why:"「東西」表示物品時，第二音節讀輕聲，讀作 dōngxi；只有指實際方向「東邊和西邊」時才讀 dōngxī。輕聲在這裏起區別詞義的作用。" },
+        { type:"詞語判斷", q:"選詞填空：請大家____安靜，會議馬上就要開始了。", opts:["保管","保持","保存","保留"], ans:1,
+          why:"「保持」指維持某種狀態：保持安靜、保持聯繫。「保管」指負責保存物品，「保存」指留存不損壞，「保留」指留下不處理，均與「安靜」不搭配。" },
+        { type:"詞語判斷", q:"選出不是方言詞的一項——", opts:["瞓覺","訓覺","睡覺","睏覺"], ans:2,
+          why:"「睡覺」是普通話的規範通用詞。「瞓覺」「訓覺」是粵語書寫形式，「睏覺」帶北方方言色彩，正式詞彙以「睡覺」為準。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____畫", opts:["張","塊","幅","面"], ans:2,
+          why:"字畫、布帛等大幅平面物用「幅」：一幅畫。「張」多用於紙張和平面器物；「塊」用於塊狀物；「面」用於鏡子、旗幟等。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____信", opts:["封","張","份","條"], ans:0,
+          why:"信件的專用量詞是「封」：一封信。「張」指信紙本身；「份」用於成套的文件；「條」用於長形物。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____手錶", opts:["個","只","把","塊"], ans:3,
+          why:"手錶的慣用量詞是「塊」：一塊手錶。「個」過於籠統；「只（隻）」多用於成對物品中的一件或動物；「把」用於有柄器物。" },
+        { type:"量詞搭配", q:"為名詞選擇正確的量詞：一____會議", opts:["場","次","回","個"], ans:1,
+          why:"會議、活動等按次計算的事件用「次」：一次會議。「場」多用於演出、比賽、雨雪等；「回」偏口語，多指事情的次數；「個」不用於會議。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["我走先了，明天見。","先我走了，明天見。","我走了先，明天見。","我先走了，明天見。"], ans:3,
+          why:"普通話中「先」作狀語，放在動詞之前：「先走了」。「走先」「走了先」都是粵語語序，在普通話測試中屬語序失誤。" },
+        { type:"語序判斷", q:"選出符合普通話表達習慣的句子——", opts:["我沒去過北京。","我不有去過北京。","我沒去北京過也。","北京我沒去過也未。"], ans:0,
+          why:"普通話表示未有某種經歷，用「沒（有）＋動詞＋過」：沒去過。「不有」「……未」屬粵語句式，不是普通話的規範形式。" },
+        { type:"語序判斷", q:"選出符合普通話語序的句子——", opts:["他做把作業完了。","他把做完作業了。","他把作業做完了。","作業他把做完了它。"], ans:2,
+          why:"「把」字句的語序是「把＋賓語＋動詞＋其他成分」：把作業做完了。其餘各句或語序顛倒，或成分重複、殘缺。" },
+        { type:"語序判斷", q:"選出符合普通話表達習慣的句子——", opts:["這件衣服貴得太。","這件衣服好貴太了。","這件衣服太過貴了好多。","這件衣服太貴了。"], ans:3,
+          why:"程度副詞「太」放在形容詞之前，句末加「了」表示感嘆：「太貴了」。「貴得太」「太過……好多」語序混亂，帶方言痕跡。" }
+      ]
+      ];
+
+      var PASSAGES = [
+        { title:"窗口的灯", sub:"示範篇章一 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["每天清晨，当我走过那条安静的小巷，总能看见一扇亮着灯的窗口。","Měitiān qīngchén, dāng wǒ zǒuguò nà tiáo ānjìng de xiǎoxiàng, zǒng néng kànjiàn yí shàn liàngzhe dēng de chuāngkǒu."],
+          ["窗口后面，是一位年过七旬的老人。","Chuāngkǒu hòumiàn, shì yí wèi nián guò qī xún de lǎorén."],
+          ["他曾经是一名中学教师，退休以后，每天仍然起得很早，在窗口读书、写字。","Tā céngjīng shì yì míng zhōngxué jiàoshī, tuìxiū yǐhòu, měitiān réngrán qǐ de hěn zǎo, zài chuāngkǒu dúshū, xiězì."],
+          ["巷子的两旁种着高大的梧桐树，秋天的时候，落叶铺满了地面，走上去沙沙作响。","Xiàngzi de liǎngpáng zhòngzhe gāodà de wútóng shù, qiūtiān de shíhou, luòyè pūmǎn le dìmiàn, zǒu shàngqu shāshā zuòxiǎng."],
+          ["有人问他，年纪这么大了，为什么还要这样用功？","Yǒurén wèn tā, niánjì zhème dà le, wèishénme hái yào zhèyàng yònggōng?"],
+          ["老人笑着说，学习就像这盏灯，点亮了，就不觉得黑了。","Lǎorén xiàozhe shuō, xuéxí jiù xiàng zhè zhǎn dēng, diǎnliàng le, jiù bù juéde hēi le."],
+          ["这句话，我一直记在心里。","Zhè jù huà, wǒ yìzhí jì zài xīnlǐ."],
+          ["后来我离开家乡，到很远的地方去工作。","Hòulái wǒ líkāi jiāxiāng, dào hěn yuǎn de dìfang qù gōngzuò."],
+          ["每当遇到困难，想要放弃的时候，我就会想起那扇窗口，想起那盏不灭的灯。","Měidāng yùdào kùnnan, xiǎng yào fàngqì de shíhou, wǒ jiù huì xiǎngqǐ nà shàn chuāngkǒu, xiǎngqǐ nà zhǎn bù miè de dēng."],
+          ["于是我告诉自己，再坚持一下，天总会亮的。","Yúshì wǒ gàosu zìjǐ, zài jiānchí yíxià, tiān zǒng huì liàng de."],
+          ["去年冬天，我回到家乡，特意去看望老人。","Qùnián dōngtiān, wǒ huídào jiāxiāng, tèyì qù kànwàng lǎorén."],
+          ["他的头发全白了，眼睛却依然明亮。","Tā de tóufa quán bái le, yǎnjing què yīrán míngliàng."],
+          ["他拉着我的手，问起我的工作和生活，又叮嘱我，无论走到哪里，都不要忘记读书。","Tā lāzhe wǒ de shǒu, wènqǐ wǒ de gōngzuò hé shēnghuó, yòu dīngzhǔ wǒ, wúlùn zǒu dào nǎlǐ, dōu bú yào wàngjì dúshū."],
+          ["离开的时候，天已经黑了。","Líkāi de shíhou, tiān yǐjīng hēi le."],
+          ["我回头望去，那扇窗口的灯还亮着，像一颗星星，照着我脚下的路。","Wǒ huítóu wàng qù, nà shàn chuāngkǒu de dēng hái liàngzhe, xiàng yì kē xīngxing, zhàozhe wǒ jiǎoxià de lù."],
+          ["我忽然明白，一个人只要心里有光，脚下的路就不会太暗。","Wǒ hūrán míngbai, yí ge rén zhǐyào xīnlǐ yǒu guāng, jiǎoxià de lù jiù bú huì tài àn."],
+          ["从那以后，每次回家，我都要在那条小巷里慢慢走一走，看看那扇窗口，看看那盏灯。","Cóng nà yǐhòu, měi cì huí jiā, wǒ dōu yào zài nà tiáo xiǎoxiàng lǐ mànman zǒu yi zǒu, kànkan nà shàn chuāngkǒu, kànkan nà zhǎn dēng."]
+        ]},
+        { title:"海边的早晨", sub:"示範篇章二 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["假期的第一天，我和朋友约好去看日出。","Jiàqī de dì-yī tiān, wǒ hé péngyou yuēhǎo qù kàn rìchū."],
+          ["天还没有亮，我们就骑着车，沿着海岸慢慢地走。","Tiān hái méiyǒu liàng, wǒmen jiù qízhe chē, yánzhe hǎi'àn mànman de zǒu."],
+          ["海风轻轻地吹着，带着一点儿凉意，也带着大海特有的气息。","Hǎifēng qīngqīng de chuīzhe, dàizhe yìdiǎnr liángyì, yě dàizhe dàhǎi tèyǒu de qìxī."],
+          ["远处的天边，渐渐泛起鱼肚白，接着，一抹淡淡的红霞浮了上来。","Yuǎnchù de tiānbiān, jiànjiàn fànqǐ yúdùbái, jiēzhe, yì mǒ dàndàn de hóngxiá fú le shànglái."],
+          ["海面上波光粼粼，像是撒满了细碎的金子。","Hǎimiàn shàng bōguāng línlín, xiàng shì sǎmǎn le xìsuì de jīnzi."],
+          ["忽然，人群中有人喊道：太阳出来了！","Hūrán, rénqún zhōng yǒurén hǎndào: Tàiyáng chūlái le!"],
+          ["我们抬起头，只见一个红红的圆盘从海平面上缓缓升起，起初只有一小半，转眼间便跳出了水面。","Wǒmen táiqǐ tóu, zhǐ jiàn yí ge hónghóng de yuánpán cóng hǎi píngmiàn shàng huǎnhuǎn shēngqǐ, qǐchū zhǐyǒu yì xiǎobàn, zhuǎnyǎn jiān biàn tiàochū le shuǐmiàn."],
+          ["阳光洒在每个人的脸上，暖洋洋的。","Yángguāng sǎ zài měi ge rén de liǎn shàng, nuǎnyángyáng de."],
+          ["天渐渐亮了，海岛、渔船和远处的灯塔，都在晨光中显出了清晰的轮廓。","Tiān jiànjiàn liàng le, hǎidǎo, yúchuán hé yuǎnchù de dēngtǎ, dōu zài chénguāng zhōng xiǎnchū le qīngxī de lúnkuò."],
+          ["海鸥在低空盘旋，时而掠过水面，时而冲向蓝天，自由自在，无忧无虑。","Hǎi'ōu zài dīkōng pánxuán, shí'ér lüèguò shuǐmiàn, shí'ér chōng xiàng lántiān, zìyóu-zìzài, wúyōu-wúlǜ."],
+          ["沙滩上，孩子们追逐着浪花，笑声一阵接着一阵。","Shātān shàng, háizimen zhuīzhúzhe lànghuā, xiàoshēng yí zhèn jiēzhe yí zhèn."],
+          ["渔民们整理好渔网，准备开始一天的劳作。","Yúmínmen zhěnglǐ hǎo yúwǎng, zhǔnbèi kāishǐ yì tiān de láozuò."],
+          ["我站在海边，深深地吸了一口气，心里充满了说不出的喜悦。","Wǒ zhàn zài hǎibiān, shēnshēn de xī le yì kǒu qì, xīnlǐ chōngmǎn le shuō bu chū de xǐyuè."],
+          ["我想，新的日子，就应该像这初升的太阳一样，充满希望，充满力量。","Wǒ xiǎng, xīn de rìzi, jiù yīnggāi xiàng zhè chūshēng de tàiyáng yíyàng, chōngmǎn xīwàng, chōngmǎn lìliang."],
+          ["回去的路上，我们谁都没有说话，只是让海风陪着我们，把这美好的早晨，牢牢地记在心里。","Huíqù de lùshang, wǒmen shéi dōu méiyǒu shuōhuà, zhǐshì ràng hǎifēng péizhe wǒmen, bǎ zhè měihǎo de zǎochén, láoláo de jì zài xīnlǐ."]
+        ]},
+        { title:"母亲的针线", sub:"示範篇章三 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["小时候，我最熟悉的画面，就是母亲坐在窗前做针线。","Xiǎoshíhou, wǒ zuì shúxī de huàmiàn, jiùshì mǔqīn zuò zài chuāng qián zuò zhēnxiàn."],
+          ["她的针线篮里，放着五颜六色的线团和一排整整齐齐的针。","Tā de zhēnxiàn lán lǐ, fàngzhe wǔyán-liùsè de xiàntuán hé yì pái zhěngzhěng-qíqí de zhēn."],
+          ["每到冬天来临之前，她总要赶着为全家人缝补棉衣。","Měi dào dōngtiān láilín zhīqián, tā zǒng yào gǎnzhe wèi quánjiā rén féngbǔ miányī."],
+          ["灯光下，她的手指上下翻飞，针脚又细又密。","Dēngguāng xià, tā de shǒuzhǐ shàngxià fānfēi, zhēnjiǎo yòu xì yòu mì."],
+          ["我常常趴在桌边，看着看着就睡着了。","Wǒ chángcháng pā zài zhuō biān, kànzhe kànzhe jiù shuìzháo le."],
+          ["母亲便轻轻放下手里的活儿，把我抱回床上。","Mǔqīn biàn qīngqīng fàngxià shǒulǐ de huór, bǎ wǒ bàohuí chuáng shàng."],
+          ["后来我长大了，离家到外地读书。","Hòulái wǒ zhǎngdà le, lí jiā dào wàidì dúshū."],
+          ["行李箱里，总有一件母亲亲手织的毛衣。","Xínglixiāng lǐ, zǒng yǒu yí jiàn mǔqīn qīnshǒu zhī de máoyī."],
+          ["那毛衣不算时髦，却最暖和。","Nà máoyī bú suàn shímáo, què zuì nuǎnhuo."],
+          ["每当夜里想家，我就把毛衣抱在怀里，好像母亲就在身边。","Měidāng yè lǐ xiǎng jiā, wǒ jiù bǎ máoyī bào zài huái lǐ, hǎoxiàng mǔqīn jiù zài shēnbiān."],
+          ["如今母亲的眼睛花了，再也穿不了针了。","Rújīn mǔqīn de yǎnjing huā le, zài yě chuān bu liǎo zhēn le."],
+          ["可是每当我回家，她还是要摸一摸我衣服上的扣子，看看结不结实。","Kěshì měidāng wǒ huí jiā, tā háishì yào mō yi mō wǒ yīfu shàng de kòuzi, kànkan jiē bu jiēshi."],
+          ["我想，母亲的爱，就藏在一针一线里，平平常常，却又绵绵不断。","Wǒ xiǎng, mǔqīn de ài, jiù cáng zài yì zhēn yí xiàn lǐ, píngpíng-chángcháng, què yòu miánmián-búduàn."]
+        ]},
+        { title:"山间的清泉", sub:"示範篇章四 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["老家后面有一座青山，山里藏着一眼清泉。","Lǎojiā hòumiàn yǒu yí zuò qīngshān, shān lǐ cángzhe yì yǎn qīngquán."],
+          ["泉水从石缝里流出来，清澈见底，四季不断。","Quánshuǐ cóng shífèng lǐ liú chūlái, qīngchè jiàndǐ, sìjì búduàn."],
+          ["小时候，我常常跟着大人上山挑水。","Xiǎoshíhou, wǒ chángcháng gēnzhe dàrén shàng shān tiāo shuǐ."],
+          ["山路弯弯，两旁是茂密的竹林，风一吹，沙沙作响。","Shānlù wānwān, liǎngpáng shì màomì de zhúlín, fēng yì chuī, shāshā zuòxiǎng."],
+          ["走到泉边，先捧一捧水喝下去，凉丝丝的，甜滋滋的。","Zǒu dào quán biān, xiān pěng yì pěng shuǐ hē xiàqù, liángsīsī de, tiánzīzī de."],
+          ["山里的老人说，这泉水养人，村里的人长寿，多半靠它。","Shān lǐ de lǎorén shuō, zhè quánshuǐ yǎng rén, cūn lǐ de rén chángshòu, duōbàn kào tā."],
+          ["泉边的石头上，长满了青苔，滑溜溜的，要小心脚下。","Quán biān de shítou shàng, zhǎngmǎn le qīngtái, huáliūliū de, yào xiǎoxīn jiǎoxià."],
+          ["夏天的午后，孩子们爱在泉边的浅潭里玩水，笑声传得很远。","Xiàtiān de wǔhòu, háizimen ài zài quán biān de qiǎntán lǐ wán shuǐ, xiàoshēng chuán de hěn yuǎn."],
+          ["后来村里通了自来水，上山挑水的人渐渐少了。","Hòulái cūn lǐ tōng le zìláishuǐ, shàng shān tiāo shuǐ de rén jiànjiàn shǎo le."],
+          ["可是每次回老家，我总要上山去看看那眼泉。","Kěshì měi cì huí lǎojiā, wǒ zǒng yào shàng shān qù kànkan nà yǎn quán."],
+          ["泉水还是那样清，还是那样凉，静静地流着，像在等一位老朋友。","Quánshuǐ háishì nàyàng qīng, háishì nàyàng liáng, jìngjìng de liúzhe, xiàng zài děng yí wèi lǎo péngyou."],
+          ["我想，无论走多远，人心里总要留一眼清泉，提醒自己从哪里来。","Wǒ xiǎng, wúlùn zǒu duō yuǎn, rén xīnlǐ zǒng yào liú yì yǎn qīngquán, tíxǐng zìjǐ cóng nǎlǐ lái."]
+        ]},
+        { title:"老钟表匠", sub:"示範篇章五 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["街角有一家小小的钟表店，开店的是一位七十多岁的老人。","Jiējiǎo yǒu yì jiā xiǎoxiǎo de zhōngbiǎo diàn, kāi diàn de shì yí wèi qīshí duō suì de lǎorén."],
+          ["店面不大，柜台里摆着大大小小的钟表，墙上挂满了滴答作响的挂钟。","Diànmiàn bú dà, guìtái lǐ bǎizhe dàdà-xiǎoxiǎo de zhōngbiǎo, qiáng shàng guàmǎn le dīdā zuòxiǎng de guàzhōng."],
+          ["老人修表的时候，总戴着一只放大镜，神情专注极了。","Lǎorén xiū biǎo de shíhou, zǒng dàizhe yì zhī fàngdàjìng, shénqíng zhuānzhù jí le."],
+          ["无论多旧的表，到了他手里，总能重新走起来。","Wúlùn duō jiù de biǎo, dào le tā shǒu lǐ, zǒng néng chóngxīn zǒu qǐlái."],
+          ["有人劝他，店里没什么生意，不如关门回家养老。","Yǒurén quàn tā, diàn lǐ méi shénme shēngyi, bùrú guānmén huí jiā yǎnglǎo."],
+          ["老人摇摇头说，这些表跟了我一辈子，舍不得。","Lǎorén yáo yáotóu shuō, zhèxiē biǎo gēn le wǒ yí bèizi, shěbude."],
+          ["去年，我拿着爷爷留下的一块老表去修。","Qùnián, wǒ názhe yéye liúxià de yí kuài lǎo biǎo qù xiū."],
+          ["那块表已经停了十多年，连零件都配不到了。","Nà kuài biǎo yǐjīng tíng le shí duō nián, lián língjiàn dōu pèi bu dào le."],
+          ["老人接过表，端详了半天，说，你下个星期来取吧。","Lǎorén jiēguò biǎo, duānxiáng le bàntiān, shuō, nǐ xià ge xīngqī lái qǔ ba."],
+          ["一个星期以后，我推开店门，听见那块表正滴答滴答地走着，声音清脆极了。","Yí ge xīngqī yǐhòu, wǒ tuīkāi diànmén, tīngjiàn nà kuài biǎo zhèng dīdā-dīdā de zǒuzhe, shēngyīn qīngcuì jí le."],
+          ["老人笑着说，老物件不会说话，可它记得住人。","Lǎorén xiàozhe shuō, lǎo wùjiàn bú huì shuōhuà, kě tā jìde zhù rén."],
+          ["走出店门的时候，天已经擦黑，街灯一盏一盏亮起来。","Zǒuchū diànmén de shíhou, tiān yǐjīng cāhēi, jiēdēng yì zhǎn yì zhǎn liàng qǐlái."],
+          ["我握着那块重新走动的表，忽然觉得，时间虽然不停地向前，却总有一些东西，会在原地等着我们。","Wǒ wòzhe nà kuài chóngxīn zǒudòng de biǎo, hūrán juéde, shíjiān suīrán bùtíng de xiàng qián, què zǒng yǒu yìxiē dōngxi, huì zài yuándì děngzhe wǒmen."]
+        ]},
+        { title:"秋天的田野", sub:"示範篇章六 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["秋天一到，老家的田野就换上了金色的衣裳。","Qiūtiān yí dào, lǎojiā de tiányě jiù huànshàng le jīnsè de yīshang."],
+          ["稻子熟了，沉甸甸的稻穗低着头，像在向大地行礼。","Dàozi shú le, chéndiàndiàn de dàosuì dīzhe tóu, xiàng zài xiàng dàdì xínglǐ."],
+          ["一阵风吹过，田野里翻起层层金浪，好看极了。","Yí zhèn fēng chuīguò, tiányě lǐ fānqǐ céngcéng jīnlàng, hǎokàn jí le."],
+          ["田边的小河静静地流着，水里映着蓝天和白云。","Tián biān de xiǎohé jìngjìng de liúzhe, shuǐ lǐ yìngzhe lántiān hé báiyún."],
+          ["农民们忙着收割，脸上挂着丰收的笑容。","Nóngmínmen mángzhe shōugē, liǎn shàng guàzhe fēngshōu de xiàoróng."],
+          ["孩子们在田埂上跑来跑去，追赶着飞舞的蜻蜓。","Háizimen zài tiángěng shàng pǎo lái pǎo qù, zhuīgǎnzhe fēiwǔ de qīngtíng."],
+          ["远处的山峦披上了一层淡淡的红，像一幅展开的画。","Yuǎnchù de shānluán pīshàng le yì céng dàndàn de hóng, xiàng yì fú zhǎnkāi de huà."],
+          ["傍晚，夕阳把天边染成了橘红色，归巢的鸟儿排着队飞过。","Bàngwǎn, xīyáng bǎ tiānbiān rǎnchéng le júhóngsè, guīcháo de niǎor páizhe duì fēiguò."],
+          ["家家户户的屋顶升起炊烟，空气里飘着新米的香气。","Jiājiā-hùhù de wūdǐng shēngqǐ chuīyān, kōngqì lǐ piāozhe xīnmǐ de xiāngqì."],
+          ["我坐在田边，听着虫鸣，看着月亮慢慢升起来，心里安静极了。","Wǒ zuò zài tián biān, tīngzhe chóngmíng, kànzhe yuèliang mànman shēng qǐlái, xīnlǐ ānjìng jí le."],
+          ["我想，秋天最美的，不只是丰收的景色，还有人们对土地的那份深情。","Wǒ xiǎng, qiūtiān zuì měi de, bù zhǐshì fēngshōu de jǐngsè, hái yǒu rénmen duì tǔdì de nà fèn shēnqíng."],
+          ["离开家乡以后，每到秋天，我总会想起这片田野，想起它金色的光芒。","Líkāi jiāxiāng yǐhòu, měi dào qiūtiān, wǒ zǒng huì xiǎngqǐ zhè piàn tiányě, xiǎngqǐ tā jīnsè de guāngmáng."]
+        ]},
+        { title:"雨后的小巷", sub:"示範篇章 7 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["一场大雨过后，小巷像是被洗过一样干净。","Yì chǎng dàyǔ guòhòu, xiǎoxiàng xiàng shì bèi xǐ guò yíyàng gānjìng."],
+          ["青石板路上积着一汪汪清水，映着灰蓝色的天。","Qīngshíbǎn lù shàng jīzhe yì wāngwāng qīngshuǐ, yìngzhe huīlánsè de tiān."],
+          ["屋檐还在滴水，滴答，滴答，声音清脆。","Wūyán hái zài dī shuǐ, dīdā, dīdā, shēngyīn qīngcuì."],
+          ["空气里飘着泥土和青草的味道，深深吸一口，心里说不出的舒坦。","Kōngqì lǐ piāozhe nítǔ hé qīngcǎo de wèidào, shēnshēn xī yì kǒu, xīnlǐ shuō bu chū de shūtan."],
+          ["孩子们穿着雨靴跑出来，专挑水洼踩，溅起一串串水花。","Háizimen chuānzhe yǔxuē pǎo chūlái, zhuān tiāo shuǐwā cǎi, jiànqǐ yí chuànchuàn shuǐhuā."],
+          ["大人们站在一旁笑着提醒：慢点儿，别摔着。","Dàrénmen zhàn zài yìpáng xiàozhe tíxǐng: Màn diǎnr, bié shuāizhe."],
+          ["巷口的老人搬出竹椅，坐在屋檐下摇着蒲扇，看着眼前的热闹。","Xiàngkǒu de lǎorén bānchū zhúyǐ, zuò zài wūyán xià yáozhe púshàn, kànzhe yǎnqián de rènao."],
+          ["雨停了，太阳从云缝里钻出来，给湿漉漉的屋顶镶上了一道金边。","Yǔ tíng le, tàiyáng cóng yúnfèng lǐ zuān chūlái, gěi shīlùlù de wūdǐng xiāngshàng le yí dào jīnbiān."],
+          ["一只麻雀落在电线上，抖了抖羽毛，又叽叽喳喳地叫起来。","Yì zhī máquè luò zài diànxiàn shàng, dǒu le dǒu yǔmáo, yòu jījī-zhāzhā de jiào qǐlái."],
+          ["我喜欢雨后的小巷，它不吵不闹，却把日子过得有滋有味。","Wǒ xǐhuan yǔ hòu de xiǎoxiàng, tā bù chǎo bú nào, què bǎ rìzi guò de yǒu zī yǒu wèi."]
+        ]},
+        { title:"爷爷的菜园", sub:"示範篇章 8 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["爷爷家屋后有一片菜园，不大，却一年四季都绿油油的。","Yéye jiā wū hòu yǒu yí piàn càiyuán, bú dà, què yì nián sìjì dōu lǜyōuyōu de."],
+          ["春天，他种下菠菜和韭菜；夏天，黄瓜和西红柿爬满了架子。","Chūntiān, tā zhòngxià bōcài hé jiǔcài; xiàtiān, huángguā hé xīhóngshì pámǎn le jiàzi."],
+          ["每天清晨，爷爷都要到菜园里走一圈，看看哪棵菜长虫了，哪块地该浇水了。","Měitiān qīngchén, yéye dōu yào dào càiyuán lǐ zǒu yì quān, kànkan nǎ kē cài zhǎng chóng le, nǎ kuài dì gāi jiāo shuǐ le."],
+          ["他干活的时候，总是哼着小曲儿，手脚麻利得很。","Tā gàn huó de shíhou, zǒngshì hēngzhe xiǎoqǔr, shǒujiǎo málì de hěn."],
+          ["我小时候最爱跟在爷爷身后，学着他的样子拔草，结果常常把菜苗也拔了下来。","Wǒ xiǎoshíhou zuì ài gēn zài yéye shēnhòu, xuézhe tā de yàngzi bácǎo, jiéguǒ chángcháng bǎ càimiáo yě bá le xiàlái."],
+          ["爷爷也不生气，只是笑着说，慢慢来，庄稼和人一样，都得慢慢长。","Yéye yě bù shēngqì, zhǐshì xiàozhe shuō, mànman lái, zhuāngjia hé rén yíyàng, dōu děi mànman zhǎng."],
+          ["到了收获的时候，爷爷总把最好的菜送给邻居，自己留下些小的、带虫眼的。","Dào le shōuhuò de shíhou, yéye zǒng bǎ zuì hǎo de cài sònggěi línjū, zìjǐ liúxià xiē xiǎo de, dài chóngyǎn de."],
+          ["他说，好东西要大家分着吃，才香。","Tā shuō, hǎo dōngxi yào dàjiā fēnzhe chī, cái xiāng."],
+          ["如今爷爷年纪大了，菜园交给了叔叔打理，可他还是每天拄着拐杖去园边站一会儿。","Rújīn yéye niánjì dà le, càiyuán jiāogěi le shūshu dǎlǐ, kě tā háishì měitiān zhǔzhe guǎizhàng qù yuán biān zhàn yí huìr."],
+          ["望着那片绿，他脸上的皱纹都舒展开了。","Wàngzhe nà piàn lǜ, tā liǎn shàng de zhòuwén dōu shūzhǎn kāi le."]
+        ]},
+        { title:"第一次坐火车", sub:"示範篇章 9 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我第一次坐火车，是去省城上大学的那年秋天。","Wǒ dì-yī cì zuò huǒchē, shì qù shěngchéng shàng dàxué de nà nián qiūtiān."],
+          ["天还没亮，父亲就陪我来到车站，站台上已经站满了人。","Tiān hái méi liàng, fùqīn jiù péi wǒ láidào chēzhàn, zhàntái shàng yǐjīng zhànmǎn le rén."],
+          ["火车进站的时候，发出长长的鸣笛声，地面好像都跟着轻轻发抖。","Huǒchē jìn zhàn de shíhou, fāchū chángcháng de míngdí shēng, dìmiàn hǎoxiàng dōu gēnzhe qīngqīng fādǒu."],
+          ["我背着行李挤上车，找到自己的座位，心里又紧张又兴奋。","Wǒ bēizhe xíngli jǐ shàng chē, zhǎodào zìjǐ de zuòwèi, xīnlǐ yòu jǐnzhāng yòu xīngfèn."],
+          ["车窗外，田野、村庄和河流飞快地向后退去，像一幅流动的画。","Chēchuāng wài, tiányě, cūnzhuāng hé héliú fēikuài de xiàng hòu tuì qù, xiàng yì fú liúdòng de huà."],
+          ["邻座是一位去外地打工的大哥，他把自己带的鸡蛋分给我两个。","Línzuò shì yí wèi qù wàidì dǎgōng de dàgē, tā bǎ zìjǐ dài de jīdàn fēn gěi wǒ liǎng ge."],
+          ["一路上，我们聊家乡，聊工作，几个小时不知不觉就过去了。","Yí lù shàng, wǒmen liáo jiāxiāng, liáo gōngzuò, jǐ ge xiǎoshí bùzhī-bùjué jiù guòqù le."],
+          ["火车到站时，天已经黑了，城市的灯火一片连着一片。","Huǒchē dào zhàn shí, tiān yǐjīng hēi le, chéngshì de dēnghuǒ yí piàn liánzhe yí piàn."],
+          ["我站在站台上，深深吸了一口气，告诉自己：新的生活，从这里开始。","Wǒ zhàn zài zhàntái shàng, shēnshēn xī le yì kǒu qì, gàosu zìjǐ: Xīn de shēnghuó, cóng zhèlǐ kāishǐ."],
+          ["多年以后，我坐过很多次火车，可第一次的那种心情，再也没有忘记过。","Duō nián yǐhòu, wǒ zuò guò hěn duō cì huǒchē, kě dì-yī cì de nà zhǒng xīnqíng, zài yě méiyǒu wàngjì guò."]
+        ]},
+        { title:"冬日的早市", sub:"示範篇章 10 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["北方的冬天，天亮得晚，可早市却热闹得很早。","Běifāng de dōngtiān, tiān liàng de wǎn, kě zǎoshì què rènao de hěn zǎo."],
+          ["天蒙蒙亮，摊主们就推着小车，陆陆续续来到街上。","Tiān méngméng liàng, tānzhǔmen jiù tuīzhe xiǎochē, lùlù-xùxù láidào jiē shàng."],
+          ["白菜、萝卜、土豆堆得像小山一样，上面盖着一层薄薄的白霜。","Báicài, luóbo, tǔdòu duī de xiàng xiǎoshān yíyàng, shàngmiàn gàizhe yì céng báobáo de báishuāng."],
+          ["卖豆腐的师傅把热气腾腾的豆腐切成方块，手起刀落，干脆利索。","Mài dòufu de shīfu bǎ rèqì-téngténg de dòufu qiēchéng fāngkuài, shǒu qǐ dāo luò, gāncuì lìsuo."],
+          ["买菜的人们穿着厚厚的棉衣，呼出的气在冷空气里变成一团团白雾。","Mǎi cài de rénmen chuānzhe hòuhòu de miányī, hūchū de qì zài lěng kōngqì lǐ biànchéng yì tuántuán báiwù."],
+          ["讨价还价的声音、称菜的吆喝声、孩子的笑声，混在一起，热闹极了。","Táijià-huánjià de shēngyīn, chēng cài de yāohe shēng, háizi de xiàoshēng, hùn zài yìqǐ, rènao jí le."],
+          ["我最喜欢早市角落的早点摊，一碗热豆浆，两个刚出锅的包子，吃下去浑身都暖和了。","Wǒ zuì xǐhuan zǎoshì jiǎoluò de zǎodiǎn tān, yì wǎn rè dòujiāng, liǎng ge gāng chū guō de bāozi, chī xiàqù húnshēn dōu nuǎnhuo le."],
+          ["老板娘一边忙活，一边和熟客拉家常，谁家孩子考上大学了，谁家老人身体好了，她都知道。","Lǎobǎnniáng yìbiān mánghuo, yìbiān hé shúkè lā jiācháng, shéi jiā háizi kǎoshàng dàxué le, shéi jiā lǎorén shēntǐ hǎo le, tā dōu zhīdào."],
+          ["太阳升起来的时候，早市慢慢散了，街上留下一地菜叶和满满的烟火气。","Tàiyáng shēng qǐlái de shíhou, zǎoshì mànman sàn le, jiē shàng liúxià yí dì càiyè hé mǎnmǎn de yānhuǒ qì."],
+          ["我想，日子再冷，只要有这样热气腾腾的早晨，心里就是暖的。","Wǒ xiǎng, rìzi zài lěng, zhǐyào yǒu zhèyàng rèqì-téngténg de zǎochén, xīnlǐ jiùshì nuǎn de."]
+        ]},
+        { title:"一条小河的四季", sub:"示範篇章 11 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["村子东边有一条小河，它陪着我度过了整个童年。","Cūnzi dōngbiān yǒu yì tiáo xiǎohé, tā péizhe wǒ dùguò le zhěnggè tóngnián."],
+          ["春天，河水解冻了，哗哗地流着，岸边的柳树抽出嫩绿的新芽。","Chūntiān, héshuǐ jiědòng le, huāhuā de liúzhe, àn biān de liǔshù chōuchū nènlǜ de xīnyá."],
+          ["夏天，河水清得能看见水底的石子和游来游去的小鱼。","Xiàtiān, héshuǐ qīng de néng kànjiàn shuǐdǐ de shízi hé yóulái-yóuqù de xiǎoyú."],
+          ["我们脱了鞋，在浅水里摸鱼、打水仗，笑声传遍了整个河岸。","Wǒmen tuō le xié, zài qiǎn shuǐ lǐ mō yú, dǎ shuǐzhàng, xiàoshēng chuánbiàn le zhěnggè hé'àn."],
+          ["秋天，落叶飘在水面上，像一只只小船，顺着河水漂向远方。","Qiūtiān, luòyè piāo zài shuǐmiàn shàng, xiàng yì zhī zhī xiǎochuán, shùnzhe héshuǐ piāo xiàng yuǎnfāng."],
+          ["冬天，河面结了厚厚的冰，孩子们在冰上滑着玩，大人们在一旁看着，时不时喊一声小心。","Dōngtiān, hémiàn jié le hòuhòu de bīng, háizimen zài bīng shàng huázhe wán, dàrénmen zài yìpáng kànzhe, shíbùshí hǎn yì shēng xiǎoxīn."],
+          ["河边的老人们说，这条河养活了村里几代人，田里的庄稼，全靠它灌溉。","Hé biān de lǎorénmen shuō, zhè tiáo hé yǎnghuó le cūn lǐ jǐ dài rén, tián lǐ de zhuāngjia, quán kào tā guàngài."],
+          ["后来我离开村子，到城里读书、工作，每次回家，总要先到河边走一走。","Hòulái wǒ líkāi cūnzi, dào chéng lǐ dúshū, gōngzuò, měi cì huí jiā, zǒng yào xiān dào hé biān zǒu yi zǒu."],
+          ["河水还是那样流着，不急不缓，像一位老朋友，安安静静地等着我。","Héshuǐ háishì nàyàng liúzhe, bù jí bù huǎn, xiàng yí wèi lǎo péngyou, ān'ānjìngjìng de děngzhe wǒ."]
+        ]},
+        { title:"老师的粉笔", sub:"示範篇章 12 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我读小学的时候，教语文的王老师写得一手好字。","Wǒ dú xiǎoxué de shíhou, jiāo yǔwén de Wáng lǎoshī xiě de yì shǒu hǎo zì."],
+          ["每次上课，她先把课题工工整整地写在黑板上，再转过身来，微笑着看着我们。","Měi cì shàngkè, tā xiān bǎ kètí gōnggōng-zhěngzhěng de xiě zài hēibǎn shàng, zài zhuǎn guò shēn lái, wēixiàozhe kànzhe wǒmen."],
+          ["她的粉笔字又清楚又好看，我们都爱照着她的字练。","Tā de fěnbǐ zì yòu qīngchu yòu hǎokàn, wǒmen dōu ài zhàozhe tā de zì liàn."],
+          ["有一次我生病请假，她放学后骑着车来到我家，把落下的课一句一句讲给我听。","Yǒu yí cì wǒ shēngbìng qǐngjià, tā fàngxué hòu qízhe chē láidào wǒ jiā, bǎ làxià de kè yí jù yí jù jiǎng gěi wǒ tīng."],
+          ["临走的时候，她把一盒新粉笔放在桌上，说，病好了，就回学校吧，大家都等着你呢。","Línzǒu de shíhou, tā bǎ yì hé xīn fěnbǐ fàng zài zhuō shàng, shuō, bìng hǎo le, jiù huí xuéxiào ba, dàjiā dōu děngzhe nǐ ne."],
+          ["那时候我不懂，只觉得那盒粉笔特别好看，白白的，长长的。","Nà shíhou wǒ bù dǒng, zhǐ juéde nà hé fěnbǐ tèbié hǎokàn, báibái de, chángcháng de."],
+          ["后来我才明白，老师手里的粉笔，一头连着知识，一头连着她的心。","Hòulái wǒ cái míngbai, lǎoshī shǒu lǐ de fěnbǐ, yìtóu liánzhe zhīshi, yìtóu liánzhe tā de xīn."],
+          ["一支粉笔越写越短，学生却一批一批地长大，走出校门，走向四面八方。","Yì zhī fěnbǐ yuè xiě yuè duǎn, xuéshēng què yì pī yì pī de zhǎngdà, zǒuchū xiàomén, zǒu xiàng sìmiàn-bāfāng."],
+          ["如今我也成了一名老师，每次拿起粉笔，我都会想起王老师和她那一手漂亮的字。","Rújīn wǒ yě chéng le yì míng lǎoshī, měi cì náqǐ fěnbǐ, wǒ dōu huì xiǎngqǐ Wáng lǎoshī hé tā nà yì shǒu piàoliang de zì."],
+          ["我想，这大概就是传承：一支粉笔，传了一代，又一代。","Wǒ xiǎng, zhè dàgài jiùshì chuánchéng: Yì zhī fěnbǐ, chuán le yí dài, yòu yí dài."]
+        ]},
+        { title:"城市的夜晚", sub:"示範篇章 13 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["夜幕降临的时候，城市换上了一身灯火。","Yèmù jiànglín de shíhou, chéngshì huànshàng le yì shēn dēnghuǒ."],
+          ["高楼的窗户一格一格亮起来，像无数只睁开的眼睛。","Gāolóu de chuānghu yì gé yì gé liàng qǐlái, xiàng wúshù zhī zhēngkāi de yǎnjing."],
+          ["街道上，车灯连成两条流动的河，一条向前，一条向后，永不停歇。","Jiēdào shàng, chēdēng liánchéng liǎng tiáo liúdòng de hé, yì tiáo xiàng qián, yì tiáo xiàng hòu, yǒng bù tíngxiē."],
+          ["下班的人们行色匆匆，有人赶着回家做饭，有人赶着去见朋友。","Xiàbān de rénmen xíngsè cōngcōng, yǒurén gǎnzhe huí jiā zuò fàn, yǒurén gǎnzhe qù jiàn péngyou."],
+          ["小吃街飘出阵阵香气，摊主的吆喝声此起彼伏，给夜晚添了几分热闹。","Xiǎochī jiē piāochū zhènzhèn xiāngqì, tānzhǔ de yāohe shēng cǐqǐ-bǐfú, gěi yèwǎn tiān le jǐ fēn rènao."],
+          ["广场上，老人们随着音乐跳舞，孩子们在喷泉边追逐嬉戏。","Guǎngchǎng shàng, lǎorénmen suízhe yīnyuè tiàowǔ, háizimen zài pēnquán biān zhuīzhú xīxì."],
+          ["夜里十一点以后，街道慢慢安静下来，只剩下路灯守着空空的人行道。","Yè lǐ shíyī diǎn yǐhòu, jiēdào mànman ānjìng xiàlái, zhǐ shèngxià lùdēng shǒuzhe kōngkōng de rénxíngdào."],
+          ["偶尔有一辆夜班车驶过，车厢里亮着温暖的灯光，坐着几个打盹儿的乘客。","Ǒu'ěr yǒu yí liàng yèbān chē shǐguò, chēxiāng lǐ liàngzhe wēnnuǎn de dēngguāng, zuòzhe jǐ ge dǎdǔnr de chéngkè."],
+          ["我喜欢在夜里散步，看着万家灯火，想着每一盏灯后面，都有一个回家的故事。","Wǒ xǐhuan zài yè lǐ sànbù, kànzhe wàn jiā dēnghuǒ, xiǎngzhe měi yì zhǎn dēng hòumiàn, dōu yǒu yí ge huí jiā de gùshi."],
+          ["城市睡了，我的脚步也放轻了，生怕惊扰了它的梦。","Chéngshì shuì le, wǒ de jiǎobù yě fàng qīng le, shēngpà jīngrǎo le tā de mèng."]
+        ]},
+        { title:"春天的公园", sub:"示範篇章 14 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["三月里，天气渐渐暖和起来，公园里一下子热闹了。","Sān yuè lǐ, tiānqì jiànjiàn nuǎnhuo qǐlái, gōngyuán lǐ yíxiàzi rènao le."],
+          ["迎春花最先开放，金黄色的花朵挂满枝头，像一片小小的瀑布。","Yíngchūnhuā zuì xiān kāifàng, jīnhuángsè de huāduǒ guàmǎn zhītóu, xiàng yí piàn xiǎoxiǎo de pùbù."],
+          ["桃花、杏花也不甘落后，你粉我白，开得满园都是。","Táohuā, xìnghuā yě bù gān luòhòu, nǐ fěn wǒ bái, kāi de mǎn yuán dōu shì."],
+          ["湖边的柳树垂下长长的枝条，微风一吹，轻轻地拂过水面。","Hú biān de liǔshù chuíxià chángcháng de zhītiáo, wēifēng yì chuī, qīngqīng de fúguò shuǐmiàn."],
+          ["老人们坐在长椅上晒太阳，聊着家常，脸上带着满足的笑容。","Lǎorénmen zuò zài chángyǐ shàng shài tàiyáng, liáozhe jiācháng, liǎn shàng dàizhe mǎnzú de xiàoróng."],
+          ["年轻的父母推着婴儿车慢慢地走，孩子在车里睡得正香。","Niánqīng de fùmǔ tuīzhe yīng'ér chē mànman de zǒu, háizi zài chē lǐ shuì de zhèng xiāng."],
+          ["草坪上，几个孩子放着风筝，风筝越飞越高，引得大家都抬起头看。","Cǎopíng shàng, jǐ ge háizi fàngzhe fēngzheng, fēngzheng yuè fēi yuè gāo, yǐn de dàjiā dōu táiqǐ tóu kàn."],
+          ["园丁们忙着修剪花木，他们说，春天是最忙的季节，也是最有盼头的季节。","Yuándīngmen mángzhe xiūjiǎn huāmù, tāmen shuō, chūntiān shì zuì máng de jìjié, yě shì zuì yǒu pàntou de jìjié."],
+          ["走在公园的小路上，闻着花香，听着鸟鸣，脚步不知不觉就慢了下来。","Zǒu zài gōngyuán de xiǎolù shàng, wénzhe huāxiāng, tīngzhe niǎomíng, jiǎobù bùzhī-bùjué jiù màn le xiàlái."],
+          ["我想，春天不只在公园里，也在每个人的心里，只要愿意，它随时都会发芽。","Wǒ xiǎng, chūntiān bù zhǐ zài gōngyuán lǐ, yě zài měi ge rén de xīnlǐ, zhǐyào yuànyì, tā suíshí dōu huì fāyá."]
+        ]},
+        { title:"老街的理发店", sub:"示範篇章 15 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["老街的尽头有一家理发店，店面很小，只有一把转椅和一面镜子。","Lǎojiē de jìntóu yǒu yì jiā lǐfà diàn, diànmiàn hěn xiǎo, zhǐyǒu yì bǎ zhuànyǐ hé yí miàn jìngzi."],
+          ["理发的师傅姓周，街坊们都叫他周师傅，他在这条街上剪了四十多年的头发。","Lǐfà de shīfu xìng Zhōu, jiēfangmen dōu jiào tā Zhōu shīfu, tā zài zhè tiáo jiē shàng jiǎn le sìshí duō nián de tóufa."],
+          ["店里没有空调，夏天靠一把吊扇，冬天靠一个烧得通红的小火炉。","Diàn lǐ méiyǒu kōngtiáo, xiàtiān kào yì bǎ diàoshàn, dōngtiān kào yí ge shāo de tōnghóng de xiǎo huǒlú."],
+          ["来理发的大多是老顾客，进门不用多说，周师傅就知道该剪什么样式。","Lái lǐfà de dàduō shì lǎo gùkè, jìn mén búyòng duō shuō, Zhōu shīfu jiù zhīdào gāi jiǎn shénme yàngshì."],
+          ["他一边剪发，一边和客人聊天，谁家的孙子上了小学，谁家的儿子在外地工作，他都记得清清楚楚。","Tā yìbiān jiǎnfà, yìbiān hé kèrén liáotiān, shéi jiā de sūnzi shàng le xiǎoxué, shéi jiā de érzi zài wàidì gōngzuò, tā dōu jì de qīngqīng-chǔchǔ."],
+          ["有人劝他把店面装修一下，涨涨价，他摇摇头说，老主顾图的就是这个实在。","Yǒurén quàn tā bǎ diànmiàn zhuāngxiū yíxià, zhǎngzhang jià, tā yáo yáotóu shuō, lǎo zhǔgù tú de jiùshì zhège shízài."],
+          ["我从小就在这里理发，从坐着小板凳，到坐上转椅，一晃就是二十多年。","Wǒ cóng xiǎo jiù zài zhèlǐ lǐfà, cóng zuòzhe xiǎo bǎndèng, dào zuò shàng zhuànyǐ, yí huàng jiùshì èrshí duō nián."],
+          ["如今老街要改造了，理发店也要搬走，周师傅说，只要手还稳，他就还要剪下去。","Rújīn lǎojiē yào gǎizào le, lǐfà diàn yě yào bānzǒu, Zhōu shīfu shuō, zhǐyào shǒu hái wěn, tā jiù hái yào jiǎn xiàqù."],
+          ["离开那天，我站在店门口，看着那块褪了色的招牌，心里有一种说不出的滋味。","Líkāi nà tiān, wǒ zhàn zài diàn ménkǒu, kànzhe nà kuài tuì le sè de zhāopái, xīnlǐ yǒu yì zhǒng shuō bu chū de zīwèi."],
+          ["有些地方，一旦拆了，就再也回不来了；可有些手艺和人情，会一直留在人们心里。","Yǒuxiē dìfang, yí dàn chāi le, jiù zài yě huí bu lái le; kě yǒuxiē shǒuyì hé rénqíng, huì yìzhí liú zài rénmen xīnlǐ."]
+        ]},
+        { title:"我家的阳台", sub:"示範篇章 16 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我家的阳台不大，只有几平方米，却是我最喜欢的地方。","Wǒ jiā de yángtái bú dà, zhǐyǒu jǐ píngfāngmǐ, què shì wǒ zuì xǐhuan de dìfang."],
+          ["阳台上摆着母亲种的花，有茉莉，有吊兰，还有一盆养了多年的君子兰。","Yángtái shàng bǎizhe mǔqīn zhòng de huā, yǒu mòlì, yǒu diàolán, hái yǒu yì pén yǎng le duō nián de jūnzǐlán."],
+          ["每天清晨，母亲都要给花浇水、松土，嘴里还轻轻哼着歌。","Měitiān qīngchén, mǔqīn dōu yào gěi huā jiāo shuǐ, sōng tǔ, zuǐ lǐ hái qīngqīng hēngzhe gē."],
+          ["夏天傍晚，一家人搬出小桌子，在阳台上吃饭，晚风吹来，凉快极了。","Xiàtiān bàngwǎn, yì jiā rén bānchū xiǎo zhuōzi, zài yángtái shàng chī fàn, wǎnfēng chuī lái, liángkuai jí le."],
+          ["父亲常在阳台上看报纸，看到高兴处，还要念出声来给大家听。","Fùqīn cháng zài yángtái shàng kàn bàozhǐ, kàndào gāoxìng chù, hái yào niàn chū shēng lái gěi dàjiā tīng."],
+          ["我小时候爱趴在阳台的栏杆上数星星，数着数着就睡着了。","Wǒ xiǎoshíhou ài pā zài yángtái de lángān shàng shǔ xīngxing, shǔzhe shǔzhe jiù shuìzháo le."],
+          ["下雨的时候，雨点打在玻璃上，噼里啪啦，像一首没有结尾的歌。","Xià yǔ de shíhou, yǔdiǎn dǎ zài bōli shàng, pīlī-pālā, xiàng yì shǒu méiyǒu jiéwěi de gē."],
+          ["冬天，阳光透过玻璃洒进来，暖洋洋的，猫咪蜷在角落，睡得正香。","Dōngtiān, yángguāng tòuguò bōli sǎ jìnlái, nuǎnyángyáng de, māomī quán zài jiǎoluò, shuì de zhèng xiāng."],
+          ["如今我离家在外工作，每次给家里打电话，总要问一句：阳台上的花开了吗？","Rújīn wǒ lí jiā zài wài gōngzuò, měi cì gěi jiā lǐ dǎ diànhuà, zǒng yào wèn yí jù: Yángtái shàng de huā kāi le ma?"],
+          ["小小的阳台，装着一家人平平淡淡的日子，也装着我心里最暖的牵挂。","Xiǎoxiǎo de yángtái, zhuāngzhe yì jiā rén píngpíng-dàndàn de rìzi, yě zhuāngzhe wǒ xīnlǐ zuì nuǎn de qiānguà."]
+        ]},
+        { title:"风筝", sub:"示範篇章 17 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["春天来了，广场上空飘满了风筝。","Chūntiān lái le, guǎngchǎng shàngkōng piāomǎn le fēngzheng."],
+          ["有金鱼的，有老鹰的，还有长长的蜈蚣风筝，在蓝天上缓缓地游动。","Yǒu jīnyú de, yǒu lǎoyīng de, hái yǒu chángcháng de wúgōng fēngzheng, zài lántiān shàng huǎnhuǎn de yóudòng."],
+          ["小时候，我的风筝是父亲亲手做的，用的是竹篾和旧报纸。","Xiǎoshíhou, wǒ de fēngzheng shì fùqīn qīnshǒu zuò de, yòng de shì zhúmiè hé jiù bàozhǐ."],
+          ["别看它样子简单，飞起来却稳稳当当，比买来的还要高。","Bié kàn tā yàngzi jiǎndān, fēi qǐlái què wěnwěn-dāngdāng, bǐ mǎi lái de hái yào gāo."],
+          ["放风筝看着容易，其实很有学问：线太紧了要放一放，太松了要收一收。","Fàng fēngzheng kànzhe róngyì, qíshí hěn yǒu xuéwen: Xiàn tài jǐn le yào fàng yi fàng, tài sōng le yào shōu yi shōu."],
+          ["父亲说，放风筝和做人一样，该进的时候进，该退的时候退。","Fùqīn shuō, fàng fēngzheng hé zuò rén yíyàng, gāi jìn de shíhou jìn, gāi tuì de shíhou tuì."],
+          ["那时候我听不懂，只顾着仰着头，看风筝在云朵旁边飘来飘去。","Nà shíhou wǒ tīng bù dǒng, zhǐ gùzhe yǎngzhe tóu, kàn fēngzheng zài yúnduǒ pángbiān piāolái-piāoqù."],
+          ["有一次线断了，风筝飘得无影无踪，我难过了好几天。","Yǒu yí cì xiàn duàn le, fēngzheng piāo de wúyǐng-wúzōng, wǒ nánguò le hǎo jǐ tiān."],
+          ["父亲安慰我说，风筝飞走了，是去看更远的地方了，等你长大了，也会去很远的地方。","Fùqīn ānwèi wǒ shuō, fēngzheng fēi zǒu le, shì qù kàn gèng yuǎn de dìfang le, děng nǐ zhǎngdà le, yě huì qù hěn yuǎn de dìfang."],
+          ["如今我真的到了很远的地方，可每到春天，还是会想起父亲和他的那只报纸风筝。","Rújīn wǒ zhēn de dào le hěn yuǎn de dìfang, kě měi dào chūntiān, háishì huì xiǎngqǐ fùqīn hé tā de nà zhī bàozhǐ fēngzheng."]
+        ]},
+        { title:"图书馆的一角", sub:"示範篇章 18 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["学校图书馆靠窗的位置，是我读书时最喜欢的一角。","Xuéxiào túshūguǎn kào chuāng de wèizhi, shì wǒ dúshū shí zuì xǐhuan de yì jiǎo."],
+          ["那里有一张旧木桌，桌面上刻着不知哪一届学生留下的字。","Nàlǐ yǒu yì zhāng jiù mùzhuō, zhuōmiàn shàng kèzhe bù zhī nǎ yí jiè xuéshēng liúxià de zì."],
+          ["每天午后，阳光从窗外斜斜地照进来，落在摊开的书页上。","Měitiān wǔhòu, yángguāng cóng chuāng wài xiéxié de zhào jìnlái, luò zài tānkāi de shūyè shàng."],
+          ["我常常在那里一坐就是一下午，读小说，读散文，也读历史。","Wǒ chángcháng zài nàlǐ yí zuò jiùshì yí xiàwǔ, dú xiǎoshuō, dú sǎnwén, yě dú lìshǐ."],
+          ["书里的人物陪我哭，陪我笑，让我忘了时间的流逝。","Shū lǐ de rénwù péi wǒ kū, péi wǒ xiào, ràng wǒ wàng le shíjiān de liúshì."],
+          ["管理员是一位头发花白的老师，她记性极好，谁借过什么书，她都记得。","Guǎnlǐyuán shì yí wèi tóufa huābái de lǎoshī, tā jìxìng jí hǎo, shéi jiè guò shénme shū, tā dōu jìde."],
+          ["有一次我找一本书找了很久，她走过来，不声不响地从书架最高处把它抽了出来。","Yǒu yí cì wǒ zhǎo yì běn shū zhǎo le hěn jiǔ, tā zǒu guòlái, bù shēng bù xiǎng de cóng shūjià zuì gāo chù bǎ tā chōu le chūlái."],
+          ["她笑着说，好书就像老朋友，你找它的时候，它也在等你。","Tā xiàozhe shuō, hǎo shū jiù xiàng lǎo péngyou, nǐ zhǎo tā de shíhou, tā yě zài děng nǐ."],
+          ["毕业多年以后，我又回到学校，特意去图书馆看了看。","Bìyè duō nián yǐhòu, wǒ yòu huídào xuéxiào, tèyì qù túshūguǎn kàn le kàn."],
+          ["那张旧木桌还在，一个学生正坐在那里看书，阳光落在他的书页上，和当年一模一样。","Nà zhāng jiù mùzhuō hái zài, yí ge xuéshēng zhèng zuò zài nàlǐ kàn shū, yángguāng luò zài tā de shūyè shàng, hé dāngnián yì mú yí yàng."]
+        ]},
+        { title:"夏夜的星空", sub:"示範篇章 19 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["小时候，夏天的夜晚是我一天里最快乐的时光。","Xiǎoshíhou, xiàtiān de yèwǎn shì wǒ yì tiān lǐ zuì kuàilè de shíguāng."],
+          ["吃过晚饭，奶奶搬出凉席，铺在院子里，我们一家人躺在上面乘凉。","Chī guò wǎnfàn, nǎinai bānchū liángxí, pū zài yuànzi lǐ, wǒmen yì jiā rén tǎng zài shàngmiàn chéngliáng."],
+          ["天上的星星多得数不清，一闪一闪的，像撒在黑布上的碎银子。","Tiān shàng de xīngxing duō de shǔ bu qīng, yì shǎn yì shǎn de, xiàng sǎ zài hēi bù shàng de suì yínzi."],
+          ["奶奶指着星星给我讲故事，讲牛郎织女，讲嫦娥奔月。","Nǎinai zhǐzhe xīngxing gěi wǒ jiǎng gùshi, jiǎng Niúláng Zhīnǚ, jiǎng Cháng'é bēn yuè."],
+          ["萤火虫提着小灯笼，在草丛里飞来飞去，给故事添了几分神秘。","Yínghuǒchóng tízhe xiǎo dēnglóng, zài cǎocóng lǐ fēilái-fēiqù, gěi gùshi tiān le jǐ fēn shénmì."],
+          ["远处传来阵阵蛙鸣，近处是纺织娘的叫声，此起彼伏，热闹得很。","Yuǎnchù chuánlái zhènzhèn wāmíng, jìnchù shì fǎngzhīniáng de jiàoshēng, cǐqǐ-bǐfú, rènao de hěn."],
+          ["我常常听着听着就睡着了，连什么时候被抱回屋里都不知道。","Wǒ chángcháng tīngzhe tīngzhe jiù shuìzháo le, lián shénme shíhou bèi bàohuí wū lǐ dōu bù zhīdào."],
+          ["后来我到城里读书，城里的夜晚灯火通明，却很难再看到那么多的星星。","Hòulái wǒ dào chéng lǐ dúshū, chéng lǐ de yèwǎn dēnghuǒ tōngmíng, què hěn nán zài kàndào nàme duō de xīngxing."],
+          ["偶尔回老家，我还是喜欢在院子里坐一会儿，抬头看看星空。","Ǒu'ěr huí lǎojiā, wǒ háishì xǐhuan zài yuànzi lǐ zuò yí huìr, táitóu kànkan xīngkōng."],
+          ["星星还是那些星星，只是讲故事的人，已经不在了。","Xīngxing háishì nàxiē xīngxing, zhǐshì jiǎng gùshi de rén, yǐjīng bú zài le."],
+          ["可是每当我抬起头，耳边好像又响起了奶奶的声音，轻轻的，暖暖的。","Kěshì měidāng wǒ táiqǐ tóu, ěr biān hǎoxiàng yòu xiǎngqǐ le nǎinai de shēngyīn, qīngqīng de, nuǎnnuǎn de."]
+        ]},
+        { title:"雪中的校园", sub:"示範篇章 20 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["冬天里的第一场雪，是在一个夜里悄悄落下的。","Dōngtiān lǐ de dì-yī chǎng xuě, shì zài yí ge yè lǐ qiāoqiāo luòxià de."],
+          ["清晨推开宿舍的门，眼前一片雪白，树上、房上、操场上，全盖上了厚厚的棉被。","Qīngchén tuīkāi sùshè de mén, yǎnqián yí piàn xuěbái, shù shàng, fáng shàng, cāochǎng shàng, quán gàishàng le hòuhòu de miánbèi."],
+          ["同学们兴奋地跑出教室，顾不上冷，在雪地里追逐打闹。","Tóngxuémen xīngfèn de pǎochū jiàoshì, gù bu shàng lěng, zài xuědì lǐ zhuīzhú dǎnào."],
+          ["有人堆雪人，有人打雪仗，笑声把树枝上的雪都震落了下来。","Yǒurén duī xuěrén, yǒurén dǎ xuězhàng, xiàoshēng bǎ shùzhī shàng de xuě dōu zhènluò le xiàlái."],
+          ["教学楼前的两棵松树，披着雪，像两位站岗的哨兵。","Jiàoxuélóu qián de liǎng kē sōngshù, pīzhe xuě, xiàng liǎng wèi zhàngǎng de shàobīng."],
+          ["上课铃响了，大家跺着脚上的雪，恋恋不舍地回到教室。","Shàngkè líng xiǎng le, dàjiā duòzhe jiǎo shàng de xuě, liànliàn-bùshě de huídào jiàoshì."],
+          ["老师站在讲台上，笑着说，今天我们就写一写这场雪吧。","Lǎoshī zhàn zài jiǎngtái shàng, xiàozhe shuō, jīntiān wǒmen jiù xiě yi xiě zhè chǎng xuě ba."],
+          ["教室里安静下来，只听见笔尖在纸上沙沙地响。","Jiàoshì lǐ ānjìng xiàlái, zhǐ tīngjiàn bǐjiān zài zhǐ shàng shāshā de xiǎng."],
+          ["窗外的雪还在下，一片一片，慢慢地飘，像怕惊扰了我们的梦。","Chuāng wài de xuě hái zài xià, yí piàn yí piàn, mànman de piāo, xiàng pà jīngrǎo le wǒmen de mèng."],
+          ["多年以后，每当下雪，我总会想起那个早晨，想起雪中的校园和那一堂作文课。","Duō nián yǐhòu, měidāng xià xuě, wǒ zǒng huì xiǎngqǐ nà ge zǎochén, xiǎngqǐ xuě zhōng de xiàoyuán hé nà yì táng zuòwén kè."]
+        ]},
+        { title:"一封家书", sub:"示範篇章 21 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["在我上大学的那几年，父亲每个月都会给我写一封信。","Zài wǒ shàng dàxué de nà jǐ nián, fùqīn měi ge yuè dōu huì gěi wǒ xiě yì fēng xìn."],
+          ["他的字写得不算好看，一笔一画，却非常认真。","Tā de zì xiě de bú suàn hǎokàn, yì bǐ yí huà, què fēicháng rènzhēn."],
+          ["信里没有什么大道理，写的都是家里的琐事：母亲的腿好些了，院里的枣树结了果，邻居家添了个孙子。","Xìn lǐ méiyǒu shénme dà dàolǐ, xiě de dōu shì jiā lǐ de suǒshì: Mǔqīn de tuǐ hǎo xiē le, yuàn lǐ de zǎoshù jié le guǒ, línjū jiā tiān le ge sūnzi."],
+          ["每封信的结尾，他都要写上一句：家里都好，不要挂念，照顾好自己。","Měi fēng xìn de jiéwěi, tā dōu yào xiě shàng yí jù: Jiā lǐ dōu hǎo, búyào guàniàn, zhàogù hǎo zìjǐ."],
+          ["那时候打电话已经很方便了，我劝他不用再写信，他却说，写信和打电话不一样，信可以留下来，慢慢看。","Nà shíhou dǎ diànhuà yǐjīng hěn fāngbiàn le, wǒ quàn tā búyòng zài xiě xìn, tā què shuō, xiě xìn hé dǎ diànhuà bù yíyàng, xìn kěyǐ liú xiàlái, mànman kàn."],
+          ["收到信的日子，我总是先把信读上两遍，再小心地放进抽屉里。","Shōudào xìn de rìzi, wǒ zǒngshì xiān bǎ xìn dú shàng liǎng biàn, zài xiǎoxīn de fàng jìn chōutì lǐ."],
+          ["四年下来，那些信摞在一起，厚厚的一叠。","Sì nián xiàlái, nàxiē xìn luò zài yìqǐ, hòuhòu de yì dié."],
+          ["毕业以后，我工作再忙，也保持着给父亲写信的习惯。","Bìyè yǐhòu, wǒ gōngzuò zài máng, yě bǎochízhe gěi fùqīn xiě xìn de xíguàn."],
+          ["如今父亲老了，眼睛花了，写信的人换成了我，读信的人换成了他。","Rújīn fùqīn lǎo le, yǎnjing huā le, xiě xìn de rén huànchéng le wǒ, dú xìn de rén huànchéng le tā."],
+          ["我知道，那一封封薄薄的家书里，装着的是两代人之间最厚重的牵挂。","Wǒ zhīdào, nà yì fēng fēng báobáo de jiāshū lǐ, zhuāngzhe de shì liǎng dài rén zhījiān zuì hòuzhòng de qiānguà."]
+        ]},
+        { title:"桥", sub:"示範篇章 22 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我的家乡有一条大河，河上有一座石桥，已经有一百多年的历史了。","Wǒ de jiāxiāng yǒu yì tiáo dà hé, hé shàng yǒu yí zuò shíqiáo, yǐjīng yǒu yìbǎi duō nián de lìshǐ le."],
+          ["桥身是用青石砌成的，桥面上被来来往往的车轮和脚步磨得发亮。","Qiáoshēn shì yòng qīngshí qìchéng de, qiáomiàn shàng bèi láilái-wǎngwǎng de chēlún hé jiǎobù mó de fāliàng."],
+          ["听老人说，这座桥是当年全村人一担一担挑着石头修起来的。","Tīng lǎorén shuō, zhè zuò qiáo shì dāngnián quán cūn rén yí dàn yí dàn tiāozhe shítou xiū qǐlái de."],
+          ["桥修好之前，村里人过河只能靠一只小木船，遇上发大水，十天半月都出不了村。","Qiáo xiūhǎo zhīqián, cūn lǐ rén guò hé zhǐ néng kào yì zhī xiǎo mùchuán, yùshàng fā dàshuǐ, shí tiān bàn yuè dōu chū bu liǎo cūn."],
+          ["小时候，我最喜欢趴在桥栏上看河水，看鱼儿在桥洞下面游来游去。","Xiǎoshíhou, wǒ zuì xǐhuan pā zài qiáo lán shàng kàn héshuǐ, kàn yúr zài qiáodòng xiàmiàn yóulái-yóuqù."],
+          ["夏天的傍晚，桥上最热闹，乘凉的人、赶路的人，在桥头摆起小摊的生意人，挤满了整座桥。","Xiàtiān de bàngwǎn, qiáo shàng zuì rènao, chéngliáng de rén, gǎnlù de rén, zài qiáotóu bǎiqǐ xiǎotān de shēngyi rén, jǐmǎn le zhěng zuò qiáo."],
+          ["后来，河的上游修了一座更宽的水泥桥，汽车都从新桥上过，老石桥慢慢安静了下来。","Hòulái, hé de shàngyóu xiū le yí zuò gèng kuān de shuǐní qiáo, qìchē dōu cóng xīn qiáo shàng guò, lǎo shíqiáo mànman ānjìng le xiàlái."],
+          ["可是村里人还是喜欢走老桥，散步的时候走，串门的时候也走。","Kěshì cūn lǐ rén háishì xǐhuan zǒu lǎo qiáo, sànbù de shíhou zǒu, chuànmén de shíhou yě zǒu."],
+          ["他们说，老桥走着踏实，就像一位老朋友，走在上面，心里就安稳。","Tāmen shuō, lǎo qiáo zǒuzhe tāshi, jiù xiàng yí wèi lǎo péngyou, zǒu zài shàngmiàn, xīnlǐ jiù ānwěn."],
+          ["我想，桥的作用不只是连接河的两岸，它还连接着过去和现在，连接着一代又一代人的记忆。","Wǒ xiǎng, qiáo de zuòyòng bù zhǐshì liánjiē hé de liǎng'àn, tā hái liánjiēzhe guòqù hé xiànzài, liánjiēzhe yí dài yòu yí dài rén de jìyì."]
+        ]},
+        { title:"卖糖葫芦的老人", sub:"示範篇章 23 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["一到冬天，校门口就会出现一位卖糖葫芦的老人。","Yí dào dōngtiān, xiào ménkǒu jiù huì chūxiàn yí wèi mài tánghúlu de lǎorén."],
+          ["他推着一辆旧自行车，车把上插着草把子，草把子上插满了红红的糖葫芦。","Tā tuīzhe yí liàng jiù zìxíngchē, chēbǎ shàng chāzhe cǎobàzi, cǎobàzi shàng chāmǎn le hónghóng de tánghúlu."],
+          ["山楂裹着亮晶晶的糖稀，在冬日的阳光下闪闪发光。","Shānzhā guǒzhe liàngjīngjīng de tángxī, zài dōngrì de yángguāng xià shǎnshǎn fāguāng."],
+          ["放学的时候，孩子们围着他，你一串，我一串，他忙得满头是汗，脸上却一直带着笑。","Fàngxué de shíhou, háizimen wéizhe tā, nǐ yí chuàn, wǒ yí chuàn, tā máng de mǎntóu shì hàn, liǎn shàng què yìzhí dàizhe xiào."],
+          ["有一次，一个孩子摸遍了口袋，也没找到钱，站在那里急得快要哭了。","Yǒu yí cì, yí ge háizi mōbiàn le kǒudài, yě méi zhǎodào qián, zhàn zài nàlǐ jí de kuài yào kū le."],
+          ["老人拔下一串最大的糖葫芦，塞到他手里，说，先吃吧，明天再给钱也行。","Lǎorén bá xià yí chuàn zuì dà de tánghúlu, sāi dào tā shǒu lǐ, shuō, xiān chī ba, míngtiān zài gěi qián yě xíng."],
+          ["第二天，那个孩子真的拿着钱来了，老人却摆摆手，说什么也不肯收。","Dì-èr tiān, nà ge háizi zhēn de názhe qián lái le, lǎorén què bǎi bǎishǒu, shuō shénme yě bù kěn shōu."],
+          ["后来我长大了，离开了家乡，许多年没有再见到那位老人。","Hòulái wǒ zhǎngdà le, líkāi le jiāxiāng, xǔduō nián méiyǒu zài jiàndào nà wèi lǎorén."],
+          ["去年冬天回老家，校门口又有人在卖糖葫芦，卖糖葫芦的，是一位年轻人。","Qùnián dōngtiān huí lǎojiā, xiào ménkǒu yòu yǒurén zài mài tánghúlu, mài tánghúlu de, shì yí wèi niánqīng rén."],
+          ["我买了一串，咬一口，又酸又甜，还是小时候的味道。","Wǒ mǎi le yí chuàn, yǎo yì kǒu, yòu suān yòu tián, háishì xiǎoshíhou de wèidào."],
+          ["我想，有些味道，是不会随着时间走远的，它会一直留在记忆里，甜到心里。","Wǒ xiǎng, yǒuxiē wèidào, shì bú huì suízhe shíjiān zǒu yuǎn de, tā huì yìzhí liú zài jìyì lǐ, tián dào xīn lǐ."]
+        ]},
+        { title:"清晨的操场", sub:"示範篇章 24 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["天刚蒙蒙亮，学校的操场上已经有了人影。","Tiān gāng méngméng liàng, xuéxiào de cāochǎng shàng yǐjīng yǒu le rényǐng."],
+          ["最先来的，是几个练长跑的学生，他们沿着跑道一圈一圈地跑，脚步声整齐有力。","Zuì xiān lái de, shì jǐ ge liàn chángpǎo de xuéshēng, tāmen yánzhe pǎodào yì quān yì quān de pǎo, jiǎobù shēng zhěngqí yǒulì."],
+          ["接着，晨练的老师们也到了，有的打太极，有的做广播操。","Jiēzhe, chénliàn de lǎoshīmen yě dào le, yǒude dǎ tàijí, yǒude zuò guǎngbōcāo."],
+          ["操场边的老杨树上，麻雀叽叽喳喳地叫着，像在给人们加油。","Cāochǎng biān de lǎo yángshù shàng, máquè jījī-zhāzhā de jiàozhe, xiàng zài gěi rénmen jiāyóu."],
+          ["我读中学的时候，每天清晨都要在操场上背英语单词。","Wǒ dú zhōngxué de shíhou, měitiān qīngchén dōu yào zài cāochǎng shàng bèi Yīngyǔ dāncí."],
+          ["一边走，一边念，单词记得格外牢，到现在都没有忘记。","Yìbiān zǒu, yìbiān niàn, dāncí jì de géwài láo, dào xiànzài dōu méiyǒu wàngjì."],
+          ["班主任说，清晨是一天里头脑最清醒的时候，把最难的事情放在清晨做，准没错。","Bānzhǔrèn shuō, qīngchén shì yì tiān lǐ tóunǎo zuì qīngxǐng de shíhou, bǎ zuì nán de shìqing fàng zài qīngchén zuò, zhǔn méi cuò."],
+          ["太阳升起来的时候，操场上洒满了金色的光，国旗在晨风中缓缓升起。","Tàiyáng shēng qǐlái de shíhou, cāochǎng shàng sǎmǎn le jīnsè de guāng, guóqí zài chénfēng zhōng huǎnhuǎn shēngqǐ."],
+          ["同学们排着整齐的队伍，站在操场上，开始了新的一天。","Tóngxuémen páizhe zhěngqí de duìwu, zhàn zài cāochǎng shàng, kāishǐ le xīn de yì tiān."],
+          ["如今我离开学校多年，还是保持着早起的习惯，因为我知道，好的日子，都是从清晨开始的。","Rújīn wǒ líkāi xuéxiào duō nián, háishì bǎochízhe zǎoqǐ de xíguàn, yīnwèi wǒ zhīdào, hǎo de rìzi, dōu shì cóng qīngchén kāishǐ de."]
+        ]},
+        { title:"赶海", sub:"示範篇章 25 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["海边的孩子，最盼望的就是退潮。","Hǎibiān de háizi, zuì pànwàng de jiùshì tuìcháo."],
+          ["潮水退下去以后，沙滩上会留下一片片小水洼，水洼里藏着大海送来的礼物。","Cháoshuǐ tuì xiàqù yǐhòu, shātān shàng huì liúxià yí piàn piàn xiǎo shuǐwā, shuǐwā lǐ cángzhe dàhǎi sòng lái de lǐwù."],
+          ["小螃蟹横着身子飞快地爬，小鱼在浅水里急得团团转，还有各种各样的贝壳，躺在沙子里闪闪发亮。","Xiǎo pángxiè héngzhe shēnzi fēikuài de pá, xiǎoyú zài qiǎn shuǐ lǐ jí de tuántuán zhuàn, hái yǒu gèzhǒng-gèyàng de bèiké, tǎng zài shāzi lǐ shǎnshǎn fāliàng."],
+          ["我提着小桶，光着脚，跟在大人身后，一边走一边找。","Wǒ tízhe xiǎo tǒng, guāngzhe jiǎo, gēn zài dàrén shēnhòu, yìbiān zǒu, yìbiān zhǎo."],
+          ["大人说，赶海要赶早，潮水不等人，去晚了，东西就被别人捡走了。","Dàrén shuō, gǎnhǎi yào gǎn zǎo, cháoshuǐ bù děng rén, qù wǎn le, dōngxi jiù bèi biérén jiǎn zǒu le."],
+          ["有时候运气好，还能捡到一只大海螺，放在耳边一听，里面藏着大海的声音。","Yǒu shíhou yùnqi hǎo, hái néng jiǎndào yì zhī dà hǎiluó, fàng zài ěr biān yì tīng, lǐmiàn cángzhe dàhǎi de shēngyīn."],
+          ["太阳升得老高的时候，潮水又慢慢涨了回来，我们才提着满满的小桶往家走。","Tàiyáng shēng de lǎogāo de shíhou, cháoshuǐ yòu mànman zhǎng le huílái, wǒmen cái tízhe mǎnmǎn de xiǎo tǒng wǎng jiā zǒu."],
+          ["回到家里，母亲把捡来的海货洗净，或炒或煮，不一会儿，满屋子都是鲜香的味道。","Huídào jiā lǐ, mǔqīn bǎ jiǎn lái de hǎihuò xǐ jìng, huò chǎo huò zhǔ, bù yí huìr, mǎn wūzi dōu shì xiānxiāng de wèidào."],
+          ["如今我离开了海边，可一闭上眼睛，还能听见潮水的声音，看见那片湿漉漉的沙滩。","Rújīn wǒ líkāi le hǎibiān, kě yì bì shàng yǎnjing, hái néng tīngjiàn cháoshuǐ de shēngyīn, kànjiàn nà piàn shīlùlù de shātān."],
+          ["我想，人这一辈子，有些快乐很简单：一只空桶，一个清晨，和一片退潮后的海。","Wǒ xiǎng, rén zhè yí bèizi, yǒuxiē kuàilè hěn jiǎndān: Yì zhī kōng tǒng, yí ge qīngchén, hé yí piàn tuìcháo hòu de hǎi."]
+        ]},
+        { title:"一棵老槐树", sub:"示範篇章 26 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["村口有一棵老槐树，谁也说不清它有多少岁了。","Cūnkǒu yǒu yì kē lǎo huáishù, shéi yě shuō bu qīng tā yǒu duōshao suì le."],
+          ["树干粗得要三个人才能合抱过来，树皮裂开一道道口子，像老人脸上的皱纹。","Shùgàn cū de yào sān ge rén cái néng hébào guòlái, shùpí lièkāi yí dào dào kǒuzi, xiàng lǎorén liǎn shàng de zhòuwén."],
+          ["每年五月，槐花开了，满树雪白，香气飘出好远好远。","Měi nián wǔ yuè, huáihuā kāi le, mǎn shù xuěbái, xiāngqì piāochū hǎo yuǎn hǎo yuǎn."],
+          ["孩子们搬着小板凳，坐在树下写作业，大人们摇着扇子，在树下下棋、聊天。","Háizimen bānzhe xiǎo bǎndèng, zuò zài shù xià xiě zuòyè, dàrénmen yáozhe shànzi, zài shù xià xiàqí, liáotiān."],
+          ["村里有什么大事，都要在老槐树下商量；谁家办喜事，也要在树下摆上几桌酒席。","Cūn lǐ yǒu shénme dàshì, dōu yào zài lǎo huáishù xià shāngliang; shéi jiā bàn xǐshì, yě yào zài shù xià bǎishàng jǐ zhuō jiǔxí."],
+          ["听爷爷说，他小时候就在这棵树下玩，他爷爷小时候，也在这棵树下玩。","Tīng yéye shuō, tā xiǎoshíhou jiù zài zhè kē shù xià wán, tā yéye xiǎoshíhou, yě zài zhè kē shù xià wán."],
+          ["一年又一年，树下的人换了一茬又一茬，老槐树却一直站在那里。","Yì nián yòu yì nián, shù xià de rén huàn le yì chá yòu yì chá, lǎo huáishù què yìzhí zhàn zài nàlǐ."],
+          ["去年回老家，我看见树干上挂了一块牌子，上面写着：古树，要好好保护。","Qùnián huí lǎojiā, wǒ kànjiàn shùgàn shàng guà le yí kuài páizi, shàngmiàn xiězhe: Gǔshù, yào hǎohǎo bǎohù."],
+          ["我伸手摸了摸粗糙的树皮，像握住了一位老人的手。","Wǒ shēn shǒu mō le mō cūcāo de shùpí, xiàng wòzhù le yí wèi lǎorén de shǒu."],
+          ["我想，老槐树记着这个村子的全部历史，它站在这里，就是村子最深的根。","Wǒ xiǎng, lǎo huáishù jìzhe zhège cūnzi de quánbù lìshǐ, tā zhàn zài zhèlǐ, jiùshì cūnzi zuì shēn de gēn."]
+        ]},
+        { title:"妈妈的厨房", sub:"示範篇章 27 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["妈妈的厨房，是我们家最温暖的地方。","Māma de chúfáng, shì wǒmen jiā zuì wēnnuǎn de dìfang."],
+          ["厨房不大，灶台、案板、水池，挤得满满当当，却收拾得干干净净。","Chúfáng bú dà, zàotái, ànbǎn, shuǐchí, jǐ de mǎnmǎn-dāngdāng, què shōushi de gāngān-jìngjìng."],
+          ["每天早晨，我还在睡梦里，就能闻到厨房里飘出的香味。","Měitiān zǎochén, wǒ hái zài shuìmèng lǐ, jiù néng wéndào chúfáng lǐ piāochū de xiāngwèi."],
+          ["妈妈做饭的手艺说不上多高明，可她做的每一道菜，都是我吃过的最好吃的菜。","Māma zuò fàn de shǒuyì shuō bu shàng duō gāomíng, kě tā zuò de měi yí dào cài, dōu shì wǒ chī guò de zuì hǎochī de cài."],
+          ["小时候我挑食，她就变着花样做，今天蒸鸡蛋，明天包饺子，想着法儿让我多吃一口。","Xiǎoshíhou wǒ tiāoshí, tā jiù biànzhe huāyàng zuò, jīntiān zhēng jīdàn, míngtiān bāo jiǎozi, xiǎngzhe fǎr ràng wǒ duō chī yì kǒu."],
+          ["逢年过节，厨房更是忙得不可开交，锅里的蒸汽一团一团地往上冒。","Féngnián-guòjié, chúfáng gèng shì máng de bùkě-kāijiāo, guō lǐ de zhēngqì yì tuán yì tuán de wǎng shàng mào."],
+          ["我们想去帮忙，她总是说，你们去歇着吧，这里有我一个人就够了。","Wǒmen xiǎng qù bāngmáng, tā zǒngshì shuō, nǐmen qù xiēzhe ba, zhèlǐ yǒu wǒ yí ge rén jiù gòu le."],
+          ["后来我在外地工作，每次打电话回家，妈妈问得最多的，还是那句：吃得好不好？","Hòulái wǒ zài wàidì gōngzuò, měi cì dǎ diànhuà huí jiā, māma wèn de zuì duō de, háishì nà jù: Chī de hǎo bu hǎo?"],
+          ["如今我也学着做饭了，站在灶台前，我才慢慢懂得，一顿饭里藏着多少爱。","Rújīn wǒ yě xuézhe zuò fàn le, zhàn zài zàotái qián, wǒ cái mànman dǒngde, yí dùn fàn lǐ cángzhe duōshao ài."],
+          ["妈妈的厨房不大，却装下了我们全家人的胃，也装下了我们全家人的心。","Māma de chúfáng bú dà, què zhuāngxià le wǒmen quán jiā rén de wèi, yě zhuāngxià le wǒmen quán jiā rén de xīn."]
+        ]},
+        { title:"雨伞的故事", sub:"示範篇章 28 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我有一把雨伞，是一把很普通的格子伞，跟了我很多年。","Wǒ yǒu yì bǎ yǔsǎn, shì yì bǎ hěn pǔtōng de gézi sǎn, gēn le wǒ hěn duō nián."],
+          ["那是我刚参加工作的时候，在一个下着大雨的傍晚买的。","Nà shì wǒ gāng cānjiā gōngzuò de shíhou, zài yí ge xiàzhe dàyǔ de bàngwǎn mǎi de."],
+          ["那天下班，雨下得又急又大，我站在单位门口，正愁着怎么回家。","Nà tiān xiàbān, yǔ xià de yòu jí yòu dà, wǒ zhàn zài dānwèi ménkǒu, zhèng chóuzhe zěnme huí jiā."],
+          ["一位卖伞的阿姨走过来，把这把伞递给我，说，拿着吧，雨停了再给钱也不迟。","Yí wèi mài sǎn de āyí zǒu guòlái, bǎ zhè bǎ sǎn dì gěi wǒ, shuō, názhe ba, yǔ tíng le zài gěi qián yě bù chí."],
+          ["我撑着伞走进雨里，心里热乎乎的，连脚步都轻快了许多。","Wǒ chēngzhe sǎn zǒu jìn yǔ lǐ, xīnlǐ rèhūhū de, lián jiǎobù dōu qīngkuài le xǔduō."],
+          ["后来，我特意去还钱，还想多给一些，阿姨却笑着说，一把伞而已，帮助别人，就是帮助自己。","Hòulái, wǒ tèyì qù huán qián, hái xiǎng duō gěi yìxiē, āyí què xiàozhe shuō, yì bǎ sǎn éryǐ, bāngzhù biérén, jiùshì bāngzhù zìjǐ."],
+          ["从那以后，每逢下雨，看见有人没带伞，我总会把伞往他那边多偏一偏。","Cóng nà yǐhòu, měi féng xià yǔ, kànjiàn yǒurén méi dài sǎn, wǒ zǒng huì bǎ sǎn wǎng tā nà biān duō piān yi piān."],
+          ["这把伞的伞骨断过一次，我找人修好了；伞面也旧了，可我一直舍不得换。","Zhè bǎ sǎn de sǎngǔ duàn guò yí cì, wǒ zhǎo rén xiūhǎo le; sǎnmiàn yě jiù le, kě wǒ yìzhí shěbude huàn."],
+          ["因为在我心里，它遮住的不只是雨，还有一个陌生人留给我的温暖。","Yīnwèi zài wǒ xīnlǐ, tā zhēzhù de bù zhǐshì yǔ, hái yǒu yí ge mòshēng rén liú gěi wǒ de wēnnuǎn."],
+          ["我想，善意就是这样，一把伞，一句话，都能在一个人的心里，撑起一片晴天。","Wǒ xiǎng, shànyì jiùshì zhèyàng, yì bǎ sǎn, yí jù huà, dōu néng zài yí ge rén de xīnlǐ, chēngqǐ yí piàn qíngtiān."]
+        ]},
+        { title:"远方的朋友", sub:"示範篇章 29 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我有一个朋友，是在一次旅行中认识的，我们管这叫缘分。","Wǒ yǒu yí ge péngyou, shì zài yí cì lǚxíng zhōng rènshi de, wǒmen guǎn zhè jiào yuánfèn."],
+          ["那年我们一起去爬山，走到半山腰，我实在走不动了，是他把我的背包接了过去。","Nà nián wǒmen yìqǐ qù pá shān, zǒudào bàn shānyāo, wǒ shízài zǒu bu dòng le, shì tā bǎ wǒ de bēibāo jiē le guòqù."],
+          ["一路上，他讲笑话给我听，鼓励我再坚持一下，山顶的风景一定值得。","Yí lù shàng, tā jiǎng xiàohua gěi wǒ tīng, gǔlì wǒ zài jiānchí yíxià, shāndǐng de fēngjǐng yídìng zhídé."],
+          ["后来我们各自回到自己的城市，一个在南，一个在北，相隔几千里。","Hòulái wǒmen gèzì huídào zìjǐ de chéngshì, yí ge zài nán, yí ge zài běi, xiānggé jǐ qiān lǐ."],
+          ["距离虽然远，联系却一直没有断，谁有了高兴的事，第一个就想告诉对方。","Jùlí suīrán yuǎn, liánxì què yìzhí méiyǒu duàn, shéi yǒu le gāoxìng de shì, dì-yī ge jiù xiǎng gàosu duìfāng."],
+          ["我工作不顺心的时候，他在电话那头听我说了整整一个晚上。","Wǒ gōngzuò bú shùnxīn de shíhou, tā zài diànhuà nà tóu tīng wǒ shuō le zhěngzhěng yí ge wǎnshang."],
+          ["他说，朋友就是这样，平时各自忙各自的，关键的时候，一定站在你这边。","Tā shuō, péngyou jiùshì zhèyàng, píngshí gèzì máng gèzì de, guānjiàn de shíhou, yídìng zhàn zài nǐ zhè biān."],
+          ["去年他结婚，我坐了十几个小时的火车去参加他的婚礼，他见到我，眼睛一下子红了。","Qùnián tā jiéhūn, wǒ zuò le shí jǐ ge xiǎoshí de huǒchē qù cānjiā tā de hūnlǐ, tā jiàndào wǒ, yǎnjing yíxiàzi hóng le."],
+          ["我想，真正的朋友，不在乎离得多远，也不在乎多久见一次面。","Wǒ xiǎng, zhēnzhèng de péngyou, bú zàihu lí de duō yuǎn, yě bú zàihu duō jiǔ jiàn yí cì miàn."],
+          ["只要心里装着对方，再远的距离，也隔不断这份情谊。","Zhǐyào xīnlǐ zhuāngzhe duìfāng, zài yuǎn de jùlí, yě gé bu duàn zhè fèn qíngyì."]
+        ]},
+        { title:"乡村小学", sub:"示範篇章 30 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["大山深处有一所乡村小学，全校只有几十个学生和三位老师。","Dàshān shēnchù yǒu yì suǒ xiāngcūn xiǎoxué, quán xiào zhǐyǒu jǐ shí ge xuéshēng hé sān wèi lǎoshī."],
+          ["学校不大，一排平房，一个操场，操场中间立着一根旗杆。","Xuéxiào bú dà, yì pái píngfáng, yí ge cāochǎng, cāochǎng zhōngjiān lìzhe yì gēn qígān."],
+          ["校长姓李，在这所学校教了三十年的书，村里的大人，很多都是他的学生。","Xiàozhǎng xìng Lǐ, zài zhè suǒ xuéxiào jiāo le sānshí nián de shū, cūn lǐ de dàrén, hěn duō dōu shì tā de xuéshēng."],
+          ["每天清晨，他总是第一个到校，打开教室的门窗，把炉子生起来。","Měitiān qīngchén, tā zǒngshì dì-yī ge dào xiào, dǎkāi jiàoshì de ménchuāng, bǎ lúzi shēng qǐlái."],
+          ["冬天山里冷，孩子们的小手冻得通红，他就一个一个地帮他们搓热。","Dōngtiān shān lǐ lěng, háizimen de xiǎoshǒu dòng de tōnghóng, tā jiù yí ge yí ge de bāng tāmen cuō rè."],
+          ["孩子们的家离学校远，中午不能回家，他就和老师们一起，给孩子们做热饭。","Háizimen de jiā lí xuéxiào yuǎn, zhōngwǔ bù néng huí jiā, tā jiù hé lǎoshīmen yìqǐ, gěi háizimen zuò rè fàn."],
+          ["有人问他，城里的学校条件那么好，你为什么不去？","Yǒurén wèn tā, chéng lǐ de xuéxiào tiáojiàn nàme hǎo, nǐ wèishénme bú qù?"],
+          ["他望着操场上跑来跑去的孩子，笑着说，我要是走了，这些孩子怎么办？","Tā wàngzhe cāochǎng shàng pǎolái-pǎoqù de háizi, xiàozhe shuō, wǒ yàoshi zǒu le, zhèxiē háizi zěnme bàn?"],
+          ["如今，第一批从这所学校走出去的孩子，有的考上了大学，有的回到了村里。","Rújīn, dì-yī pī cóng zhè suǒ xuéxiào zǒu chūqù de háizi, yǒude kǎoshàng le dàxué, yǒude huídào le cūn lǐ."],
+          ["每当国歌响起，国旗在山风中升起，李校长的眼睛里，总是闪着光。","Měidāng guógē xiǎngqǐ, guóqí zài shānfēng zhōng shēngqǐ, Lǐ xiàozhǎng de yǎnjing lǐ, zǒngshì shǎnzhe guāng."],
+          ["我想，正是有了这样的人，山里的孩子，才有了走出大山的希望。","Wǒ xiǎng, zhèng shì yǒu le zhèyàng de rén, shān lǐ de háizi, cái yǒu le zǒuchū dàshān de xīwàng."]
+        ]},
+        { title:"火车上的陌生人", sub:"示範篇章 31 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["有一次坐夜车回老家，对面坐着一位抱孩子的年轻母亲。","Yǒu yí cì zuò yèchē huí lǎojiā, duìmiàn zuòzhe yí wèi bào háizi de niánqīng mǔqīn."],
+          ["孩子一路哭闹，怎么哄也哄不好，年轻的母亲急得满头是汗，不停地向周围的人道歉。","Háizi yí lù kūnào, zěnme hǒng yě hǒng bu hǎo, niánqīng de mǔqīn jí de mǎntóu shì hàn, bùtíng de xiàng zhōuwéi de rén dàoqiàn."],
+          ["坐在旁边的老大爷站起来，从包里拿出一个拨浪鼓，轻轻地摇着。","Zuò zài pángbiān de lǎodàyé zhàn qǐlái, cóng bāo lǐ náchū yí ge bōlanggǔ, qīngqīng de yáozhe."],
+          ["孩子盯着拨浪鼓，慢慢止住了哭声，还伸出小手去抓。","Háizi dīngzhe bōlanggǔ, mànman zhǐzhù le kūshēng, hái shēnchū xiǎoshǒu qù zhuā."],
+          ["一位大姐递过来一块干净的手帕，一位小伙子起身让出了自己的下铺。","Yí wèi dàjiě dì guòlái yí kuài gānjìng de shǒupà, yí wèi xiǎohuǒzi qǐshēn ràngchū le zìjǐ de xiàpù."],
+          ["不一会儿，孩子在母亲怀里睡着了，车厢里重新安静下来。","Bù yí huìr, háizi zài mǔqīn huái lǐ shuìzháo le, chēxiāng lǐ chóngxīn ānjìng xiàlái."],
+          ["年轻的母亲连声道谢，老大爷摆摆手说，出门在外，谁还没有个难处。","Niánqīng de mǔqīn liánshēng dàoxiè, lǎodàyé bǎi bǎishǒu shuō, chūmén zài wài, shéi hái méiyǒu ge nánchù."],
+          ["那天夜里，火车在黑暗中穿行，车厢里却暖意融融。","Nà tiān yè lǐ, huǒchē zài hēi'àn zhōng chuānxíng, chēxiāng lǐ què nuǎnyì róngróng."],
+          ["下车的时候，大家互相道别，像认识了很久的老朋友。","Xià chē de shíhou, dàjiā hùxiāng dàobié, xiàng rènshi le hěn jiǔ de lǎo péngyou."],
+          ["我想，人与人之间，有时候并不需要认识多久，一次小小的帮助，就能拉近彼此的心。","Wǒ xiǎng, rén yǔ rén zhījiān, yǒu shíhou bìng bù xūyào rènshi duō jiǔ, yí cì xiǎoxiǎo de bāngzhù, jiù néng lājìn bǐcǐ de xīn."]
+        ]},
+        { title:"秋雨", sub:"示範篇章 32 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["秋天的雨，不像夏天的雨那样急，它总是慢慢地来，慢慢地下。","Qiūtiān de yǔ, bù xiàng xiàtiān de yǔ nàyàng jí, tā zǒngshì mànman de lái, mànman de xià."],
+          ["起初是几滴，落在窗玻璃上，发出轻轻的声响；接着，雨丝密了起来，天地之间像挂起了一层薄纱。","Qǐchū shì jǐ dī, luò zài chuāng bōli shàng, fāchū qīngqīng de shēngxiǎng; jiēzhe, yǔsī mì le qǐlái, tiāndì zhījiān xiàng guàqǐ le yì céng báoshā."],
+          ["街道上的行人撑起了伞，红的，黄的，蓝的，在雨中缓缓移动。","Jiēdào shàng de xíngrén chēngqǐ le sǎn, hóng de, huáng de, lán de, zài yǔ zhōng huǎnhuǎn yídòng."],
+          ["屋檐下，几只麻雀挤在一起避雨，偶尔抖一抖身上的羽毛。","Wūyán xià, jǐ zhī máquè jǐ zài yìqǐ bì yǔ, ǒu'ěr dǒu yi dǒu shēn shàng de yǔmáo."],
+          ["雨中的田野格外安静，成熟的庄稼低着头，任凭雨水打湿它们的衣裳。","Yǔ zhōng de tiányě géwài ānjìng, chéngshú de zhuāngjia dīzhe tóu, rènpíng yǔshuǐ dǎshī tāmen de yīshang."],
+          ["老人们说，一场秋雨一场寒，下过这场雨，就该添衣服了。","Lǎorénmen shuō, yì chǎng qiūyǔ yì chǎng hán, xià guò zhè chǎng yǔ, jiù gāi tiān yīfu le."],
+          ["我喜欢坐在窗前听雨，手里捧着一杯热茶，心也跟着慢了下来。","Wǒ xǐhuan zuò zài chuāng qián tīng yǔ, shǒu lǐ pěngzhe yì bēi rè chá, xīn yě gēnzhe màn le xiàlái."],
+          ["雨下了一整天，到傍晚才渐渐停了，天边露出一抹淡淡的晚霞。","Yǔ xià le yì zhěng tiān, dào bàngwǎn cái jiànjiàn tíng le, tiānbiān lòuchū yì mǒ dàndàn de wǎnxiá."],
+          ["空气被洗得干干净净，深吸一口，带着泥土和落叶的味道。","Kōngqì bèi xǐ de gāngān-jìngjìng, shēn xī yì kǒu, dàizhe nítǔ hé luòyè de wèidào."],
+          ["我想，秋雨不急不躁，它是在告诉人们：忙碌了一个夏天，也该停下来，歇一歇了。","Wǒ xiǎng, qiūyǔ bù jí bú zào, tā shì zài gàosu rénmen: Mánglù le yí ge xiàtiān, yě gāi tíng xiàlái, xiē yi xiē le."]
+        ]},
+        { title:"守林人", sub:"示範篇章 33 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["大山里有一位守林人，人们都叫他老赵，他在这片林子里守了三十多年。","Dàshān lǐ yǒu yí wèi shǒulín rén, rénmen dōu jiào tā lǎo Zhào, tā zài zhè piàn línzi lǐ shǒu le sānshí duō nián."],
+          ["他的家是山腰上的一间小木屋，屋里只有一张床、一张桌子和一台旧收音机。","Tā de jiā shì shānyāo shàng de yì jiān xiǎo mùwū, wū lǐ zhǐyǒu yì zhāng chuáng, yì zhāng zhuōzi hé yì tái jiù shōuyīnjī."],
+          ["每天天不亮，他就背上水壶，沿着山路巡山，一走就是大半天。","Měitiān tiān bú liàng, tā jiù bēi shàng shuǐhú, yánzhe shānlù xún shān, yì zǒu jiùshì dà bàntiān."],
+          ["哪棵树生了虫，哪条小溪断了流，他心里都有一本账。","Nǎ kē shù shēng le chóng, nǎ tiáo xiǎoxī duàn le liú, tā xīn lǐ dōu yǒu yì běn zhàng."],
+          ["春天，他带着村民在空地上栽树，一棵一棵，都是他亲手挑的树苗。","Chūntiān, tā dàizhe cūnmín zài kòngdì shàng zāi shù, yì kē yì kē, dōu shì tā qīnshǒu tiāo de shùmiáo."],
+          ["有人问他，一个人守着大山，不寂寞吗？他指着满山的树说，它们都是我的伴儿。","Yǒurén wèn tā, yí ge rén shǒuzhe dàshān, bù jìmò ma? Tā zhǐzhe mǎn shān de shù shuō, tāmen dōu shì wǒ de bànr."],
+          ["三十多年前，这里还是一片荒山，是他和老一辈人，把荒山变成了青山。","Sānshí duō nián qián, zhèlǐ hái shì yí piàn huāngshān, shì tā hé lǎo yí bèi rén, bǎ huāngshān biànchéng le qīngshān."],
+          ["如今老赵老了，走山路不如从前利索了，可他还是坚持每天去看看他的林子。","Rújīn lǎo Zhào lǎo le, zǒu shānlù bùrú cóngqián lìsuo le, kě tā háishì jiānchí měitiān qù kànkan tā de línzi."],
+          ["村里派了年轻人接他的班，他就手把手地教，把每条山路、每片林子，都一一交代清楚。","Cūn lǐ pài le niánqīng rén jiē tā de bān, tā jiù shǒu bǎ shǒu de jiāo, bǎ měi tiáo shānlù, měi piàn línzi, dōu yīyī jiāodài qīngchu."],
+          ["我想，青山不老，是因为总有这样的人，一年一年，把心留在了山里。","Wǒ xiǎng, qīngshān bù lǎo, shì yīnwèi zǒng yǒu zhèyàng de rén, yì nián yì nián, bǎ xīn liú zài le shān lǐ."]
+        ]},
+        { title:"一次难忘的演出", sub:"示範篇章 34 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["上中学的时候，学校组织文艺汇演，我们班排了一个合唱节目。","Shàng zhōngxué de shíhou, xuéxiào zǔzhī wényì huìyǎn, wǒmen bān pái le yí ge héchàng jiémù."],
+          ["为了这次演出，我们整整排练了一个月，每天放学以后，都要练上一个多小时。","Wèi le zhè cì yǎnchū, wǒmen zhěngzhěng páiliàn le yí ge yuè, měitiān fàngxué yǐhòu, dōu yào liàn shàng yí ge duō xiǎoshí."],
+          ["起初大家唱得参差不齐，不是抢拍，就是跑调，老师一遍一遍地纠正，从不发火。","Qǐchū dàjiā chàng de cēncī-bùqí, búshì qiǎngpāi, jiùshì pǎodiào, lǎoshī yí biàn yí biàn de jiūzhèng, cóng bù fāhuǒ."],
+          ["演出那天，我们穿着整齐的服装站上舞台，台下坐满了老师和同学。","Yǎnchū nà tiān, wǒmen chuānzhe zhěngqí de fúzhuāng zhàn shàng wǔtái, tái xià zuòmǎn le lǎoshī hé tóngxué."],
+          ["灯光亮起来的时候，我的心跳得飞快，手心全是汗。","Dēngguāng liàng qǐlái de shíhou, wǒ de xīn tiào de fēikuài, shǒuxīn quán shì hàn."],
+          ["音乐响起，指挥的手一落，我们齐声唱了起来，声音比任何一次排练都要整齐。","Yīnyuè xiǎngqǐ, zhǐhuī de shǒu yí luò, wǒmen qíshēng chàng le qǐlái, shēngyīn bǐ rènhé yí cì páiliàn dōu yào zhěngqí."],
+          ["唱到最后一句，全场响起了热烈的掌声，我们班的同学抱在一起，又笑又跳。","Chàngdào zuìhòu yí jù, quán chǎng xiǎngqǐ le rèliè de zhǎngshēng, wǒmen bān de tóngxué bào zài yìqǐ, yòu xiào yòu tiào."],
+          ["那次演出，我们得了一等奖，奖状贴在教室的墙上，贴了整整一年。","Nà cì yǎnchū, wǒmen dé le yì děng jiǎng, jiǎngzhuàng tiē zài jiàoshì de qiáng shàng, tiē le zhěngzhěng yì nián."],
+          ["多年过去，我早已记不清唱的是哪首歌，却忘不了站在舞台上的那种感觉。","Duō nián guòqù, wǒ zǎoyǐ jì bu qīng chàng de shì nǎ shǒu gē, què wàng bu liǎo zhàn zài wǔtái shàng de nà zhǒng gǎnjué."],
+          ["我想，难忘的不是那张奖状，而是大家为了同一件事，一起努力过的日子。","Wǒ xiǎng, nánwàng de búshì nà zhāng jiǎngzhuàng, érshì dàjiā wèi le tóng yí jiàn shì, yìqǐ nǔlì guò de rìzi."]
+        ]},
+        { title:"童年的小院", sub:"示範篇章 35 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我出生在一个北方的小院里，院子不大，却装满了我童年的快乐。","Wǒ chūshēng zài yí ge běifāng de xiǎoyuàn lǐ, yuànzi bú dà, què zhuāngmǎn le wǒ tóngnián de kuàilè."],
+          ["院子的中央有一棵石榴树，春天开花，红得像火；秋天结果，裂开嘴，露出晶莹的籽儿。","Yuànzi de zhōngyāng yǒu yì kē shíliu shù, chūntiān kāihuā, hóng de xiàng huǒ; qiūtiān jié guǒ, lièkāi zuǐ, lòuchū jīngyíng de zǐr."],
+          ["东墙根儿种着一排向日葵，个个仰着脸，跟着太阳转。","Dōng qiánggēnr zhòngzhe yì pái xiàngrìkuí, gègè yǎngzhe liǎn, gēnzhe tàiyáng zhuàn."],
+          ["夏天的傍晚，邻居们都搬着小凳子聚到院子里，大人聊天，孩子追逐，笑声不断。","Xiàtiān de bàngwǎn, línjūmen dōu bānzhe xiǎo dèngzi jù dào yuànzi lǐ, dàrén liáotiān, háizi zhuīzhú, xiàoshēng búduàn."],
+          ["奶奶坐在石榴树下，一边摇着扇子，一边给我们分刚摘下来的黄瓜。","Nǎinai zuò zài shíliu shù xià, yìbiān yáozhe shànzi, yìbiān gěi wǒmen fēn gāng zhāi xiàlái de huángguā."],
+          ["谁家做了好吃的，总要端一碗送到隔壁，院子里的人，亲得像一家人。","Shéi jiā zuò le hǎochī de, zǒng yào duān yì wǎn sòngdào gébì, yuànzi lǐ de rén, qīn de xiàng yì jiā rén."],
+          ["后来我长大了，离开小院到城里生活，院子也慢慢变了样。","Hòulái wǒ zhǎngdà le, líkāi xiǎoyuàn dào chéng lǐ shēnghuó, yuànzi yě mànman biàn le yàng."],
+          ["前些年回去看，石榴树还在，只是比记忆里矮了许多，院子也显得小了。","Qián xiē nián huíqù kàn, shíliu shù hái zài, zhǐshì bǐ jìyì lǐ ǎi le xǔduō, yuànzi yě xiǎnde xiǎo le."],
+          ["我站在院子里，耳边好像又响起了当年的笑声，眼前又浮现出奶奶分黄瓜的样子。","Wǒ zhàn zài yuànzi lǐ, ěr biān hǎoxiàng yòu xiǎngqǐ le dāngnián de xiàoshēng, yǎnqián yòu fúxiàn chū nǎinai fēn huángguā de yàngzi."],
+          ["我想，小院虽然不在了，可它给我的那份温暖，会一直藏在我心里，走到哪里都不会丢。","Wǒ xiǎng, xiǎoyuàn suīrán bú zài le, kě tā gěi wǒ de nà fèn wēnnuǎn, huì yìzhí cáng zài wǒ xīnlǐ, zǒudào nǎlǐ dōu bú huì diū."]
+        ]},
+        { title:"城市的公交车", sub:"示範篇章 36 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我每天上班，都要坐四十多分钟的公交车。","Wǒ měitiān shàngbān, dōu yào zuò sìshí duō fēnzhōng de gōngjiāo chē."],
+          ["清晨的公交车上，有背着书包的学生，有提着菜篮的老人，也有和我一样赶着上班的年轻人。","Qīngchén de gōngjiāo chē shàng, yǒu bēizhe shūbāo de xuéshēng, yǒu tízhe càilán de lǎorén, yě yǒu hé wǒ yíyàng gǎnzhe shàngbān de niánqīng rén."],
+          ["司机师傅开车很稳，报站的声音也清楚，每到一站，总要提醒一句：下车的乘客请注意安全。","Sījī shīfu kāichē hěn wěn, bàozhàn de shēngyīn yě qīngchu, měi dào yí zhàn, zǒng yào tíxǐng yí jù: Xià chē de chéngkè qǐng zhùyì ānquán."],
+          ["车上有一位老大娘，每天都在同一站上车，年轻人见了她，总会主动让座。","Chē shàng yǒu yí wèi lǎodàniáng, měitiān dōu zài tóng yí zhàn shàng chē, niánqīng rén jiàn le tā, zǒng huì zhǔdòng ràngzuò."],
+          ["有一次下大雨，一位乘客下车时忘了带伞，司机喊住他，把车上备着的伞借给了他。","Yǒu yí cì xià dàyǔ, yí wèi chéngkè xià chē shí wàng le dài sǎn, sījī hǎnzhù tā, bǎ chē shàng bèizhe de sǎn jiè gěi le tā."],
+          ["车窗外，街道、商店和行人缓缓向后退去，像一部没有对白的电影。","Chēchuāng wài, jiēdào, shāngdiàn hé xíngrén huǎnhuǎn xiàng hòu tuì qù, xiàng yí bù méiyǒu duìbái de diànyǐng."],
+          ["我喜欢坐在靠窗的位置，看着这座城市一点点醒来。","Wǒ xǐhuan zuò zài kào chuāng de wèizhi, kànzhe zhè zuò chéngshì yìdiǎndiǎn xǐng lái."],
+          ["早点摊冒起了热气，花店的门开了，环卫工人正把街道扫得干干净净。","Zǎodiǎn tān màoqǐ le rèqì, huādiàn de mén kāi le, huánwèi gōngrén zhèng bǎ jiēdào sǎo de gāngān-jìngjìng."],
+          ["四十多分钟的路程，不算短，可在车上看看人、看看景，时间也就过去了。","Sìshí duō fēnzhōng de lùchéng, bú suàn duǎn, kě zài chē shàng kànkan rén, kànkan jǐng, shíjiān yě jiù guòqù le."],
+          ["我想，公交车载着的不只是一车乘客，还有一座城市平凡而温暖的早晨。","Wǒ xiǎng, gōngjiāo chē zàizhe de bù zhǐshì yì chē chéngkè, hái yǒu yí zuò chéngshì píngfán ér wēnnuǎn de zǎochén."]
+        ]},
+        { title:"沙漠中的旅店", sub:"示範篇章 37 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["去西部旅行的那年，我在沙漠边缘住过一间小小的旅店。","Qù xībù lǚxíng de nà nián, wǒ zài shāmò biānyuán zhù guò yì jiān xiǎoxiǎo de lǚdiàn."],
+          ["旅店只有五间房，开店的是一对老夫妻，来往的客人，多是赶路的司机和背包的旅人。","Lǚdiàn zhǐyǒu wǔ jiān fáng, kāi diàn de shì yí duì lǎo fūqī, láiwǎng de kèrén, duō shì gǎnlù de sījī hé bēibāo de lǚrén."],
+          ["白天，沙漠里热得让人睁不开眼；一到夜里，气温降下来，满天都是星星。","Báitiān, shāmò lǐ rè de ràng rén zhēng bu kāi yǎn; yí dào yè lǐ, qìwēn jiàng xiàlái, mǎn tiān dōu shì xīngxing."],
+          ["老夫妻在院子里种了几棵白杨和一架葡萄，绿荫下面摆着桌椅。","Lǎo fūqī zài yuànzi lǐ zhòng le jǐ kē báiyáng hé yí jià pútao, lǜyīn xiàmiàn bǎizhe zhuōyǐ."],
+          ["晚上，客人们围坐在一起吃晚饭，羊肉汤、大盘鸡，还有刚从炉子里取出来的热馕。","Wǎnshang, kèrénmen wéizuò zài yìqǐ chī wǎnfàn, yángròu tāng, dàpánjī, hái yǒu gāng cóng lúzi lǐ qǔ chūlái de rè náng."],
+          ["店主老汉话不多，却总记得每位客人的口味，谁不吃辣，谁多要一碗汤，他都清楚。","Diànzhǔ lǎohàn huà bù duō, què zǒng jìde měi wèi kèrén de kǒuwèi, shéi bù chī là, shéi duō yào yì wǎn tāng, tā dōu qīngchu."],
+          ["他说，在沙漠里开店，卖的不是饭菜，是给赶路的人一个歇脚的地方。","Tā shuō, zài shāmò lǐ kāi diàn, mài de búshì fàncài, shì gěi gǎnlù de rén yí ge xiējiǎo de dìfang."],
+          ["临走的那天清晨，老太太往我的包里塞了两个馕和一壶水，说，路上慢慢走，饿了就吃。","Línzǒu de nà tiān qīngchén, lǎotàitai wǎng wǒ de bāo lǐ sāi le liǎng ge náng hé yì hú shuǐ, shuō, lù shàng mànman zǒu, è le jiù chī."],
+          ["走出很远，我回头望去，旅店的灯还亮着，在无边的沙漠里，像一颗小小的星星。","Zǒuchū hěn yuǎn, wǒ huítóu wàng qù, lǚdiàn de dēng hái liàngzhe, zài wúbiān de shāmò lǐ, xiàng yì kē xiǎoxiǎo de xīngxing."],
+          ["我想，越是荒凉的地方，越能显出人的温暖；一盏灯，一壶水，就能照亮一段陌生的路。","Wǒ xiǎng, yuè shì huāngliáng de dìfang, yuè néng xiǎnchū rén de wēnnuǎn; yì zhǎn dēng, yì hú shuǐ, jiù néng zhàoliàng yí duàn mòshēng de lù."]
+        ]},
+        { title:"渔港的清晨", sub:"示範篇章 38 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["凌晨四点，渔港就醒了。","Língchén sì diǎn, yúgǎng jiù xǐng le."],
+          ["码头上的灯一盏一盏亮着，渔船排成一列，随着海浪轻轻摇晃。","Mǎtóu shàng de dēng yì zhǎn yì zhǎn liàngzhe, yúchuán páichéng yí liè, suízhe hǎilàng qīngqīng yáohuàng."],
+          ["出海归来的渔民把船靠岸，一筐一筐的鱼虾被抬上岸，银光闪闪，活蹦乱跳。","Chūhǎi guīlái de yúmín bǎ chuán kào'àn, yì kuāng yì kuāng de yú xiā bèi tái shàng àn, yínguāng shǎnshǎn, huóbèng-luàntiào."],
+          ["买鱼的人早早等在码头上，你一言，我一语，讨价还价的声音盖过了海浪声。","Mǎi yú de rén zǎozǎo děng zài mǎtóu shàng, nǐ yì yán, wǒ yì yǔ, táijià-huánjià de shēngyīn gàiguò le hǎilàng shēng."],
+          ["一位老渔民坐在船头补网，手指在渔网间穿来穿去，快得让人看不清。","Yí wèi lǎo yúmín zuò zài chuántóu bǔ wǎng, shǒuzhǐ zài yúwǎng jiān chuānlái-chuānqù, kuài de ràng rén kàn bu qīng."],
+          ["他说，他十几岁就出海，这片海，就是他的半辈子。","Tā shuō, tā shí jǐ suì jiù chūhǎi, zhè piàn hǎi, jiùshì tā de bàn bèizi."],
+          ["天渐渐亮了，海面上泛起金光，海鸥绕着渔船盘旋，等着捡些小鱼小虾。","Tiān jiànjiàn liàng le, hǎimiàn shàng fànqǐ jīnguāng, hǎi'ōu ràozhe yúchuán pánxuán, děngzhe jiǎn xiē xiǎoyú xiǎoxiā."],
+          ["港边的小饭馆开了门，蒸汽从锅里冒出来，渔民们三三两两地进去吃早饭。","Gǎng biān de xiǎo fànguǎn kāi le mén, zhēngqì cóng guō lǐ mào chūlái, yúmínmen sānsān-liǎngliǎng de jìnqù chī zǎofàn."],
+          ["一碗热粥，一碟咸鱼，简单的一餐，吃的是大海的味道，也是生活的味道。","Yì wǎn rè zhōu, yì dié xiányú, jiǎndān de yí cān, chī de shì dàhǎi de wèidào, yě shì shēnghuó de wèidào."],
+          ["太阳完全升起来的时候，渔港又恢复了安静，只剩下海浪，一下一下，拍打着岸边。","Tàiyáng wánquán shēng qǐlái de shíhou, yúgǎng yòu huīfù le ānjìng, zhǐ shèngxià hǎilàng, yíxià yíxià, pāidǎzhe àn biān."]
+        ]},
+        { title:"我的小书桌", sub:"示範篇章 39 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["我的房间里有一张小书桌，是上中学那年父亲亲手给我做的。","Wǒ de fángjiān lǐ yǒu yì zhāng xiǎo shūzhuō, shì shàng zhōngxué nà nián fùqīn qīnshǒu gěi wǒ zuò de."],
+          ["桌面是松木的，带着淡淡的木香，桌角被我用小刀刻下过一行字：好好学习。","Zhuōmiàn shì sōngmù de, dàizhe dàndàn de mùxiāng, zhuōjiǎo bèi wǒ yòng xiǎodāo kèxià guò yì háng zì: Hǎohǎo xuéxí."],
+          ["多少个夜晚，我趴在这张书桌上写作业、读课文，台灯的光陪我到深夜。","Duōshao ge yèwǎn, wǒ pā zài zhè zhāng shūzhuō shàng xiě zuòyè, dú kèwén, táidēng de guāng péi wǒ dào shēnyè."],
+          ["考试之前，我把课本摞得高高的，一本一本地复习，心里又紧张又踏实。","Kǎoshì zhīqián, wǒ bǎ kèběn luò de gāogāo de, yì běn yì běn de fùxí, xīnlǐ yòu jǐnzhāng yòu tāshi."],
+          ["母亲总在夜里悄悄进来，把一杯热牛奶放在桌角，又悄悄地出去。","Mǔqīn zǒng zài yè lǐ qiāoqiāo jìnlái, bǎ yì bēi rè niúnǎi fàng zài zhuōjiǎo, yòu qiāoqiāo de chūqù."],
+          ["书桌的抽屉里，藏着我少年时代的秘密：几张奖状，一本日记，还有一封没有寄出的信。","Shūzhuō de chōutì lǐ, cángzhe wǒ shàonián shídài de mìmì: Jǐ zhāng jiǎngzhuàng, yì běn rìjì, hái yǒu yì fēng méiyǒu jìchū de xìn."],
+          ["后来我考上大学，离开了家，这张书桌就留在了老屋里。","Hòulái wǒ kǎoshàng dàxué, líkāi le jiā, zhè zhāng shūzhuō jiù liú zài le lǎowū lǐ."],
+          ["母亲说，她每天都要擦一擦它，擦得干干净净，像我还在家里一样。","Mǔqīn shuō, tā měitiān dōu yào cā yi cā tā, cā de gāngān-jìngjìng, xiàng wǒ hái zài jiā lǐ yíyàng."],
+          ["去年过年回家，我坐在书桌前，腿已经伸不直了，桌子显得那么小。","Qùnián guònián huí jiā, wǒ zuò zài shūzhuō qián, tuǐ yǐjīng shēn bu zhí le, zhuōzi xiǎnde nàme xiǎo."],
+          ["可是望着桌角那行歪歪扭扭的字，我的眼眶一下子热了。","Kěshì wàngzhe zhuōjiǎo nà háng wāiwāi-niǔniǔ de zì, wǒ de yǎnkuàng yíxiàzi rè le."],
+          ["我想，一个人走得再远，也走不出这张小书桌，走不出父母守在灯下的那些夜晚。","Wǒ xiǎng, yí ge rén zǒu de zài yuǎn, yě zǒu bu chū zhè zhāng xiǎo shūzhuō, zǒu bu chū fùmǔ shǒu zài dēng xià de nàxiē yèwǎn."]
+        ]},
+        { title:"一场春雨", sub:"示範篇章 40 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["今年的第一场春雨，来得无声无息。","Jīnnián de dì-yī chǎng chūnyǔ, lái de wúshēng-wúxī."],
+          ["早晨醒来，窗外一片湿润，屋檐上滴着水，空气里有一股清新的泥土气息。","Zǎochén xǐng lái, chuāng wài yí piàn shīrùn, wūyán shàng dīzhe shuǐ, kōngqì lǐ yǒu yì gǔ qīngxīn de nítǔ qìxī."],
+          ["田里的麦苗喝饱了水，绿得发亮，一棵棵挺直了腰。","Tián lǐ de màimiáo hēbǎo le shuǐ, lǜ de fāliàng, yì kē kē tǐngzhí le yāo."],
+          ["农民们披着雨衣走在田埂上，望着麦苗，脸上露出笑容。","Nóngmínmen pīzhe yǔyī zǒu zài tiángěng shàng, wàngzhe màimiáo, liǎn shàng lòuchū xiàoróng."],
+          ["他们说，春雨贵如油，下得正是时候，今年一定是个丰收年。","Tāmen shuō, chūnyǔ guì rú yóu, xià de zhèng shì shíhou, jīnnián yídìng shì ge fēngshōu nián."],
+          ["小河里的水涨了起来，鸭子们排着队下水，嘎嘎地叫着，欢快极了。","Xiǎohé lǐ de shuǐ zhǎng le qǐlái, yāzimen páizhe duì xià shuǐ, gāgā de jiàozhe, huānkuài jí le."],
+          ["村口的桃树冒出了粉红的花苞，在细雨里显得格外娇艳。","Cūnkǒu de táoshù màochū le fěnhóng de huābāo, zài xìyǔ lǐ xiǎnde géwài jiāoyàn."],
+          ["孩子们等不及雨停，穿着雨靴在院子里踩水，溅得裤腿上全是泥点。","Háizimen děng bu jí yǔ tíng, chuānzhe yǔxuē zài yuànzi lǐ cǎi shuǐ, jiàn de kùtuǐ shàng quán shì nìdiǎn."],
+          ["雨下了整整一天，傍晚时分，西边的云层裂开一道缝，透出金色的光。","Yǔ xià le zhěngzhěng yì tiān, bàngwǎn shífēn, xī biān de yúncéng lièkāi yí dào fèng, tòuchū jīnsè de guāng."],
+          ["我想，春雨润物无声，它带来的不只是水，还有一整年的希望。","Wǒ xiǎng, chūnyǔ rùn wù wú shēng, tā dàilái de bù zhǐshì shuǐ, hái yǒu yì zhěng nián de xīwàng."]
+        ]},
+        { title:"奶奶的故事", sub:"示範篇章 41 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["奶奶是个会讲故事的人。","Nǎinai shì ge huì jiǎng gùshi de rén."],
+          ["小时候的每个夜晚，我都是听着她的故事睡着的。","Xiǎoshíhou de měi ge yèwǎn, wǒ dōu shì tīngzhe tā de gùshi shuìzháo de."],
+          ["她的故事里有山里的狐狸，有河里的水怪，还有聪明的小孩和善良的老人。","Tā de gùshi lǐ yǒu shān lǐ de húli, yǒu hé lǐ de shuǐguài, hái yǒu cōngmíng de xiǎohái hé shànliáng de lǎorén."],
+          ["她讲故事的时候，声音一高一低，手还会跟着比画，我们听得连眼睛都舍不得眨。","Tā jiǎng gùshi de shíhou, shēngyīn yì gāo yì dī, shǒu hái huì gēnzhe bǐhua, wǒmen tīng de lián yǎnjing dōu shěbude zhǎ."],
+          ["故事讲完，她总要加上一句：做人要善良，心里要装着别人。","Gùshi jiǎng wán, tā zǒng yào jiā shàng yí jù: Zuò rén yào shànliáng, xīnlǐ yào zhuāngzhe biérén."],
+          ["那时候我年纪小，听过就忘了，只记得故事好听。","Nà shíhou wǒ niánjì xiǎo, tīng guò jiù wàng le, zhǐ jìde gùshi hǎotīng."],
+          ["后来我上了学，读了许多书，才发现奶奶的故事里，藏着她一辈子的道理。","Hòulái wǒ shàng le xué, dú le xǔduō shū, cái fāxiàn nǎinai de gùshi lǐ, cángzhe tā yí bèizi de dàolǐ."],
+          ["奶奶没有读过几年书，可她懂得的，一点儿也不比书上少。","Nǎinai méiyǒu dú guò jǐ nián shū, kě tā dǒngde de, yìdiǎnr yě bù bǐ shū shàng shǎo."],
+          ["如今奶奶年纪大了，记性不好了，常常一个故事讲到一半，就忘了下文。","Rújīn nǎinai niánjì dà le, jìxìng bù hǎo le, chángcháng yí ge gùshi jiǎngdào yí bàn, jiù wàng le xiàwén."],
+          ["这时候，换我来讲给她听，我讲，她笑，眼睛眯成了一条缝。","Zhè shíhou, huàn wǒ lái jiǎng gěi tā tīng, wǒ jiǎng, tā xiào, yǎnjing mīchéng le yì tiáo fèng."],
+          ["我想，故事就是这样一代一代传下来的，传故事的人老了，故事却永远年轻。","Wǒ xiǎng, gùshi jiùshì zhèyàng yí dài yí dài chuán xiàlái de, chuán gùshi de rén lǎo le, gùshi què yǒngyuǎn niánqīng."]
+        ]},
+        { title:"登山", sub:"示範篇章 42 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["去年秋天，我和几位朋友相约去登山。","Qùnián qiūtiān, wǒ hé jǐ wèi péngyou xiāngyuē qù dēngshān."],
+          ["清晨六点，我们背着背包来到山脚下，山在晨雾里若隐若现，高得望不到顶。","Qīngchén liù diǎn, wǒmen bēizhe bēibāo láidào shānjiǎo xià, shān zài chénwù lǐ ruòyǐn-ruòxiàn, gāo de wàng bu dào dǐng."],
+          ["起初大家有说有笑，脚步轻快，走了一个多小时，话渐渐少了，只听见喘气的声音。","Qǐchū dàjiā yǒu shuō yǒu xiào, jiǎobù qīngkuài, zǒu le yí ge duō xiǎoshí, huà jiànjiàn shǎo le, zhǐ tīngjiàn chuǎnqì de shēngyīn."],
+          ["山路越来越陡，我的腿像灌了铅一样，每抬一步都觉得吃力。","Shānlù yuè lái yuè dǒu, wǒ de tuǐ xiàng guàn le qiān yíyàng, měi tái yí bù dōu juéde chīlì."],
+          ["我想过放弃，可看着走在前面的朋友，又咬咬牙跟了上去。","Wǒ xiǎng guò fàngqì, kě kànzhe zǒu zài qiánmiàn de péngyou, yòu yǎo yáoyá gēn le shàngqù."],
+          ["半山腰有一座凉亭，我们坐在那里休息，吃了些干粮，喝了些水，力气又慢慢回来了。","Bàn shānyāo yǒu yí zuò liángtíng, wǒmen zuò zài nàlǐ xiūxi, chī le xiē gānliáng, hē le xiē shuǐ, lìqi yòu mànman huílái le."],
+          ["再往上走，路边的野花开得正盛，红的、黄的、紫的，点缀在绿草之间。","Zài wǎng shàng zǒu, lù biān de yěhuā kāi de zhèng shèng, hóng de, huáng de, zǐ de, diǎnzhuì zài lǜcǎo zhījiān."],
+          ["快到中午的时候，我们终于登上了山顶，山风迎面吹来，凉爽极了。","Kuài dào zhōngwǔ de shíhou, wǒmen zhōngyú dēngshàng le shāndǐng, shānfēng yíngmiàn chuī lái, liángshuǎng jí le."],
+          ["站在山顶往下看，村庄、田野和河流都变小了，心胸一下子开阔起来。","Zhàn zài shāndǐng wǎng xià kàn, cūnzhuāng, tiányě hé héliú dōu biàn xiǎo le, xīnxiōng yíxiàzi kāikuò qǐlái."],
+          ["我想，登山难的不是山高，而是有没有走下去的决心；做很多事情，其实都是这个道理。","Wǒ xiǎng, dēngshān nán de búshì shān gāo, ér shì yǒu méiyǒu zǒu xiàqù de juéxīn; zuò hěn duō shìqing, qíshí dōu shì zhège dàolǐ."]
+        ]},
+        { title:"河边的垂柳", sub:"示範篇章 43 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["我家附近有一条小河，河边种着一排垂柳。","Wǒ jiā fùjìn yǒu yì tiáo xiǎohé, hé biān zhòngzhe yì pái chuíliǔ."],
+          ["春天，柳枝上冒出嫩绿的芽儿，远远望去，像一层淡淡的绿烟。","Chūntiān, liǔzhī shàng màochū nènlǜ de yár, yuǎnyuǎn wàng qù, xiàng yì céng dàndàn de lǜ yān."],
+          ["微风吹来，柳条轻轻摆动，像姑娘的长发，又像绿色的帘子。","Wēifēng chuī lái, liǔtiáo qīngqīng bǎidòng, xiàng gūniang de cháng fà, yòu xiàng lǜsè de liánzi."],
+          ["夏天，柳树的叶子长密了，树荫下成了人们乘凉的好地方。","Xiàtiān, liǔshù de yèzi zhǎng mì le, shùyīn xià chéng le rénmen chéngliáng de hǎo dìfang."],
+          ["老人们在树下下棋、喝茶，孩子们绕着树干追逐，妇女们坐在石凳上做针线。","Lǎorénmen zài shù xià xiàqí, hē chá, háizimen ràozhe shùgàn zhuīzhú, fùnǚmen zuò zài shídèng shàng zuò zhēnxiàn."],
+          ["秋天，柳叶慢慢变黄，一片一片落进河里，顺水漂向远方。","Qiūtiān, liǔyè mànman biàn huáng, yí piàn yí piàn luò jìn hé lǐ, shùn shuǐ piāo xiàng yuǎnfāng."],
+          ["冬天，柳枝光秃秃的，可仔细看，枝条上已经藏好了来年的芽苞。","Dōngtiān, liǔzhī guāngtūtū de, kě zǐxì kàn, zhītiáo shàng yǐjīng cánghǎo le láinián de yábāo."],
+          ["每天上下班路过河边，我都要放慢脚步，看一看这些柳树。","Měitiān shàng xià bān lùguò hé biān, wǒ dōu yào fàngmàn jiǎobù, kàn yi kàn zhèxiē liǔshù."],
+          ["忙碌的日子里，它们站在那里，不声不响，却让人的心里多了一份安稳。","Mánglù de rìzi lǐ, tāmen zhàn zài nàlǐ, bù shēng bù xiǎng, què ràng rén de xīnlǐ duō le yí fèn ānwěn."],
+          ["我想，人也应该像柳树一样，春天发芽，夏天成荫，秋冬积蓄力量，安安静静地生长。","Wǒ xiǎng, rén yě yīnggāi xiàng liǔshù yíyàng, chūntiān fāyá, xiàtiān chéng yīn, qiū dōng jīxù lìliang, ān'ānjìngjìng de shēngzhǎng."]
+        ]},
+        { title:"夜市", sub:"示範篇章 44 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["我们这座小城，有一条远近闻名的夜市街。","Wǒmen zhè zuò xiǎochéng, yǒu yì tiáo yuǎnjìn-wénmíng de yèshì jiē."],
+          ["天一擦黑，摊主们就陆陆续续地支起摊子，灯泡一盏接一盏地亮起来。","Tiān yì cāhēi, tānzhǔmen jiù lùlù-xùxù de zhīqǐ tānzi, dēngpào yì zhǎn jiē yì zhǎn de liàng qǐlái."],
+          ["卖小吃的、卖水果的、卖衣服的、卖日用品的，摊子一个挨着一个，望不到头。","Mài xiǎochī de, mài shuǐguǒ de, mài yīfu de, mài rìyòngpǐn de, tānzi yí ge āizhe yí ge, wàng bu dào tóu."],
+          ["烤串的烟、糖炒栗子的香、臭豆腐的味道，混在一起，飘满了整条街。","Kǎo chuàn de yān, táng chǎo lìzi de xiāng, chòu dòufu de wèidào, hùn zài yìqǐ, piāomǎn le zhěng tiáo jiē."],
+          ["人们三三两两，边走边吃，边逛边聊，脸上都带着轻松的笑容。","Rénmen sānsān-liǎngliǎng, biān zǒu biān chī, biān guàng biān liáo, liǎn shàng dōu dàizhe qīngsōng de xiàoróng."],
+          ["一个卖糖画的师傅最受欢迎，他舀起一勺糖稀，手腕一转，一条龙就活灵活现地出现在石板上。","Yí ge mài tánghuà de shīfu zuì shòu huānyíng, tā yǎoqǐ yì sháo tángxī, shǒuwàn yì zhuàn, yì tiáo lóng jiù huólíng-huóxiàn de chūxiàn zài shíbǎn shàng."],
+          ["孩子们举着糖画，舍不得吃，先要互相比较一番，谁的更大，谁的更好看。","Háizimen jǔzhe tánghuà, shěbude chī, xiān yào hùxiāng bǐjiào yì fān, shéi de gèng dà, shéi de gèng hǎokàn."],
+          ["夜里十一点，夜市才慢慢散场，摊主们收拾东西，互相道着明天见。","Yè lǐ shíyī diǎn, yèshì cái mànman sàn chǎng, tānzhǔmen shōushi dōngxi, hùxiāng dàozhe míngtiān jiàn."],
+          ["街道安静下来，只有清洁工推着车，把一夜的热闹轻轻扫走。","Jiēdào ānjìng xiàlái, zhǐyǒu qīngjié gōng tuīzhe chē, bǎ yí yè de rènao qīngqīng sǎo zǒu."],
+          ["我想，夜市卖的不只是吃食和日用品，它卖的是一座小城热气腾腾的生活。","Wǒ xiǎng, yèshì mài de bù zhǐshì chīshí hé rìyòngpǐn, tā mài de shì yí zuò xiǎochéng rèqì-téngténg de shēnghuó."]
+        ]},
+        { title:"一只小猫", sub:"示範篇章 45 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["去年冬天，我在小区的花坛边捡到了一只小猫。","Qùnián dōngtiān, wǒ zài xiǎoqū de huātán biān jiǎndào le yì zhī xiǎomāo."],
+          ["它蜷缩在落叶里，冻得浑身发抖，叫声细细的，让人听着心疼。","Tā quánsuō zài luòyè lǐ, dòng de húnshēn fādǒu, jiàoshēng xìxì de, ràng rén tīngzhe xīnténg."],
+          ["我把它抱回家，用旧毛巾给它做了一个小窝，又给它热了一碗牛奶。","Wǒ bǎ tā bàohuí jiā, yòng jiù máojīn gěi tā zuò le yí ge xiǎo wō, yòu gěi tā rè le yì wǎn niúnǎi."],
+          ["小猫吃饱以后，慢慢地不抖了，趴在窝里睡着了，睡得香甜。","Xiǎomāo chībǎo yǐhòu, mànman de bù dǒu le, pā zài wō lǐ shuìzháo le, shuì de xiāngtián."],
+          ["从那天起，它就成了我们家的一员，我给它起名叫小雪，因为它是在下雪天来到我们家的。","Cóng nà tiān qǐ, tā jiù chéng le wǒmen jiā de yì yuán, wǒ gěi tā qǐmíng jiào Xiǎoxuě, yīnwèi tā shì zài xià xuě tiān láidào wǒmen jiā de."],
+          ["小雪慢慢长大，学会了自己开门、自己找食，还学会了在门口等我下班。","Xiǎoxuě mànman zhǎngdà, xuéhuì le zìjǐ kāi mén, zìjǐ zhǎo shí, hái xuéhuì le zài ménkǒu děng wǒ xiàbān."],
+          ["每天我一打开门，它就跑过来，用头蹭我的腿，嘴里喵喵地叫着。","Měitiān wǒ yì dǎkāi mén, tā jiù pǎo guòlái, yòng tóu cèng wǒ de tuǐ, zuǐ lǐ miāomiāo de jiàozhe."],
+          ["工作累的时候，我抱着它坐在窗前，看着外面的灯火，心里就平静了许多。","Gōngzuò lèi de shíhou, wǒ bàozhe tā zuò zài chuāng qián, kànzhe wàimiàn de dēnghuǒ, xīnlǐ jiù píngjìng le xǔduō."],
+          ["邻居们都说，这只猫和我有缘，它在等一个家，而我正好给了它一个家。","Línjūmen dōu shuō, zhè zhī māo hé wǒ yǒu yuán, tā zài děng yí ge jiā, ér wǒ zhènghǎo gěi le tā yí ge jiā."],
+          ["我想，有时候温暖就是这样，你温暖了一个小生命，它也温暖了你的整个冬天。","Wǒ xiǎng, yǒu shíhou wēnnuǎn jiùshì zhèyàng, nǐ wēnnuǎn le yí ge xiǎo shēngmìng, tā yě wēnnuǎn le nǐ de zhěnggè dōngtiān."]
+        ]},
+        { title:"丰收的果园", sub:"示範篇章 46 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["秋天一到，二叔家的果园就热闹起来了。","Qiūtiān yí dào, èrshū jiā de guǒyuán jiù rènao qǐlái le."],
+          ["苹果树上挂满了红彤彤的果子，压得枝条都弯了下来，伸手就能摘到。","Píngguǒ shù shàng guàmǎn le hóngtōngtōng de guǒzi, yā de zhītiáo dōu wān le xiàlái, shēn shǒu jiù néng zhāidào."],
+          ["梨树也不示弱，黄澄澄的梨子在阳光下闪着光，远远地就能闻到甜香。","Líshù yě bù shìruò, huángdèngdèng de lízi zài yángguāng xià shǎnzhe guāng, yuǎnyuǎn de jiù néng wéndào tiánxiāng."],
+          ["二叔说，今年雨水好，果子长得格外大，个个都是好成色。","Èrshū shuō, jīnnián yǔshuǐ hǎo, guǒzi zhǎng de géwài dà, gègè dōu shì hǎo chéngsè."],
+          ["摘果子的日子，全家人都出动了，大人上树，孩子递筐，笑声在果园里回荡。","Zhāi guǒzi de rìzi, quán jiā rén dōu chūdòng le, dàrén shàng shù, háizi dì kuāng, xiàoshēng zài guǒyuán lǐ huídàng."],
+          ["我咬一口刚摘下来的苹果，又脆又甜，汁水顺着嘴角流下来。","Wǒ yǎo yì kǒu gāng zhāi xiàlái de píngguǒ, yòu cuì yòu tián, zhīshuǐ shùnzhe zuǐjiǎo liú xiàlái."],
+          ["一筐一筐的果子装上车，运到城里去卖，换回一年的好日子。","Yì kuāng yì kuāng de guǒzi zhuāng shàng chē, yùndào chéng lǐ qù mài, huàn huí yì nián de hǎo rìzi."],
+          ["二叔站在果园边，望着满园的果子，脸上的笑就没停过。","Èrshū zhàn zài guǒyuán biān, wàngzhe mǎn yuán de guǒzi, liǎn shàng de xiào jiù méi tíng guò."],
+          ["他说，种果树和养孩子一样，要有耐心，春天种下，秋天才能收获。","Tā shuō, zhòng guǒshù hé yǎng háizi yíyàng, yào yǒu nàixīn, chūntiān zhòngxià, qiūtiān cái néng shōuhuò."],
+          ["我想，丰收的喜悦，是土地给勤劳的人最好的回报。","Wǒ xiǎng, fēngshōu de xǐyuè, shì tǔdì gěi qínláo de rén zuì hǎo de huíbào."]
+        ]},
+        { title:"老照片", sub:"示範篇章 47 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["整理旧物的时候，我在柜子底翻出了一本老相册。","Zhěnglǐ jiù wù de shíhou, wǒ zài guìzi dǐ fānchū le yì běn lǎo xiàngcè."],
+          ["相册的封面已经发黄，里面的照片大多是黑白的，边角也有些卷了。","Xiàngcè de fēngmiàn yǐjīng fāhuáng, lǐmiàn de zhàopiàn dàduō shì hēibái de, biānjiǎo yě yǒuxiē juǎn le."],
+          ["第一张照片上，爷爷奶奶还很年轻，站在老屋门前，笑得有些拘谨。","Dì-yī zhāng zhàopiàn shàng, yéye nǎinai hái hěn niánqīng, zhàn zài lǎowū mén qián, xiào de yǒuxiē jūjǐn."],
+          ["往后翻，是父亲上学的照片，背着书包，站得笔直，眼睛里透着机灵。","Wǎng hòu fān, shì fùqīn shàngxué de zhàopiàn, bēizhe shūbāo, zhàn de bǐzhí, yǎnjing lǐ tòuzhe jīling."],
+          ["再往后，是我自己的照片：满月时的，学走路时的，第一天上学时的，一张接着一张。","Zài wǎng hòu, shì wǒ zìjǐ de zhàopiàn: Mǎnyuè shí de, xué zǒulù shí de, dì-yī tiān shàngxué shí de, yì zhāng jiēzhe yì zhāng."],
+          ["看着这些照片，往事一件件浮上心头，像放电影一样。","Kànzhe zhèxiē zhàopiàn, wǎngshì yí jiàn jiàn fú shàng xīntóu, xiàng fàng diànyǐng yíyàng."],
+          ["照片里的人，有的已经老了，有的已经不在了，可照片把他们年轻的样子永远留了下来。","Zhàopiàn lǐ de rén, yǒude yǐjīng lǎo le, yǒude yǐjīng bú zài le, kě zhàopiàn bǎ tāmen niánqīng de yàngzi yǒngyuǎn liú le xiàlái."],
+          ["我小心地把相册擦干净，又一张一张地把照片的顺序理好。","Wǒ xiǎoxīn de bǎ xiàngcè cā gānjìng, yòu yì zhāng yì zhāng de bǎ zhàopiàn de shùnxù lǐ hǎo."],
+          ["母亲在一旁看着，轻声说，这可是咱家的宝贝，要好好收着。","Mǔqīn zài yìpáng kànzhe, qīngshēng shuō, zhè kě shì zán jiā de bǎobèi, yào hǎohǎo shōuzhe."],
+          ["我想，老照片留住的不只是几个人的模样，它留住的是一个家走过的全部岁月。","Wǒ xiǎng, lǎo zhàopiàn liúzhù de bù zhǐshì jǐ ge rén de múyàng, tā liúzhù de shì yí ge jiā zǒuguò de quánbù suìyuè."]
+        ]},
+        { title:"风", sub:"示範篇章 48 · 寫景散文風格 · 約 400 個音節", sents:[
+          ["风是看不见的，可我们时时刻刻都能感觉到它的存在。","Fēng shì kàn bu jiàn de, kě wǒmen shíshí-kèkè dōu néng gǎnjuédào tā de cúnzài."],
+          ["春天的风是温柔的，它吹绿了柳枝，吹开了桃花，也吹醒了沉睡的田野。","Chūntiān de fēng shì wēnróu de, tā chuī lǜ le liǔzhī, chuī kāi le táohuā, yě chuī xǐng le chénshuì de tiányě."],
+          ["夏天的风带着热气，只有在傍晚，它才从河面上带来一丝凉意。","Xiàtiān de fēng dàizhe rèqì, zhǐyǒu zài bàngwǎn, tā cái cóng hémiàn shàng dàilái yì sī liángyì."],
+          ["秋天的风最忙，它吹熟了庄稼，吹落了树叶，也给人们捎来了丰收的消息。","Qiūtiān de fēng zuì máng, tā chuī shú le zhuāngjia, chuī luò le shùyè, yě gěi rénmen shāolái le fēngshōu de xiāoxi."],
+          ["冬天的风像刀子，刮在脸上生疼，它催着人们裹紧棉衣，催着雪花快快落下。","Dōngtiān de fēng xiàng dāozi, guā zài liǎn shàng shēng téng, tā cuīzhe rénmen guǒ jǐn miányī, cuīzhe xuěhuā kuài kuài luòxià."],
+          ["小时候，我喜欢站在山坡上张开双臂，让风把衣角吹得鼓鼓的。","Xiǎoshíhou, wǒ xǐhuan zhàn zài shānpō shàng zhāngkāi shuāngbì, ràng fēng bǎ yījiǎo chuī de gǔgǔ de."],
+          ["奶奶说，风没有家，它走遍四方，把远方的消息带给每一个人。","Nǎinai shuō, fēng méiyǒu jiā, tā zǒubiàn sìfāng, bǎ yuǎnfāng de xiāoxi dàigěi měi yí ge rén."],
+          ["如今每当风起，我总会想起山坡上的那个孩子，想起他无忧无虑的笑声。","Rújīn měidāng fēng qǐ, wǒ zǒng huì xiǎngqǐ shānpō shàng de nà ge háizi, xiǎngqǐ tā wúyōu-wúlǜ de xiàoshēng."],
+          ["风还在吹，一年四季，从不停歇，它陪着这片土地，也陪着土地上的人们，一起慢慢变老。","Fēng hái zài chuī, yì nián sìjì, cóng bù tíngxiē, tā péizhe zhè piàn tǔdì, yě péizhe tǔdì shàng de rénmen, yìqǐ mànman biàn lǎo."]
+        ]},
+        { title:"乡村的集市", sub:"示範篇章 49 · 寫景敘事風格 · 約 400 個音節", sents:[
+          ["每逢农历的初五、十五、二十五，是我们村赶集的日子。","Měi féng nónglì de chūwǔ, shíwǔ, èrshíwǔ, shì wǒmen cūn gǎnjí de rìzi."],
+          ["一大早，四面八方的人们就挑着担子、推着车子，往集市上赶。","Yí dàzǎo, sìmiàn-bāfāng de rénmen jiù tiāozhe dànzi, tuīzhe chēzi, wǎng jíshì shàng gǎn."],
+          ["集市设在村口的一条长街上，摊子沿着街道排开，一眼望不到头。","Jíshì shè zài cūnkǒu de yì tiáo chángjiē shàng, tānzi yánzhe jiēdào páikāi, yì yǎn wàng bu dào tóu."],
+          ["卖菜的摊子上，青菜、萝卜、南瓜摆得整整齐齐，上面还带着露水。","Mài cài de tānzi shàng, qīngcài, luóbo, nánguā bǎi de zhěngzhěng-qíqí, shàngmiàn hái dàizhe lùshuǐ."],
+          ["卖布的、卖农具的、卖小吃的摊子前，都围满了人，讨价还价的声音此起彼伏。","Mài bù de, mài nóngjù de, mài xiǎochī de tānzi qián, dōu wéimǎn le rén, táijià-huánjià de shēngyīn cǐqǐ-bǐfú."],
+          ["我最喜欢跟在奶奶身后赶集，她总要给我买一个糖人或者一串山楂。","Wǒ zuì xǐhuan gēn zài nǎinai shēnhòu gǎnjí, tā zǒng yào gěi wǒ mǎi yí ge tángrén huòzhě yí chuàn shānzhā."],
+          ["集市上最热闹的，要数卖牲口的一角，马叫声、羊叫声和人们的说笑声混在一起。","Jíshì shàng zuì rènao de, yào shù mài shēngkǒu de yì jiǎo, mǎ jiàoshēng, yáng jiàoshēng hé rénmen de shuōxiào shēng hùn zài yìqǐ."],
+          ["太阳升到头顶的时候，集市慢慢散了，人们挑着满满的担子，满意地往家走。","Tàiyáng shēng dào tóutǐng de shíhou, jíshì mànman sàn le, rénmen tiāozhe mǎnmǎn de dànzi, mǎnyì de wǎng jiā zǒu."],
+          ["如今村里的年轻人大多进城了，赶集的人不如从前多，可集市还是按老日子，一场不落。","Rújīn cūn lǐ de niánqīng rén dàduō jìn chéng le, gǎnjí de rén bùrú cóngqián duō, kě jíshì háishì àn lǎo rìzi, yì chǎng bú là."],
+          ["我想，集市卖的不只是货物，它还是乡亲们见面、说话、联络感情的地方。","Wǒ xiǎng, jíshì mài de bù zhǐshì huòwù, tā hái shì xiāngqīnmen jiànmiàn, shuōhuà, liánluò gǎnqíng de dìfang."]
+        ]},
+        { title:"灯塔", sub:"示範篇章 50 · 敘事散文風格 · 約 400 個音節", sents:[
+          ["在海港的入口处，矗立着一座白色的灯塔。","Zài hǎigǎng de rùkǒu chù, chùlìzhe yí zuò báisè de dēngtǎ."],
+          ["它不高，也不华丽，却是渔民们心里最踏实的存在。","Tā bù gāo, yě bù huálì, què shì yúmínmen xīnlǐ zuì tāshi de cúnzài."],
+          ["每当夜幕降临，灯塔顶上的灯就亮了起来，一闪一闪，把光洒向漆黑的海面。","Měidāng yèmù jiànglín, dēngtǎ dǐng shàng de dēng jiù liàng le qǐlái, yì shǎn yì shǎn, bǎ guāng sǎ xiàng qīhēi de hǎimiàn."],
+          ["出海的渔船看见这光，就知道家的方向在哪里，心里一下子就安稳了。","Chūhǎi de yúchuán kànjiàn zhè guāng, jiù zhīdào jiā de fāngxiàng zài nǎlǐ, xīnlǐ yíxiàzi jiù ānwěn le."],
+          ["守塔的老人姓陈，在这座塔上守了四十多年，塔就是他的家。","Shǒu tǎ de lǎorén xìng Chén, zài zhè zuò tǎ shàng shǒu le sìshí duō nián, tǎ jiùshì tā de jiā."],
+          ["不管刮风下雨，他每天都要沿着旋梯爬到塔顶，检查灯是不是还亮着。","Bùguǎn guāfēng xià yǔ, tā měitiān dōu yào yánzhe xuántī pádào tǎdǐng, jiǎnchá dēng shì bu shì hái liàngzhe."],
+          ["他说，灯一灭，海上的人就要多一分危险，他这辈子，不能让这盏灯灭。","Tā shuō, dēng yì miè, hǎi shàng de rén jiù yào duō yì fēn wēixiǎn, tā zhè bèizi, bù néng ràng zhè zhǎn dēng miè."],
+          ["有一年台风来临，海浪打得塔身直摇，他抱着备用的油灯，在塔顶守了整整一夜。","Yǒu yì nián táifēng láilín, hǎilàng dǎ de tǎshēn zhí yáo, tā bàozhe bèiyòng de yóudēng, zài tǎdǐng shǒu le zhěngzhěng yí yè."],
+          ["如今灯塔换上了自动的电灯，陈老也退休了，可他还是每天到塔下走一走，抬头看一看。","Rújīn dēngtǎ huànshàng le zìdòng de diàndēng, Chén lǎo yě tuìxiū le, kě tā háishì měitiān dào tǎ xià zǒu yi zǒu, táitóu kàn yi kàn."],
+          ["我想，灯塔的光照亮的不只是海面，还有人们心里的方向；只要光还在，回家的人就永远不会迷路。","Wǒ xiǎng, dēngtǎ de guāng zhàoliàng de bù zhǐshì hǎimiàn, hái yǒu rénmen xīnlǐ de fāngxiàng; zhǐyào guāng hái zài, huí jiā de rén jiù yǒngyuǎn bú huì mílù."]
+        ]}
+      ];
+
+      var TOPICS = [
+        ["我的愿望（或理想）",["小時候的願望是什麼，怎樣產生的","現在的目標，以及為達成目標做過的努力","遇到困難時靠什麼堅持下去"]],
+        ["我的学习生活",["一天／一週的學習安排是怎樣的","自己最受用的學習方法，舉一個例子","一次難忘的學習經歷和它的收穫"]],
+        ["我尊敬的人",["他是誰，與自己的關係","用一兩件小事說明他的品格","他對自己做人做事的影響"]],
+        ["我喜爱的植物（或动物）",["它的外形／習性有什麼特點","自己與它的一段小故事","為什麼特別喜歡它，它帶來的感受"]],
+        ["童年的记忆",["童年生活的地方和玩伴","一件最難忘的小事，細節說清楚","現在回想起來有什麼感受"]],
+        ["我喜爱的职业",["是哪一種職業，做些什麼","喜歡它的三個理由","自己距離這個職業還差什麼，怎樣準備"]],
+        ["难忘的旅行",["去了哪裏，和誰一起去","旅途中最深刻的一個場面或小插曲","這趟旅行留給自己的啟發"]],
+        ["我的朋友",["怎樣認識這位朋友的","一件互相幫忙或難忘的事","從這位朋友身上學到什麼"]],
+        ["我的业余生活",["平時下班／放學後做什麼","最常做的一項活動，怎樣安排時間","業餘生活如何調劑身心"]],
+        ["谈谈卫生与健康",["日常生活中自己注意的衛生習慣","飲食、睡眠、運動怎樣影響健康","一次生病的經歷帶來的提醒"]],
+        ["学习普通话的体会",["為什麼開始學普通話","學的過程中最難的地方（聲調、翹舌音等）及克服方法","學好普通話後生活或工作的變化"]],
+        ["谈谈科技发展与社会生活",["舉兩三個科技改變生活的例子（手機支付、網絡購物等）","科技帶來的不便或問題","自己怎樣平衡使用科技與現實生活"]],
+        ["我知道的风俗",["介紹一個自己熟悉的節日或地方風俗","這個風俗的由來或做法細節","年輕一代對這個風俗的態度"]],
+        ["我和电视",["平時看些什麼節目，為什麼","一個印象最深的節目帶來的影響","電視（或網絡視頻）對生活的利與弊"]],
+        ["谈谈对环境保护的认识",["身邊看得到的環境問題","自己和家人做過的環保小事（分類、減塑等）","普通人可以怎樣出力的一點建議"]],
+        ["我向往的地方",["那是一個怎樣的地方，從哪裏知道的","最吸引自己的兩三個特點","打算什麼時候、怎樣去實現這個心願"]],
+        ["谈谈服饰",["自己平時選擇衣服的原則","不同場合的穿著有什麼講究","服飾除了保暖，還表達什麼"]],
+        ["我的假日生活",["最近一個假日是怎樣過的","假日裏最喜歡做的一件事","假日對工作和學習的調節作用"]],
+        ["谈谈邻里关系",["自己的鄰居是怎樣的人","一件鄰里之間互相幫忙的小事","怎樣做才能讓鄰里關係更融洽"]],
+        ["一个愉快的假日",["那天去了哪裏、和誰在一起","當天最開心的一個片段","為什麼這一天特別愉快"]],
+        ["谈谈个人修养",["自己理解的「修養」包括什麼","身邊一位有修養的人的表現","自己正在努力改進的一個小缺點"]],
+        ["谈谈社会公德",["舉例說明一兩種有公德／缺公德的行為","在公共交通或公共場所的親身見聞","維護社會公德人人有責的原因"]],
+        ["谈谈诚信",["誠信在日常生活中表現在哪裏","一次守信或失信的故事和結果","沒有誠信會給社會帶來什麼問題"]],
+        ["谈谈对幸福的理解",["自己心目中幸福的樣子","一件讓自己感到幸福的小事","幸福與金錢、名利的關係"]],
+        ["我喜爱的文学（或其他）艺术形式",["是文學、音樂、繪畫還是其他，哪一點最吸引自己","一部最喜歡的作品及其內容","這種藝術形式帶給自己的改變"]],
+        ["我最得意的一件事",["事情的經過，難點在哪裏","自己怎樣一步步把它做好","這件事帶來的成就感和啟發"]],
+        ["我所在的集体",["介紹這個集體（班級、部門、團隊）","集體裏一次合作完成任務的經歷","自己在集體中的角色和感受"]],
+        ["谈谈中国传统文化",["選一個方面介紹：節日、飲食、書法、戲曲等","它背後的一個故事或寓意","傳統文化在今天應該怎樣傳承"]],
+        ["谈谈团队精神",["一次親身經歷的團隊合作","團隊中分工與配合的重要性","個人與團隊發生分歧時應怎樣處理"]],
+        ["我对美食的了解",["介紹一道自己最拿手或最喜歡的菜","它的材料和做法要點","美食與地方文化、家庭記憶的關係"]],
+        ["我的家乡",["家鄉在哪裏，是一個怎樣的地方","家鄉這些年的變化（道路、房屋、生活）","自己對家鄉的感情和心願"]],
+        ["我喜欢的季节",["四季之中最喜歡哪一個，為什麼","這個季節裏自己常做的一兩件事","這個季節帶給自己的特別感受"]],
+        ["谈谈读书",["自己平時讀什麼書，讀書的習慣如何","讀書帶給自己的收穫，舉一個例子","忙碌的人怎樣也能堅持讀書"]],
+        ["我喜欢的运动",["喜歡哪種運動，是怎樣開始的","這項運動帶給自己的好處","堅持運動過程中的一點體會"]],
+        ["谈谈互联网",["互聯網給生活帶來的方便，舉兩三個例子","互聯網帶來的問題（假消息、沉迷等）","自己怎樣合理使用互聯網"]],
+        ["谈谈养宠物",["養過或見過的寵物，說一兩個小故事","養寵物的樂趣與責任","在城市裏養寵物要注意什麼"]],
+        ["我最难忘的一天",["那是哪一天，發生了什麼事","事情經過中最深刻的一兩個細節","這一天為什麼難忘，給自己的啟發"]],
+        ["谈谈礼貌",["禮貌在日常生活中表現在哪些小地方","一次親身經歷：受到禮貌對待或相反的情形","禮貌對人際關係和社會風氣的作用"]],
+        ["我的座右铭",["自己的座右銘是什麼，從哪裏來的","它在某件事上怎樣提醒、幫助自己","為什麼一直把它記在心裏"]],
+        ["谈谈节约",["身邊見到的浪費現象，舉例說明","自己和家人在節約方面的做法","節約與生活質量的關係"]],
+        ["我喜欢的一本书",["書名、作者和大概內容","書中哪個人物最打動自己，為什麼","這本書對自己的影響"]],
+        ["谈谈公共交通",["自己平時使用哪些公共交通","公共交通的好處和存在的問題","對改善公共交通的一點建議"]],
+        ["谈谈安全",["安全對生活和工作的重要性","身邊見過的安全問題或教訓","自己平時注意安全的習慣"]],
+        ["谈谈孝敬父母",["父母為子女付出了什麼","自己為父母做過哪些事","年輕人應該怎樣孝敬父母"]],
+        ["我的一天",["一天的時間大致怎樣安排","一天中最忙和最放鬆的時段","對自己作息安排的感受"]],
+        ["谈谈广告",["日常生活中常見的廣告有哪些","廣告的好處和存在的問題","自己對待廣告的態度"]],
+        ["谈谈城市与乡村",["城市生活和鄉村生活各有什麼特點","自己對兩種生活的感受","希望城鄉將來怎樣發展"]],
+        ["我最喜欢的节日",["最喜歡哪個節日，什麼時候過","這個節日的習俗和自家的過法","為什麼特別喜歡這個節日"]],
+        ["谈谈坚持",["堅持對做成事情的意義","自己堅持做成一件事的經歷","想放棄時靠什麼鼓勵自己"]],
+        ["谈谈微笑",["微笑在人際交往中的作用","一次難忘的微笑帶給自己的感受","怎樣以微笑面對生活"]]
+      ];
+
+      var SAMPLES = [
+        ["我小时候的愿望，是当一名小学老师。","因为我的第一位老师对我特别好，她让我觉得，老师是世界上最了不起的人。","长大以后，我的愿望没有变，只是变得更具体了。","我想回到家乡的小学教书，教孩子们读书、写字，也教他们说一口标准的普通话。","为了这个愿望，我现在每天都在努力学习，周末还去图书馆看书。","我知道，这条路不容易，要考试，要实习，还要不断学习新的知识。","有时候我也觉得累，可是只要想起小时候坐在教室里的自己，我就有了力气。","我相信，只要一步一步走下去，我的愿望总有一天会实现的。","我也想过，如果将来真的当上老师，我要像我的老师一样，对每个孩子都有耐心。","愿望不只是想一想，更要一步一步地去做，我想这才是最重要的。"],
+        ["我现在的学习生活，忙碌，但是很有规律。","每天早上七点，我准时起床，先读半个小时的书，再去上课。","白天的时间，大多在教室和图书馆里度过。","我觉得，学习最重要的是方法。","比如背单词，我不会死记硬背，而是把新词放进句子里，一边读一边记。","上个学期，我用这个办法准备考试，成绩提高了不少。","当然，学习也不能一直绷着。","晚上我会和朋友一起去操场散步，聊聊天，放松一下。","这样的学习生活，虽然辛苦，但是让我觉得很充实。","我还养成了一个习惯，每天睡觉前，把今天学的东西在脑子里过一遍。","这样一天一天坚持下来，进步就在不知不觉中出现了。"],
+        ["我最尊敬的人，是我的外公。","他今年八十多岁了，是一位退休的老教师。","外公一辈子教书，从来没有迟到过一次，也没有请过一天假。","他常说，做人要认真，做事要负责，这两句话我一直记在心里。","记得我小时候，数学学得不好，是外公每天晚上陪我做题，一道一道地讲。","他从来不发脾气，总是笑着说，慢慢来，不着急。","现在我遇到困难的时候，就会想起外公的话。","我要像他一样，做一个认真、负责、有耐心的人。","外公的书房里，至今还放着他用了几十年的教案，字迹工工整整。","每次看到那些教案，我就提醒自己，做人做事，都要对得起自己的良心。"],
+        ["我最喜欢的动物，是我家的小猫。","它今年三岁，浑身雪白，只有尾巴尖儿有一点儿灰色。","它是我在小区门口捡到的，那时候它又瘦又小，叫声细细的。","我把它抱回家，喂它牛奶，慢慢地，它就成了我们家的一员。","小猫特别懂事，我看书的时候，它就趴在我脚边睡觉，从来不捣乱。","我心情不好的时候，它会用头蹭我的手，好像在安慰我。","我觉得，动物也是有感情的，你对它好，它就对你好。","希望它能一直健健康康地陪着我们。","每天我下班回家，它总是第一个跑到门口来迎接我。","有了它的陪伴，我们家多了很多笑声。"],
+        ["我的童年，是在乡下外婆家度过的。","那时候，村子前面有一条小河，河水清得能看见水底的小鱼。","夏天，我和小伙伴们天天在河边玩，捉鱼，摸虾，笑声不断。","记得有一次，我为了捉一条大鱼，一脚踩空，掉进了河里，浑身湿透了。","外婆不但没有骂我，还笑着给我换衣服，煮姜汤。","现在回想起来，那些日子简单又快乐。","虽然现在生活条件好了，可是我还是常常想起那条小河。","童年的记忆，是我心里最温暖的东西。","现在村子里也通了公路，盖起了新房子，可是那条小河还在。","去年我回去了一次，站在河边，好像又听到了小伙伴们的笑声。"],
+        ["我最喜欢的职业，是医生。","医生这个职业，是用自己的本事去帮助别人，减轻别人的痛苦。","我喜欢它，有三个原因。","第一，它很有意义，每治好一个病人，就挽救了一个家庭的幸福。","第二，它需要不断学习，医学一直在进步，人也要一直进步。","第三，它受人尊敬，因为大家都知道，医生是值得信任的人。","我知道，要当一名好医生，要读很多年书，还要经过严格的训练。","我离这个目标还有很远，但是我愿意为它努力。","我知道医生的工作很辛苦，常常要值夜班，节假日也不能休息。","可是只要想到能帮助病人恢复健康，我觉得再辛苦也值得。"],
+        ["去年夏天，我和朋友一起去了一趟大理，那是我最难忘的一次旅行。","我们坐了一夜的火车，第二天早上到达的时候，天刚刚亮。","洱海的水蓝得像一块宝石，远处的苍山顶上还有一点儿雪。","我们在海边租了自行车，慢慢地骑，风吹在脸上，舒服极了。","有一天，我们的车在半路上坏了，正着急的时候，一位当地的老大爷帮我们修好了车，还不肯收钱。","这件事让我特别感动。","这次旅行，我不只看到了美丽的风景，还感受到了陌生人的善意。","我想，旅行的意义，不只是看风景，更是遇见不一样的人和生活。","回来以后，我把旅行中拍的照片整理成了一本小册子。","每当工作累了，我就翻出来看看，心里又充满了力量。"],
+        ["我最好的朋友叫小林，我们是中学同学。","认识他，是在开学的第一天，我找不到教室，是他主动带我去的。","从那以后，我们成了无话不谈的朋友。","有一次我生病，请了一个星期的假，是他每天把课堂笔记送到我家，还给我讲当天学的内容。","靠着他的帮助，我才没有落下功课。","小林这个人，心地善良，做事认真，谁有困难他都愿意帮忙。","从他身上，我学到了，朋友之间最重要的，是真心和互助。","我希望我们的友谊能一直这样下去。","现在我们虽然不在一个城市工作，但是常常通电话，互相鼓励。","我相信，真正的友谊，不会因为距离而变淡。"],
+        ["我的业余生活很丰富，其中我最喜欢的是打羽毛球。","每天下班以后，我先回家吃饭，休息一会儿，然后就去小区的球场。","打球不光能锻炼身体，还能让我把一天的疲劳都忘掉。","周末的时候，我喜欢看书和听音乐，有时候也和朋友一起去爬山。","我给自己定了规矩，业余时间尽量不看手机，多做一些对身体和心情有好处的事。","自从这样安排以后，我觉得整个人精神多了，工作起来也更有劲儿。","我觉得，业余生活安排得好，日子才过得有滋有味。","偶尔我也会学做一两道新菜，请朋友来家里尝尝。","业余生活丰富了，整个人看上去也精神了不少，朋友都这样说。"],
+        ["我觉得，卫生和健康是分不开的。","一个人如果不讲卫生，就很容易生病。","在日常生活中，我特别注意几件事。","第一，饭前便后要洗手，这是从小养成的习惯。","第二，食物要新鲜，过期变质的东西坚决不吃。","第三，房间要常通风，被子要常晒。","除了卫生，睡眠和运动也很重要。","我每天尽量睡够七个小时，每周跑两三次步。","记得有一年冬天，我因为熬夜太多，病了半个月，从那以后，我再也不敢不爱惜身体了。","身体是自己的，只有保持良好的卫生习惯，才能有健康的身体。","另外，我每年都会做一次身体检查，早发现问题，早治疗。","我希望每个人都能重视卫生和健康，毕竟，健康的身体才是最大的财富。"],
+        ["我学习普通话，已经有两年多了。","刚开始学的时候，我觉得最难的是声调。","同样一个字，声调不一样，意思就完全不一样，我常常闹笑话。","比如我想说买东西，一不小心就说成了卖东西。","后来我找到一个办法，就是多听多模仿。","我每天跟着录音读课文，把自己的声音录下来，再和录音对比。","慢慢地，我的发音越来越准了。","现在，我能用普通话和来自各地的朋友聊天，工作上也方便多了。","我体会到，学普通话没有捷径，只有多听、多说、多练，才能说得自然流利。","我还想建议初学的朋友，不要怕说错，开口说比什么都重要。","只要坚持下去，普通话一定会越说越好。"],
+        ["这些年，科技发展得特别快，我们的生活也跟着变了样。","比如买东西，以前要去商店排队，现在拿出手机，点几下就送到家了。","再比如出门，以前要带钱包、带零钱，现在一部手机就能坐车、吃饭、看病。","科技给我们带来了很多方便，可是也有一些问题。","有些人整天低着头看手机，一家人坐在一起，也不说话。","还有，网上信息太多，真假难分，一不小心就会上当。","我觉得，科技是为人服务的，不能反过来让科技管住我们。","我给自己定了规矩，吃饭和睡觉的时候不看手机，多陪陪家人。","用得好，科技就能让我们的生活更美好。","比如我父亲，以前不会用智能手机，现在学会了视频通话，天天和孙子聊天，开心极了。","科技本身没有好坏，关键看我们怎样使用它。"],
+        ["我想介绍一个我很熟悉的风俗，就是春节贴春联、吃年夜饭。","每到腊月二十八、二十九，家家户户就忙着打扫屋子，准备过年。","大年三十这一天，爸爸贴春联，妈妈在厨房里忙着做菜。","春联上写的都是吉祥话，希望新的一年平安顺利。","晚上，全家人围坐在一起吃年夜饭，桌上一定要有鱼，意思是年年有余。","吃完饭，长辈会给孩子们发压岁钱，祝他们健康成长。","现在，年轻人的过年方式有了一些变化，比如用手机发红包，在网上拜年。","可是我觉得，不管形式怎么变，一家人团团圆圆，才是这个风俗最重要的意义。","初一早上，我们还会去给长辈拜年，说几句祝福的话。","我希望这样的风俗能一直传下去，让孩子们记得，过年是团圆的日子。"],
+        ["我和电视，可以说是一起长大的。","小时候，每天吃完晚饭，我就搬个小板凳，坐在电视机前面。","那时候我最喜欢看动画片，一看就是一个多小时，妈妈叫我睡觉都不肯。","长大以后，我看电视的时间少了，更多的是看新闻和纪录片。","有一部纪录片我印象特别深，它讲的是中国的美食，看完以后，我对很多地方的风俗都有了了解。","电视和网络视频，给我们打开了一扇看世界的窗口，这是它们的好处。","可是看得太多，也会伤眼睛，还会耽误学习和工作。","所以现在我看电视很有节制，每天不超过一个小时。","我觉得，会选择、会节制，才能让电视真正为我们的生活服务。","现在有了网络视频，想看什么随时都能看，选择比以前多多了。","但是选择越多，越要提醒自己，不要把时间都花在屏幕上。"],
+        ["这些年，环境问题越来越受到大家的重视。","就拿我住的城市来说，以前河水是臭的，天也常常是灰的。","这些问题，和我们每个人的生活习惯都有关系。","其实，保护环境并不难，很多都是身边的小事。","比如买东西的时候，自己带布袋，少用塑料袋。","比如垃圾要分类，电池、药品这些有害垃圾不能乱扔。","我们家还坚持随手关灯、节约用水。","这些事看起来小，可是人人都能做到的话，力量就大了。","我希望，我们的城市能越来越干净，天更蓝，水更清。","保护环境，就是保护我们自己的家。","我们小区现在也有了垃圾分类的箱子，大家慢慢都养成了习惯。","我相信，只要每个人都出一分力，我们的生活环境一定会越来越好。"],
+        ["我最向往的地方，是西藏的拉萨。","我第一次知道拉萨，是从一本杂志上。","照片上的布达拉宫，在蓝天白云下面，又高大又庄严，我一下子就被吸引住了。","听说那里的天特别蓝，云特别白，阳光特别亮。","我还听说，拉萨的人们生活节奏很慢，心里很安静。","这正是我向往的，因为我平时工作很忙，总想找个地方让自己慢下来。","我打算明年夏天，攒够假期和路费，坐火车去拉萨。","我相信，站在布达拉宫前面的那一刻，我的心愿就实现了。","为了这次旅行，我已经开始锻炼身体了，因为听说高原上容易缺氧。","我还买了几本介绍西藏的书，提前了解一下当地的风俗习惯。"],
+        ["说到服饰，我这个人不算讲究，但是有自己的原则。","我选衣服，第一看舒服，第二看合身，第三才看好不好看。","我觉得，不同的场合，穿着应该不一样。","上班的时候，要穿得整齐大方，这是对工作和同事的尊重。","参加朋友婚礼，要穿得喜庆一点儿，但是不能抢了新人的风头。","平时和朋友出去玩，就可以随便一些，怎么舒服怎么穿。","服饰不只是用来保暖和遮体的。","一个人的穿着，能看出他的习惯和态度。","穿得干净整齐的人，往往做事也认真。","所以我觉得，服饰是小事，但也不能太马虎。","我买衣服不追求名牌，价钱合适、质量好，就可以了。","穿着得体，不光自己舒服，也是对别人的一种尊重。"],
+        ["我刚刚度过一个愉快的假日，想跟大家说说。","上个星期天，天气特别好，我和家人一起去了郊外的公园。","我们带了吃的喝的，在草地上铺了一块布，一边吃东西，一边聊天。","孩子们在旁边放风筝，跑来跑去，笑个不停。","下午，我们沿着湖边散步，湖水很清，柳树刚刚发芽，景色美极了。","这一天，我什么工作都没想，心里特别放松。","平时工作忙，很少有时间陪家人，假日就显得特别宝贵。","我觉得，假日不一定非要去远的地方，一家人开开心心地在一起，就是最好的休息。","休息好了，星期一上班的时候，才更有精神。","那天晚上回到家，我洗了个热水澡，睡了一个好觉。","这样的假日过完，整个人就像充了电一样，轻松又有精神。"],
+        ["我住的这个小区，邻里关系特别好。","我的邻居是一对老夫妻，人特别热心。","刚搬来的时候，我对周围不熟悉，是他们告诉我菜市场在哪儿，公交车在哪儿坐。","有一次我出差，家里的花没人浇水，我把钥匙留给他们，回来的时候，花长得比以前还好。","逢年过节，我们还会互相送一点儿自己做的吃食。","我觉得，邻里之间，就应该这样互相帮助、互相照应。","平时见面打个招呼，有事的时候搭把手，关系自然就亲近了。","俗话说，远亲不如近邻。","邻里关系处好了，生活也会变得更温暖、更安心。","有时候我做了好吃的，也会端一碗给他们送去。","邻里之间你来我往，这份情意，比什么都珍贵。"],
+        ["我要说的是去年国庆节的一个假日，那一天我过得特别愉快。","那天早上，天气晴朗，我和几个老朋友约好一起去爬山。","我们一边爬，一边聊上学时候的趣事，笑声就没停过。","爬到山顶的时候，正赶上日出，红红的太阳从云里跳出来，大家都高兴得喊了起来。","中午，我们在山下的农家小院吃饭，菜都是地里现摘的，新鲜极了。","下午，我们在院子里的大树下喝茶、下棋，什么烦恼都忘了。","这一天之所以特别愉快，不是因为去了多远的地方，而是因为和老朋友在一起。","平时大家各忙各的，难得聚得这么齐。","我想，愉快的假日，就是和喜欢的人，做喜欢的事。","下山的时候，大家还约好，下次找个时间，再一起出去走走。","这样的约定，让我对下一个假日又多了一份期待。"],
+        ["我理解的个人修养，主要包括两个方面。","一方面是品德，比如诚实、善良、守信用。","另一方面是习惯和礼貌，比如说话和气，遵守公共秩序。","我身边就有一位很有修养的人，他是我们单位的老主任。","他跟任何人说话都客客气气的，年轻人犯了错，他也从不当众批评，而是私下提醒。","大家都很尊敬他。","说到我自己，我有一个小缺点，就是性子急，有时候说话太快，容易得罪人。","这两年，我一直在改，说话之前先想一想，慢慢就好多了。","我觉得，修养不是一天练成的，要在小事上一点一点地积累。","做一个有修养的人，自己高兴，别人也舒服。","读书也是提高修养的好办法，从书里能学到很多做人的道理。","我希望自己能一直保持学习的心态，让修养慢慢变成习惯。"],
+        ["社会公德，关系到我们每一个人的生活。","有公德的行为，在身边很常见。","比如在公交车上，年轻人主动给老人让座。","比如排队买票的时候，大家都按顺序来，不插队。","可是，缺公德的行为也不少。","有一次我坐地铁，旁边一位乘客大声打电话，说了一路，周围的人都皱着眉头，却不好意思提醒他。","还有人在公园里乱扔垃圾，明明垃圾桶就在几步远的地方。","这些行为看起来是小事，可是影响的是大家的心情和整个社会的风气。","维护社会公德，不能只靠规定，更要靠每个人自觉。","从自己做起，从小事做起，我们的社会就会越来越文明。","我自己平时坐车，一定排队上车，看到老人和孕妇，马上让座。","这些小事我坚持了很多年，已经成了习惯。"],
+        ["诚信，是做人最基本的道理。","在日常生活中，诚信表现在很多地方。","答应别人的事要做到，借了东西要按时还，做错了事要敢于承认。","我给大家讲一个小故事。","有一次，我在小店买东西，老板忙中出错，多找了我二十块钱。","我当时就把钱退了回去，老板连声道谢。","从那以后，我每次去他店里，他都格外热情。","你看，诚信不光让别人信任你，也让自己的心里踏实。","反过来，如果一个社会没有诚信，买东西怕假货，借钱怕不还，大家互相提防，日子就难过了。","所以我觉得，诚信是社会的根基，人人都应该珍惜它。","做生意讲诚信，生意才能长久；做人讲诚信，路才能越走越宽。","我希望自己一辈子都做一个诚实守信的人。"],
+        ["什么是幸福？每个人的答案都不一样。","在我看来，幸福不是有多少钱，也不是住多大的房子。","幸福是下班回到家，桌上有一碗热汤。","幸福是生病的时候，有人在身边端水拿药。","幸福是努力了很久的事情，终于有了一点儿结果。","记得有一次，我陪母亲去医院复查，医生说她的身体恢复得很好。","那一刻，我心里说不出的高兴，那就是幸福。","幸福和金钱有关系，但是关系不大。","钱能买到很多东西，却买不到家人的健康和陪伴。","我觉得，幸福就在平平常常的日子里，只要用心，就能感受到。","周末的时候，一家人一起包饺子、聊聊天，我觉得那就是最幸福的时刻。","幸福其实很简单，不需要等，也不需要找，它就在我们身边。"],
+        ["我最喜爱的艺术形式，是音乐。","音乐最吸引我的地方，是它不用说话，就能把心情表达出来。","开心的时候听音乐，心情会更好。","难过的时候听音乐，心里会慢慢平静下来。","我最喜欢的一首歌，叫《茉莉花》。","这首歌的旋律简单又优美，唱的是茉莉花的清香和纯洁。","我第一次听它，是在小学的音乐课上，一晃这么多年过去了，我还是百听不厌。","音乐对我的影响很大。","它让我在忙碌的生活里，有了一个安放心情的地方。","我希望以后能学会一种乐器，亲手弹出自己喜欢的曲子。","现在我每天上下班的路上，都会戴上耳机听一会儿音乐。","音乐已经成了我生活中不可缺少的一部分。"],
+        ["我最得意的一件事，是去年学会了游泳。","说起来惭愧，我长这么大，一直是个旱鸭子，特别怕水。","去年夏天，朋友拉我去学游泳，前几次课，我连头都不敢扎进水里。","教练说，学游泳最难的不是动作，而是战胜心里的害怕。","我给自己定了个小目标，每次多坚持五分钟。","先是敢漂浮了，接着能游五米、十米，一个月以后，我居然能游完五十米了。","站在池边看着自己游过的距离，我心里特别得意。","这件事让我明白，很多事情看起来难，其实只要一步一步来，就能做到。","从那以后，我再遇到难事，就不会轻易放弃了。","今年夏天，我还打算去学自由泳，让自己游得更快、更轻松。","我得意的不是学会了游泳，而是终于战胜了自己的害怕。"],
+        ["我想介绍一下我所在的集体，就是我工作的这个小团队。","我们一共八个人，年纪差不多，关系特别融洽。","平时大家分工明确，谁负责什么，都清清楚楚。","去年，我们接了一个很急的任务，时间紧，要求高。","大家主动加班，分工合作，有问题一起商量。","整整忙了两个星期，最后提前一天把任务完成了。","那一刻，大家击掌庆祝，我心里特别自豪。","在集体里，我主要负责整理资料和对外联系。","我觉得自己是这个集体的一颗螺丝钉，不起眼，但是少不了。","我喜欢这个集体，因为它让我觉得，工作不只是一份任务，更是一份温暖。","逢年过节，我们还会一起聚餐，像一家人一样。","我为自己能在这样的集体里工作，感到特别幸运。"],
+        ["中国传统文化内容丰富，我想说说我最熟悉的书法。","书法是中国特有的艺术，一支毛笔，一张宣纸，就能写出千变万化的字。","小时候，外公教我写毛笔字，他说，写字先要坐正，心要静。","那时候我不懂，现在才慢慢体会到，字里藏着做人的道理。","写字讲究有起有落，做人也要有始有终。","书法讲究中正平稳，做人也要堂堂正正。","今天，写毛笔字的人比以前少了，但是书法并没有过时。","很多学校都开了书法课，年轻人也开始喜欢上这门艺术。","我觉得，传统文化不是博物馆里的东西。","只有把它用在生活里、传给下一代，它才能一直活下去。","现在我有空的时候，也会铺开纸，写上几页字，心就静下来了。","书法对我来说，不只是一门艺术，更是一种修身养性的办法。"],
+        ["我对团队精神的理解，可以从一次比赛说起。","前年，我们单位组织拔河比赛，我们部门也报了名。","论力气，我们不是最强的，很多人一开始就没信心。","可是我们的领队说，拔河拼的不只是力气，还有配合。","他安排好每个人的位置，统一口号，一起发力，一起使劲。","结果，我们一路赢了下去，最后拿了第一名。","这件事让我深深体会到，团队里，分工和配合比个人的力量更重要。","如果各拉各的，再大的力气也用不到一处。","工作中也一样，遇到分歧的时候，要先想着共同的目标，多沟通，少计较。","一个团队有了这样的精神，就没有干不成的事。","后来单位再有集体活动，大家都抢着参加，因为我们尝到了合作的甜头。","我相信，不管是比赛还是工作，道理都是一样的。"],
+        ["说到美食，我最喜欢、也最拿手的一道菜，是妈妈教我的红烧肉。","这道菜用的是五花肉，先切成小块，用水焯一下，去掉浮沫。","然后锅里放一点儿油和糖，慢慢炒出糖色，再把肉放进去翻炒。","加上生抽、老抽、料酒和几片姜，小火慢炖四十分钟。","火候是关键，炖的时间不够，肉就发柴；时间太久，又会太腻。","出锅的红烧肉，颜色红亮，肥而不腻，入口即化。","每次家里来客人，我都做这道菜，大家都夸好吃。","我觉得，美食不只是味道，它还连着一个地方的风俗、一家人的记忆。","妈妈的红烧肉，就是我心里家的味道。","现在我做红烧肉的手艺，已经快赶上妈妈了，她尝了也点头。","等我有了孩子，我也要把这道菜教给他，让家的味道一代一代传下去。"],
+        ["我的家乡在南方的一个小县城，那里四季分明，风景很美。","县城中间有一条河，河边种满了柳树，春天的时候，柳条随风摆动，好看极了。","小时候，我最喜欢做的事情，就是跟小伙伴们在河边玩耍，捉小鱼，捡石头。","那时候家乡的路还是泥路，一下雨就满脚是泥，出门很不方便。","这几年，家乡的变化特别大，泥路变成了水泥路，还盖起了新楼房。","县城里有了大超市，有了电影院，人们的生活方便多了。","每到过年，在外打工的人都回来了，村子里热闹极了。","虽然家乡变富了，可是我最怀念的，还是小时候那条清清的小河。","现在我在外地工作，一年只能回去一两次。","每次回去，我都要在河边站一会儿，看看夕阳，听听水声。","我希望家乡越来越好，也希望那里的山水永远那么干净、那么美。"],
+        ["一年有四个季节，我最喜欢的是秋天。","秋天不冷不热，天高云淡，空气里有一股淡淡的果香。","在我看来，秋天是收获的季节，田野里的稻子黄了，果园里的果子熟了。","每到秋天，我都会抽时间回老家，帮父母收庄稼。","虽然干活儿有点儿累，可是看着一年的劳动变成粮食，心里特别踏实。","秋天的傍晚，我喜欢一个人到田边散步，看夕阳把天边染成红色。","这个时候，我的心里特别安静，什么烦恼都忘了。","秋天还有一个好处，就是能吃到很多新鲜的水果，苹果、梨、葡萄，样样都甜。","我觉得，秋天就像一位成熟的朋友，不张扬，却让人觉得可靠。","所以每次秋天来临，我的心情都会变得格外好。"],
+        ["我从小就喜欢读书，读书是我生活中不可缺少的一部分。","上学的时候，我读得最多的是课本和故事书；工作以后，我读的书就杂了，有小说，有历史，也有介绍科学知识的书。","我觉得，读书最大的好处，是能让我们看到更大的世界。","比如说，我没有去过草原，可是读了描写草原的书，我好像亲眼看见了那里的蓝天和牛羊。","读书还能帮助我们解决生活中的问题。","有一次，我和同事闹了点儿矛盾，心里很不舒服，后来在一本书里读到一句话：退一步，海阔天空。","我想通了，主动找同事谈了谈，矛盾很快就解开了。","现在电子书很方便，可是我还是喜欢纸质书，拿在手里，闻着墨香，心里特别安静。","我每天睡前都要读半个小时书，这已经成了习惯。","我希望自己能一直读下去，因为读书能让人的心里越来越丰富。"],
+        ["我最喜欢的运动是跑步。","开始跑步，是三年前的事情。那时候我身体不太好，常常感冒，医生建议我多运动。","刚开始的时候，我跑五百米就气喘吁吁，腿也疼得厉害。","可是我没有放弃，每天早起半个小时，沿着小区旁边的河边跑。","慢慢地，我能跑两公里、三公里，现在一口气跑五公里也不觉得累了。","跑步给我带来的好处很多。第一，身体变结实了，这两年我几乎没生过病。","第二，心情变好了，工作上有压力的时候，跑一跑，出一身汗，烦恼就少了一大半。","第三，我还认识了不少一起跑步的朋友，大家互相鼓励，特别有意思。","跑步让我明白一个道理：很多事情，难的不是开始，而是坚持。","我打算把跑步一直坚持下去，跑到老，健康到老。"],
+        ["互联网已经走进了我们每个人的生活，谁也离不开它了。","互联网给我们带来了很多方便。比如查资料，以前要跑图书馆，现在在网上几秒钟就能找到。","比如和远方的亲人联系，以前写信要等十天半个月，现在视频通话，马上就能见面。","再比如买东西、订票、交水电费，都可以在网上办，又快又省事。","可是互联网也有不少问题。有些人在网上散布假消息，一不小心就会上当受骗。","还有些年轻人沉迷网络游戏，耽误了学习和工作，身体也搞坏了。","我觉得，互联网是一把双刃剑，用得好，它是好帮手；用不好，就会带来麻烦。","我给自己定了几条规矩：不轻信网上的消息，不沉迷手机，睡前一小时不用电子产品。","只要合理使用，互联网一定能让我们的生活更方便、更丰富。"],
+        ["现在，养宠物的人越来越多了，我自己也养过一只小狗。","那只小狗是朋友送的，刚来的时候只有巴掌大，走路摇摇晃晃的，可爱极了。","我给它起名叫豆豆。豆豆特别聪明，我下班回家，它老远就跑出来迎接我。","有了豆豆，我的生活多了很多乐趣，散步有人陪，心情不好也有它陪着。","可是养宠物不只是好玩儿，也是一份责任。","每天要喂它、带它散步，它生病了要带它去看医生，一点儿也不能马虎。","有一次豆豆生病，我半夜抱着它去医院，守了它一夜。","我觉得，既然养了它，就要对它的一生负责，不能高兴了就养，不高兴了就扔掉。","另外，在城市里养宠物，也要注意公共卫生，不能影响邻居的生活。","总的来说，宠物是人类的朋友，只要用心对待，它们会给我们带来很多温暖。"],
+        ["我最难忘的一天，是大学毕业的那一天。","那天早上，我们全班同学穿上整齐的衣服，在学校的大礼堂里举行毕业典礼。","校长讲话的时候，很多同学都哭了，我的眼圈也红了。","四年里，我们一起上课，一起考试，一起在操场上跑步，留下了太多回忆。","典礼结束以后，我们在校园里到处拍照，图书馆、教室、宿舍楼，每个地方都拍了一张。","下午，我收拾行李的时候，在抽屉里发现了刚入学时写给自己的信。","信上写着：四年以后，希望你成为一个有本事、有担当的人。","看到这封信，我心里既高兴又有点儿舍不得。","晚上，我们宿舍四个人一起吃了最后一顿饭，约好以后每年都要聚一次。","这一天之所以难忘，是因为它意味着一段生活的结束，也意味着新生活的开始。","从那天起，我告诉自己，不管走到哪里，都不能忘记努力的样子。"],
+        ["礼貌是一个人修养的表现，也是社会文明的表现。","在日常生活中，礼貌表现在很多小地方。见面打招呼，说话用请、谢谢、对不起，这些都是礼貌。","我给大家讲一件小事。有一次我去商店买东西，售货员态度特别好，又耐心又客气，我本来只想买一件东西，最后高高兴兴地买了三件。","相反，有的人说话很不客气，一开口就让人心里不舒服，再好的事情也谈不成。","礼貌不光是嘴上说说，还要落实到行动上。在公共汽车上给老人让座，在公共场所不大声说话，都是有礼貌的表现。","一个有礼貌的人，到哪里都受欢迎；一个社会里人人讲礼貌，风气就会越来越好。","我觉得，讲礼貌并不难，难的是时时刻刻都能做到。","从我自己做起，从小事做起，我们的生活环境就会变得更和谐。"],
+        ["每个人都有自己的座右铭，我的座右铭是：世上无难事，只怕有心人。","这句话是我上中学的时候，老师写在黑板上的，我一看就记住了。","它的意思是说，世界上没有什么真正难的事情，就怕你不用心、不坚持。","这句话帮过我很多次。我印象最深的，是学骑自行车的事。","小时候我学骑车，摔了很多跤，膝盖都破了，真想放弃。","可是想起这句话，我又扶起车子，一遍一遍地练。","练了整整一个星期，我终于学会了，那种高兴，真是说不出来。","后来不管是学习还是工作，遇到难处，我都会想起这句话。","它提醒我，困难并不可怕，可怕的是还没有试就先认输。","我也希望把这句话送给我的朋友们，大家一起努力。","这句座右铭，我会一直记在心里，它陪着我走过了很多路。"],
+        ["节约是中华民族的传统美德，这个道理人人都懂，可是真正做到的人并不多。","就拿吃饭来说吧，现在生活条件好了，有些人请客点一大桌子菜，吃不完就倒掉，看着真让人心疼。","还有水和电，有人洗手的时候水龙头开得老大，房间没人灯也亮着。","我觉得，节约不是因为穷，而是因为资源是有限的，浪费了就没有了。","我们家在节约方面做得不错。买菜按需买，做饭按量做，尽量不剩饭。","出门的时候，我随手关灯、关水龙头，这些习惯都是从小养成的。","有人说，现在生活好了，不用那么节省。我不同意这种看法。","节约和生活质量并不矛盾，节约不是不用，而是用得合理、用得有价值。","钱要花在该花的地方，资源要用在需要的地方，这才是真正的会生活。","从我做起，从今天做起，让节约成为一种习惯。"],
+        ["我喜欢的书很多，其中印象最深的，是路遥的《平凡的世界》。","这本书写的是中国北方农村几十年里的变化，写了一群普通农民的生活和奋斗。","书里的主人公叫孙少平，他家里很穷，读书的时候连一顿饱饭都吃不上。","可是他没有认输，一边劳动，一边坚持读书，想靠知识改变自己的命运。","他那种不向困难低头的劲头，特别打动我。","我第一次读这本书，是在上中学的时候，读完以后，我难过了好几天，也想了很多。","从那以后，每当我遇到困难、想偷懒的时候，我就会想起孙少平。","我想，他条件那么差都能坚持，我的条件比他好多了，有什么理由不努力呢？","这本书不光是一个故事，它更像一位朋友，在我迷茫的时候给我力量。","我把这本书推荐给过很多朋友，他们读了以后，也都很受感动。","好书就是这样，读一遍有一遍的收获，我打算过段时间再读一遍。"],
+        ["公共交通和我们的生活关系特别密切，几乎每个人每天都要用到它。","我平时上班，主要坐地铁和公共汽车。","坐公共交通有很多好处。第一，省钱，坐一个月的地铁，比开车加油便宜得多。","第二，环保，坐车的人多了，路上的私家车就少了，空气也会好一些。","第三，省心，不用找停车位，也不用担心堵车耽误时间。","当然，公共交通也有问题。上下班高峰的时候，车厢里挤得满满的，上车都困难。","还有些线路班次太少，等一趟车要十几分钟。","我希望有关部门能多听听乘客的意见，在高峰时间多加几班车。","作为乘客，我们也要遵守秩序，排队上车，主动给有需要的人让座。","大家共同努力，公共交通就会越来越方便，我们的城市也会越来越宜居。"],
+        ["安全这两个字，看起来普通，其实关系到我们每个人的生命和幸福。","不管是工作还是生活，没有了安全，别的都谈不上。","就说交通安全吧，每年都有很多交通事故，原因大多是开车太快、闯红灯、不遵守规则。","我自己开车的时候，特别注意几条：不超速，不抢行，过路口的时候慢一点儿。","骑电动车的时候，我一定戴头盔，虽然有点儿麻烦，可是安全最重要。","在家里，用电、用气也要注意安全，电器老化了要及时换，做完饭要记得关火。","工作上的安全就更不用说了，规章制度不是摆设，是前人用教训换来的。","我觉得，安全不能只靠别人提醒，关键要靠自己自觉。","有的人总觉得事故离自己很远，等出了事，后悔也来不及了。","平安是福，这句话一点儿也不假。让我们从小事做起，把安全记在心里。"],
+        ["孝敬父母，是中华民族的传统美德，也是做人最基本的道理。","父母把我们养大，付出了多少心血，只有当了父母的人才能真正体会。","小时候我身体不好，常常生病，母亲不知道熬了多少个夜晚。","父亲为了供我读书，每天早出晚归，再苦再累也从不抱怨。","现在父母年纪大了，轮到我们照顾他们了。","我平时工作再忙，也要每周给他们打两三次电话，问问身体，聊聊家常。","逢年过节，我尽量回家，陪他们吃顿饭，帮他们做点儿家务。","我觉得，孝敬父母不在于给多少钱，而在于有没有这份心。","父母年纪大了，最怕的是孤单，儿女多陪陪他们，就是最好的孝敬。","我希望天下的儿女都能记住父母的恩情，用实际行动报答他们。"],
+        ["我想说说我普通的一天是怎么过的。","我每天早上六点半起床，先到楼下跑一圈步，或者做做操，活动活动身体。","七点钟回家洗漱、吃早饭，早饭一般是粥、鸡蛋和牛奶，简单但是有营养。","八点钟我准时出门，坐地铁去上班，路上要四十多分钟，我一般在车上看看新闻，或者听听音乐。","上午是工作最忙的时候，开会、处理文件，时间过得特别快。","中午在单位食堂吃饭，饭后休息半个小时，下午工作起来才有精神。","下午六点下班，回到家先做饭，吃完饭收拾好厨房，大概八点钟。","晚上是我最放松的时间，我看看书，看看电视，有时候和朋友在网上聊聊天。","十一点左右我就睡觉了，保证第二天有足够的精力。","我的一天很普通，没有什么特别的事情，可是我觉得，日子就是这样一天一天过起来的。","把每一天都安排好、过踏实，人生也就踏实了。"],
+        ["广告在我们的生活中到处都是，电视里有，手机里有，走在大街上也能看见。","广告有它的好处。它能让我们知道新产品、新消息，买东西的时候多一些选择。","有些广告做得很有意思，像一个小故事，看完让人印象很深。","我记得有一个公益广告，讲的是等妈妈回家吃饭的故事，看得我心里热乎乎的。","可是广告也有不少问题。有的广告把产品说得太夸张，用了以后根本不是那么回事。","还有的广告太多太长，看电视看到一半跳出来，手机打开一个软件也要先看广告，让人很烦。","对广告，我的态度是：可以看，可以参考，但是不能全信。","买东西之前，我会多问问用过的人，或者上网查查真实的评价，再决定买不买。","我觉得，做广告的商家也要讲诚信，实事求是地介绍产品，生意才能做得长久。","总的来说，广告是现代生活的一部分，我们要学会聪明地对待它。"],
+        ["城市和乡村，是两种很不一样的生活，各有各的好处。","城市生活方便，交通发达，买东西、看病、上学都很方便，工作机会也多。","可是城市也有缺点：人多，车多，房价贵，生活节奏快，压力比较大。","乡村就不一样了，空气好，环境安静，人和人之间的关系也更亲近。","在乡村，吃的是自己种的菜，喝的是干净的水，晚上睡觉特别安静。","可是乡村的医疗、教育条件比不上城市，年轻人大多到城里去工作了。","我自己在城里生活了很多年，可是心里一直想着乡村的老家。","我喜欢城市的方便，也喜欢乡村的安静，这两种生活我都舍不得。","现在交通方便了，城里人周末去乡村度假，乡村的好产品也卖到了城里，两边来往越来越多。","我希望将来，城市和乡村的差距越来越小，不管住在哪里，都能过上好日子。"],
+        ["中国的传统节日很多，我最喜欢的是中秋节。","中秋节在农历八月十五，这一天，月亮最圆，也最亮。","中秋节的习俗，最有名的就是吃月饼、赏月。","我们家的中秋节过得很传统。白天，妈妈准备一桌子菜，爸爸把院子收拾得干干净净。","晚上，全家人搬着桌子到院子里，一边吃月饼，一边看月亮。","月饼有豆沙的、蛋黄的、五仁的，我最喜欢吃蛋黄的，咸咸的，香香的。","小时候，奶奶还会给我们讲嫦娥奔月的故事，我听了一遍又一遍，总也听不够。","现在我工作忙，有时候中秋节回不了家，只能给家里打个电话，心里特别想念他们。","中秋节讲的是团圆，一家人整整齐齐地在一起，就是最大的幸福。","所以不管多忙，我都尽量在中秋节回家，陪父母过节。","我希望这个传统能一直传下去，让团圆的观念留在每个人的心里。"],
+        ["我今天想谈的话题是坚持。","我觉得，做任何事情，坚持都是最重要的。很多事情不是做不到，而是没有坚持到底。","就拿学英语来说吧，我年轻的时候学过好几次，每次都是开始的时候热情很高，过一段时间就放下了，结果到现在也说不好。","这件事让我明白，三天打鱼、两天晒网，什么也学不成。","后来我开始练书法，这次我给自己定了规矩：每天写一页，不管多忙都不能停。","刚开始写得不好看，我也不灰心，一笔一画慢慢练。","练了两年，现在我的字比以前进步多了，单位里办板报都让我来写。","这件事让我真正体会到坚持的力量。","当然，坚持的过程中也会有想放弃的时候，这时候我就想想当初为什么开始，再咬咬牙，挺过去。","我相信，只要方向对，坚持下去，总会有收获。"],
+        ["微笑，是世界上最美的语言，它不用翻译，谁都能看懂。","在人与人的交往中，微笑的作用可大了。一个微笑，能让陌生人之间的距离一下子拉近。","我给大家讲一件小事。有一次我去外地出差，人生地不熟，心里有点儿紧张。","在车站问路的时候，一位工作人员微笑着耐心给我指路，还提醒我路上注意安全。","她那个微笑，让我一下子觉得心里暖暖的，紧张也少了一大半。","相反，如果一个人整天板着脸，别人就不愿意接近他，事情也很难办好。","做服务工作的人最明白这个道理，微笑多了，顾客的心情也好了。","我觉得，微笑还是一种生活态度。生活里难免有不如意的事情，与其愁眉苦脸，不如笑着面对。","笑着面对，困难好像也没有那么可怕了。","从现在开始，让我们多给身边的人一个微笑，也给自己一个微笑。"]
+      ];
+
+      /* ============ TTS engine ============ */
+      var synth = window.speechSynthesis || null;
+      var zhVoice = null;
+      function pickVoice() {
+        if (!synth) return;
+        var vs = synth.getVoices();
+        zhVoice = null;
+        for (var i = 0; i < vs.length; i++) {
+          var l = (vs[i].lang || "").toLowerCase();
+          if (l === "zh-cn") { zhVoice = vs[i]; break; }
+          if (!zhVoice && l.indexOf("zh") === 0) zhVoice = vs[i];
+        }
+      }
+      if (synth) {
+        pickVoice();
+        if (typeof synth.onvoiceschanged !== "undefined") synth.onvoiceschanged = pickVoice;
+      }
+      var seq = null; /* {items:[{text, el}], idx, rate, gap} */
+      function stopSpeak() {
+        seq = null;
+        if (synth) synth.cancel();
+        var playing = document.querySelectorAll(".playing");
+        for (var i = 0; i < playing.length; i++) playing[i].classList.remove("playing");
+      }
+      function speakOne(text, rate) {
+        stopSpeak();
+        if (!synth) return;
+        var u = new SpeechSynthesisUtterance(text);
+        u.lang = "zh-CN";
+        if (zhVoice) u.voice = zhVoice;
+        u.rate = rate || 0.95;
+        synth.speak(u);
+      }
+      function playSeq(items, rate, gapMs) {
+        stopSpeak();
+        if (!synth || !items.length) return;
+        seq = { items: items, idx: 0, rate: rate, gap: gapMs || 120 };
+        stepSeq();
+      }
+      function stepSeq() {
+        if (!seq) return;
+        if (seq.idx >= seq.items.length) { seq = null; return; }
+        var item = seq.items[seq.idx];
+        var prev = document.querySelectorAll(".playing");
+        for (var i = 0; i < prev.length; i++) prev[i].classList.remove("playing");
+        if (item.el) {
+          item.el.classList.add("playing");
+          if (item.el.scrollIntoView) item.el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+        var u = new SpeechSynthesisUtterance(item.text);
+        u.lang = "zh-CN";
+        if (zhVoice) u.voice = zhVoice;
+        u.rate = seq.rate;
+        var mySeq = seq;
+        u.onend = function () {
+          if (seq !== mySeq) return;
+          seq.idx++;
+          setTimeout(function () { if (seq === mySeq) stepSeq(); }, mySeq.gap);
+        };
+        u.onerror = function () {
+          if (seq !== mySeq) return;
+          seq.idx++;
+          setTimeout(function () { if (seq === mySeq) stepSeq(); }, mySeq.gap);
+        };
+        synth.speak(u);
+      }
+
+      /* ============ tabs ============ */
+      var tabBtns = document.querySelectorAll(".tab-btn");
+      function showTab(name) {
+        stopSpeak();
+        for (var i = 0; i < tabBtns.length; i++) {
+          tabBtns[i].setAttribute("aria-selected", tabBtns[i].getAttribute("data-tab") === name ? "true" : "false");
+        }
+        var panels = document.querySelectorAll(".panel");
+        for (var j = 0; j < panels.length; j++) {
+          panels[j].classList.toggle("active", panels[j].id === "panel-" + name);
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      for (var t = 0; t < tabBtns.length; t++) {
+        tabBtns[t].addEventListener("click", function () { showTab(this.getAttribute("data-tab")); });
+      }
+      var gotos = document.querySelectorAll("[data-goto]");
+      for (var g = 0; g < gotos.length; g++) {
+        gotos[g].addEventListener("click", function () { showTab(this.getAttribute("data-goto")); });
+      }
+
+      /* ============ per-panel rate + play controls ============ */
+      function panelRate(panel) {
+        var pressed = panel.querySelector(".seg[data-rate][aria-pressed='true']");
+        return pressed ? parseFloat(pressed.getAttribute("data-rate")) : 0.95;
+      }
+      function wireSegGroup(panel, onChange) {
+        var segs = panel.querySelectorAll(".seg[data-rate]");
+        for (var i = 0; i < segs.length; i++) {
+          segs[i].addEventListener("click", function () {
+            var group = this.parentElement.querySelectorAll(".seg");
+            for (var k = 0; k < group.length; k++) group[k].setAttribute("aria-pressed", "false");
+            this.setAttribute("aria-pressed", "true");
+            if (onChange) onChange();
+          });
+        }
+      }
+
+      /* ============ timers ============ */
+      var audioCtx = null;
+      function beep() {
+        try {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          if (audioCtx.state === "suspended") audioCtx.resume();
+          var t0 = audioCtx.currentTime;
+          for (var i = 0; i < 3; i++) {
+            var o = audioCtx.createOscillator(), gn = audioCtx.createGain();
+            o.type = "sine"; o.frequency.value = 880;
+            gn.gain.setValueAtTime(0.0001, t0 + i * 0.35);
+            gn.gain.exponentialRampToValueAtTime(0.25, t0 + i * 0.35 + 0.03);
+            gn.gain.exponentialRampToValueAtTime(0.0001, t0 + i * 0.35 + 0.28);
+            o.connect(gn); gn.connect(audioCtx.destination);
+            o.start(t0 + i * 0.35); o.stop(t0 + i * 0.35 + 0.3);
+          }
+        } catch (e) { /* audio unavailable: visual cue only */ }
+      }
+      function fmt(s) {
+        var m = Math.floor(s / 60), r = s % 60;
+        return m + ":" + (r < 10 ? "0" : "") + r;
+      }
+      function initTimer(el) {
+        var total = parseInt(el.getAttribute("data-timer"), 10);
+        var remain = total, iv = null;
+        el.innerHTML =
+          '<span class="t-display">' + fmt(total) + '</span>' +
+          '<button class="btn" type="button" data-t="start">開始</button>' +
+          '<button class="btn" type="button" data-t="reset">重設</button>' +
+          '<span class="timer-wrap"><span class="timer-bar"></span></span>';
+        var disp = el.querySelector(".t-display"), bar = el.querySelector(".timer-bar"),
+            startBtn = el.querySelector("[data-t='start']");
+        function render() {
+          disp.textContent = fmt(Math.max(remain, 0));
+          bar.style.width = (total ? (Math.max(remain, 0) / total) * 100 : 0) + "%";
+          el.classList.toggle("over", remain <= 0);
+        }
+        function pause() {
+          if (iv) { clearInterval(iv); iv = null; }
+          startBtn.textContent = "開始";
+        }
+        startBtn.addEventListener("click", function () {
+          if (iv) { pause(); return; }
+          if (remain <= 0) remain = total;
+          startBtn.textContent = "暫停";
+          iv = setInterval(function () {
+            remain--;
+            render();
+            if (remain <= 0) { pause(); beep(); }
+          }, 1000);
+        });
+        el.querySelector("[data-t='reset']").addEventListener("click", function () {
+          pause(); remain = total; render();
+        });
+        render();
+      }
+      var timers = document.querySelectorAll("[data-timer]");
+      for (var tm = 0; tm < timers.length; tm++) initTimer(timers[tm]);
+
+      /* ============ set switcher ============ */
+      function wireSetBar(panel, onPick) {
+        var btns = panel.querySelectorAll(".set-btn");
+        for (var i = 0; i < btns.length; i++) {
+          btns[i].addEventListener("click", function () {
+            var bs = panel.querySelectorAll(".set-btn");
+            for (var k = 0; k < bs.length; k++) bs[k].setAttribute("aria-pressed", "false");
+            this.setAttribute("aria-pressed", "true");
+            stopSpeak();
+            onPick(parseInt(this.getAttribute("data-set"), 10));
+          });
+        }
+      }
+
+      /* ============ Tab 2: mono grid ============ */
+      var monoPanel = document.getElementById("panel-mono");
+      var monoGrid = document.getElementById("mono-grid");
+      var monoSet = 0, monoCells = [];
+      function renderMono() {
+        monoGrid.innerHTML = "";
+        monoCells = [];
+        MONO_SETS[monoSet].forEach(function (it) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "char-cell";
+          b.innerHTML = '<span class="hz">' + it[0] + '</span><span class="py">' + it[1] + "</span>";
+          b.setAttribute("aria-label", "播放 " + it[0] + " " + it[1]);
+          b.addEventListener("click", function () { speakOne(it[0], panelRate(monoPanel)); });
+          monoGrid.appendChild(b); monoCells.push({ text: it[0], el: b });
+        });
+      }
+      wireSetBar(monoPanel, function (n) { monoSet = n; renderMono(); });
+      wireSegGroup(monoPanel);
+      monoPanel.querySelector("[data-act='playall']").addEventListener("click", function () {
+        playSeq(monoCells, panelRate(monoPanel), 100);
+      });
+      monoPanel.querySelector("[data-act='stop']").addEventListener("click", stopSpeak);
+      renderMono();
+
+      /* ============ Tab 3: poly grid ============ */
+      var polyPanel = document.getElementById("panel-poly");
+      var polyGrid = document.getElementById("poly-grid");
+      var polySet = 0, polyCells = [];
+      function renderPoly() {
+        polyGrid.innerHTML = "";
+        polyCells = [];
+        POLY_SETS[polySet].forEach(function (it) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "word-cell";
+          var tag = it[2] ? '<span class="tag">' + it[2] + "</span>" : "";
+          b.innerHTML = '<span class="hz">' + it[0] + '</span><span class="py">' + it[1] + "</span>" + tag;
+          b.setAttribute("aria-label", "播放 " + it[0] + " " + it[1]);
+          b.addEventListener("click", function () { speakOne(it[0], panelRate(polyPanel)); });
+          polyGrid.appendChild(b); polyCells.push({ text: it[0], el: b });
+        });
+      }
+      wireSetBar(polyPanel, function (n) { polySet = n; renderPoly(); });
+      wireSegGroup(polyPanel);
+      polyPanel.querySelector("[data-act='playall']").addEventListener("click", function () {
+        playSeq(polyCells, panelRate(polyPanel), 160);
+      });
+      polyPanel.querySelector("[data-act='stop']").addEventListener("click", stopSpeak);
+      renderPoly();
+
+      /* ============ Tab 4: quiz ============ */
+      var judgePanel = document.getElementById("panel-judge");
+      var qSet = 0, qIdx = 0, qAnswers = {}; /* idx -> picked option */
+      var qcard = document.getElementById("qcard");
+      function renderQuiz() {
+        var set = QUIZ_SETS[qSet];
+        var q = set[qIdx];
+        document.getElementById("q-now").textContent = qIdx + 1;
+        document.getElementById("q-total").textContent = set.length;
+        var score = 0;
+        for (var k in qAnswers) if (qAnswers[k] === set[k].ans) score++;
+        document.getElementById("q-score").textContent = score;
+        var picked = qAnswers[qIdx];
+        var html = '<span class="qtype">' + q.type + "</span>";
+        html += '<p class="qtext"><span class="simp" lang="zh-CN">' + q.q + "</span></p>";
+        html += '<div class="opts">';
+        var letters = ["A", "B", "C", "D"];
+        q.opts.forEach(function (op, oi) {
+          var cls = "opt";
+          if (picked !== undefined) {
+            if (oi === q.ans) cls += " correct";
+            else if (oi === picked) cls += " wrongpick";
+          }
+          html += '<button type="button" class="' + cls + '" data-opt="' + oi + '"' + (picked !== undefined ? " disabled" : "") + '><span class="ol">' + letters[oi] + '</span><span class="simp" lang="zh-CN">' + op + "</span></button>";
+        });
+        html += "</div>";
+        if (picked !== undefined) {
+          var ok = picked === q.ans;
+          html += '<div class="feedback show ' + (ok ? "ok" : "no") + '"><div class="fb-head">' + (ok ? "答對了" : "答錯了，正解是 " + letters[q.ans]) + '</div><div>' + q.why + "</div></div>";
+        }
+        if (qIdx === set.length - 1 && Object.keys(qAnswers).length === set.length) {
+          html += '<div class="quiz-done"><div class="big-score">' + score + " / " + set.length + '</div><div>完成全部題目。正式考試此部分共 10 分，按比例約為 ' + Math.round(score / set.length * 10) + ' 分。做錯的題目可回到該題重讀解説。</div></div>';
+        }
+        qcard.innerHTML = html;
+        var opts = qcard.querySelectorAll(".opt");
+        for (var i = 0; i < opts.length; i++) {
+          opts[i].addEventListener("click", function () {
+            qAnswers[qIdx] = parseInt(this.getAttribute("data-opt"), 10);
+            renderQuiz();
+          });
+        }
+        document.getElementById("q-prev").disabled = qIdx === 0;
+        document.getElementById("q-next").disabled = qIdx === set.length - 1;
+      }
+      document.getElementById("q-prev").addEventListener("click", function () { if (qIdx > 0) { qIdx--; renderQuiz(); } });
+      document.getElementById("q-next").addEventListener("click", function () { if (qIdx < QUIZ_SETS[qSet].length - 1) { qIdx++; renderQuiz(); } });
+      document.getElementById("quiz-restart").addEventListener("click", function () { qAnswers = {}; qIdx = 0; renderQuiz(); });
+      wireSetBar(judgePanel, function (n) { qSet = n; qAnswers = {}; qIdx = 0; renderQuiz(); });
+      renderQuiz();
+
+      /* ============ Tab 5: passages ============ */
+      var readPanel = document.getElementById("panel-read");
+      var passageBox = document.getElementById("passage-box");
+      var curPassage = 0, sentItems = [];
+      function renderPassage() {
+        var p = PASSAGES[curPassage];
+        var html = "<h3>〈<span class='simp'>" + p.title + "</span>〉</h3><p class='p-sub'>" + p.sub + "</p>";
+        passageBox.innerHTML = html;
+        sentItems = [];
+        p.sents.forEach(function (s) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "sent";
+          b.innerHTML = '<span class="s-hz">' + s[0] + '</span><span class="s-py">' + s[1] + "</span>";
+          b.addEventListener("click", function () { speakOne(s[0], panelRate(readPanel)); });
+          passageBox.appendChild(b);
+          sentItems.push({ text: s[0], el: b });
+        });
+      }
+      var passageTabsBox = document.getElementById("passage-tabs");
+      PASSAGES.forEach(function (p, i) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "btn seg";
+        b.setAttribute("data-passage", i);
+        b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+        b.textContent = "篇章 " + (i + 1) + " 〈" + p.title + "〉";
+        passageTabsBox.appendChild(b);
+      });
+      var pTabs = readPanel.querySelectorAll("[data-passage]");
+      for (var pti = 0; pti < pTabs.length; pti++) {
+        pTabs[pti].addEventListener("click", function () {
+          for (var k = 0; k < pTabs.length; k++) pTabs[k].setAttribute("aria-pressed", "false");
+          this.setAttribute("aria-pressed", "true");
+          curPassage = parseInt(this.getAttribute("data-passage"), 10);
+          stopSpeak();
+          renderPassage();
+        });
+      }
+      wireSegGroup(readPanel);
+      readPanel.querySelector("[data-act='playall']").addEventListener("click", function () {
+        playSeq(sentItems, panelRate(readPanel), 350);
+      });
+      readPanel.querySelector("[data-act='stop']").addEventListener("click", stopSpeak);
+      renderPassage();
+
+      /* ============ Tab 6: topics ============ */
+      var topicGrid = document.getElementById("topic-grid");
+      var topicDetail = document.getElementById("topic-detail");
+      var curTopic = 10; /* 學習普通話的體會 as a friendly default */
+      var sampleItems = [];
+      function renderTopic() {
+        var cells = topicGrid.querySelectorAll(".topic-cell");
+        for (var i = 0; i < cells.length; i++) cells[i].setAttribute("aria-pressed", i === curTopic ? "true" : "false");
+        var tp = TOPICS[curTopic];
+        var bullets = "";
+        tp[1].forEach(function (b) { bullets += "<li>" + b + "</li>"; });
+        topicDetail.innerHTML =
+          '<h3>話題 ' + (curTopic + 1) + '：<span class="simp" lang="zh-CN">' + tp[0] + "</span></h3>" +
+          '<p style="margin:0 0 10px;color:var(--muted);">先用 20–30 秒想好提綱，然後按下方「開始」計時，連續說滿 3 分鐘。可先逐句跟讀話題標題，確認關鍵詞的讀音。</p>' +
+          '<button class="btn" id="topic-speak-title" type="button"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M3 10v4h4l5 5V5L7 10H3z"/><path d="M16 8a5 5 0 0 1 0 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>聽話題標題</button>' +
+          '<div class="plan-title">構思提示（開頭 → 內容 → 結尾）</div><ul>' + bullets + "</ul>" +
+          '<div class="plan-title">範文範例（點按句子可逐句聽）</div>' +
+          '<div class="sample-box" id="topic-sample" lang="zh-CN"></div>' +
+          '<p class="sample-note">範文只供參考開頭、展開與收尾的說法和結構，正式考試切勿背誦照讀——背稿會被測試員分辨並扣分。先聽範文掌握結構，再換成自己的經歷和說法練習。</p>' +
+          '<div style="margin-top:10px;"><button class="btn primary" id="topic-play-sample" type="button"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M8 5v14l11-7z"/></svg>朗讀範文</button> ' +
+          '<button class="btn" id="topic-stop-sample" type="button"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>停止</button></div>';
+        document.getElementById("topic-speak-title").addEventListener("click", function () {
+          var title = tp[0].replace(/（.*?）/g, "");
+          speakOne(title, 0.9);
+        });
+        var sampleBox = document.getElementById("topic-sample");
+        sampleItems = [];
+        (SAMPLES[curTopic] || []).forEach(function (s) {
+          var b = document.createElement("button");
+          b.type = "button"; b.className = "sent";
+          b.innerHTML = '<span class="s-hz">' + s + "</span>";
+          b.addEventListener("click", function () { speakOne(s, 0.95); });
+          sampleBox.appendChild(b);
+          sampleItems.push({ text: s, el: b });
+        });
+        document.getElementById("topic-play-sample").addEventListener("click", function () {
+          playSeq(sampleItems, 0.95, 300);
+        });
+        document.getElementById("topic-stop-sample").addEventListener("click", stopSpeak);
+      }
+      TOPICS.forEach(function (tp, i) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "topic-cell";
+        b.innerHTML = '<span class="tn">話題 ' + (i + 1) + (i >= 30 ? " · 補充練習" : "") + '</span><span class="tt">' + tp[0] + "</span>";
+        b.addEventListener("click", function () { curTopic = i; renderTopic(); });
+        topicGrid.appendChild(b);
+      });
+      renderTopic();
+
+      /* ============ Tab 7: pronunciation appendix ============ */
+      var INITIALS = [
+        ["b","八","bā","雙唇 · 不送氣"],["p","坡","pō","雙唇 · 送氣"],["m","妈","mā","雙唇 · 鼻音"],["f","飞","fēi","唇齒 · 擦音"],
+        ["d","大","dà","舌尖中 · 不送氣"],["t","特","tè","舌尖中 · 送氣"],["n","拿","ná","舌尖中 · 鼻音"],["l","来","lái","舌尖中 · 邊音"],
+        ["g","哥","gē","舌根 · 不送氣"],["k","科","kē","舌根 · 送氣"],["h","河","hé","舌根 · 擦音"],
+        ["j","家","jiā","舌面 · 不送氣"],["q","秋","qiū","舌面 · 送氣"],["x","西","xī","舌面 · 擦音"],
+        ["zh","知","zhī","翹舌 · 不送氣"],["ch","吃","chī","翹舌 · 送氣"],["sh","诗","shī","翹舌 · 擦音"],["r","日","rì","翹舌 · 擦音"],
+        ["z","资","zī","平舌 · 不送氣"],["c","词","cí","平舌 · 送氣"],["s","思","sī","平舌 · 擦音"]
+      ];
+      var FINALS = [
+        { g:"單韻母（10 個）", items:[
+          ["a","阿","ā"],["o","喔","ō"],["e","鹅","é"],["ê","欸","ê"],["i","衣","yī"],
+          ["u","屋","wū"],["ü","鱼","yú"],["i · 舌尖前","资","zī"],["i · 舌尖後","知","zhī"],["er","耳","ěr"]
+        ]},
+        { g:"複韻母（13 個）", items:[
+          ["ai","爱","ài"],["ei","杯","bēi"],["ao","高","gāo"],["ou","楼","lóu"],["ia","家","jiā"],
+          ["ie","姐","jiě"],["iao","笑","xiào"],["iu","球","qiú"],["ua","瓜","guā"],["uo","国","guó"],
+          ["uai","快","kuài"],["ui","回","huí"],["üe","月","yuè"]
+        ]},
+        { g:"鼻韻母（16 個）", items:[
+          ["an","山","shān"],["en","本","běn"],["ian","天","tiān"],["in","心","xīn"],
+          ["uan","船","chuán"],["un","村","cūn"],["üan","全","quán"],["ün","军","jūn"],
+          ["ang","方","fāng"],["eng","风","fēng"],["iang","江","jiāng"],["ing","明","míng"],
+          ["uang","光","guāng"],["ong","冬","dōng"],["iong","穷","qióng"],["ueng","翁","wēng"]
+        ]}
+      ];
+      var SPECIALS = [
+        { t:"輕聲", d:"輕聲不是第五個聲調，而是某些音節在詞語中失去原來的聲調，讀得又輕又短。常見位置包括詞尾的「子、頭」、重疊詞的第二個音節、助詞「的、了、嗎」等。輕聲還能區別詞義：「大意」讀 dàyì 是「主要的意思」，讀 dàyi 則是「疏忽、不小心」。點按例句，留意第二音節輕而短的讀法。",
+          ex:[["桌子","zhuōzi"],["明白","míngbai"],["朋友","péngyou"],["妈妈","māma"],["舒服","shūfu"],["告诉","gàosu"],["东西","dōngxi"],["大意","dàyi（疏忽）"]] },
+        { t:"兒化", d:"兒化是詞尾的「兒」與前一個音節合併，在韻母上加上捲舌動作，拼音在音節後加 r。兒化可以區別詞義和詞性：「一點」yìdiǎn 是數量，「一點兒」yìdiǎnr 表示「稍微」；「畫」huà 泛指繪畫，「畫兒」huàr 特指一幅圖畫。點按例句，留意韻尾的捲舌色彩。",
+          ex:[["花儿","huār"],["鸟儿","niǎor"],["玩儿","wánr"],["歌儿","gēr"],["一点儿","yìdiǎnr"],["小孩儿","xiǎoháir"],["这儿","zhèr"],["画儿","huàr"]] },
+        { t:"「啊」的變音", d:"語氣詞「啊」跟在不同韻尾之後，讀音會跟著改變：前一音節以 a、o、e、i、ü 收尾時讀「呀 ya」；以 u、ao、ou 收尾時讀「哇 wa」；以 -n 收尾時讀「哪 na」；以 -ng 收尾時讀「nga」。書寫時仍統一寫「啊」。點按例句，聽「啊」在語流中的實際讀法。",
+          ex:[["这本书真好啊！","啊 → wa"],["你快吃啊！","啊 → ya"],["快看啊！","啊 → na"],["他唱得多好啊！","啊 → nga"]] }
+      ];
+      var SANDHI = [
+        { t:"上聲連讀變調", d:"兩個上聲連讀時，前一個上聲變成陽平（近似第二聲）。這是 PSC 最常考的變調：讀詞語、朗讀和說話時都要自然帶出，否則會計入語音差錯。",
+          ex:[["你好","nǐhǎo → níhǎo"],["水果","shuǐguǒ → shuíguǒ"],["理想","lǐxiǎng → líxiǎng"],["表演","biǎoyǎn → biáoyǎn"],["手指","shǒuzhǐ → shóuzhǐ"],["语法","yǔfǎ → yúfǎ"]] },
+        { t:"上聲的「半上」", d:"上聲在陰平、陽平、去聲或輕聲之前，不讀完整的降升調（214），只讀前半段的低降，稱為「半上」（調值 211）。這類音節的拼音仍標上聲本調，點按例句聽實際讀法——第一音節要讀得低而短。",
+          ex:[["老师","lǎoshī · 半上"],["首都","shǒudū · 半上"],["祖国","zǔguó · 半上"],["每天","měitiān · 半上"]] },
+        { t:"「一」的變調", d:"「一」單用、在詞尾或序數詞中讀本調 yī；在去聲之前變陽平 yí；在陰平、陽平、上聲之前變去聲 yì。",
+          ex:[["第一","dìyī · 本調"],["一定","yīdìng → yídìng"],["一样","yīyàng → yíyàng"],["一共","yīgòng → yígòng"],["一天","yītiān → yìtiān"],["一本","yīběn → yìběn"],["一年","yīnián → yìnián"],["一起","yīqǐ → yìqǐ"]] },
+        { t:"「不」的變調", d:"「不」在去聲之前變陽平 bú；在陰平、陽平、上聲或輕聲之前，讀本調去聲 bù。",
+          ex:[["不是","bùshì → búshì"],["不对","bùduì → búduì"],["不用","bùyòng → búyòng"],["不去","bùqù → búqù"],["不看","bùkàn → búkàn"],["不吃","bùchī · 不變"],["不来","bùlái · 不變"],["不能","bùnéng · 不變"],["不想","bùxiǎng · 不變"]] },
+        { t:"「七」「八」的變調（常見讀法）", d:"「七」「八」在去聲之前，口語中常變讀陽平，與「一」「不」的變調同一規律；朗讀詞語時讀變調更自然。",
+          ex:[["七岁","qīsuì → qísuì"],["八块","bākuài → bákuài"],["七万","qīwàn → qíwàn"],["八次","bācì → bácì"]] }
+      ];
+      var notesRate = 0.9;
+      function pfCell(sym, hz, py, tip) {
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "pf-cell";
+        b.innerHTML = '<span class="pf-sym">' + sym + '</span><span class="pf-ex"><span class="pf-hz">' + hz + '</span><span class="pf-py">' + py + "</span>" + (tip ? '<span class="pf-tip">' + tip + "</span>" : "") + "</span>";
+        b.setAttribute("aria-label", "播放 " + hz + " " + py);
+        b.addEventListener("click", function () { speakOne(hz, notesRate); });
+        return b;
+      }
+      var initialsGrid = document.getElementById("initials-grid");
+      INITIALS.forEach(function (it) { initialsGrid.appendChild(pfCell(it[0], it[1], it[2], it[3])); });
+      var finalsBox = document.getElementById("finals-box");
+      FINALS.forEach(function (grp) {
+        var h = document.createElement("h3");
+        h.className = "sub-sec";
+        h.textContent = grp.g;
+        finalsBox.appendChild(h);
+        var grid = document.createElement("div");
+        grid.className = "pf-grid";
+        grp.items.forEach(function (it) { grid.appendChild(pfCell(it[0], it[1], it[2], "")); });
+        finalsBox.appendChild(grid);
+      });
+      function buildRuleBox(box, data) {
+        data.forEach(function (item) {
+          var card = document.createElement("div");
+          card.className = "rule-card";
+          var html = "<h3>" + item.t + "</h3><p>" + item.d + '</p><div class="ex-row">';
+          item.ex.forEach(function (e) {
+            html += '<button type="button" class="ex-chip" data-say="' + e[0] + '"><span class="hz">' + e[0] + '</span><span class="py">' + e[1] + "</span></button>";
+          });
+          html += "</div>";
+          card.innerHTML = html;
+          var chips = card.querySelectorAll(".ex-chip");
+          for (var i = 0; i < chips.length; i++) {
+            chips[i].addEventListener("click", function () { speakOne(this.getAttribute("data-say"), notesRate); });
+          }
+          box.appendChild(card);
+        });
+      }
+      buildRuleBox(document.getElementById("special-box"), SPECIALS);
+      buildRuleBox(document.getElementById("sandhi-box"), SANDHI);
+    </script>
+  </body>
+</html>
